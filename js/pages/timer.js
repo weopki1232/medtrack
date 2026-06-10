@@ -14,7 +14,7 @@ function renderTimerPage() {
   '</div>' +
   '<div style="display:flex;flex-direction:column;gap:14px">' +
   '<div class="card"><div class="card-title">'+t('timer_session_setup')+'</div><div style="display:flex;flex-direction:column;gap:10px;margin-top:8px">' +
-  '<div><label class="label">'+t('timer_subject')+'</label><select class="input" id="timer-subject" onchange="updateTimerTopics()"><option value="">'+t('dash_choose')+'</option>'+DEFAULT_SUBJECTS.map(s=>'<option value="'+s.id+'" '+(timerState.selectedSubjectId===s.id?'selected':'')+'>'+s.icon+' '+s.shortName+'</option>').join('')+'</select><div id="timer-subject-status" style="margin-top:4px;display:none"></div></div>' +
+  '<div><label class="label">'+t('timer_subject')+'</label><select class="input" id="timer-subject" onchange="updateTimerTopics()"><option value="">'+t('dash_choose')+'</option>'+getSubjects().map(s=>'<option value="'+s.id+'" '+(timerState.selectedSubjectId===s.id?'selected':'')+'>'+s.icon+' '+s.shortName+'</option>').join('')+'</select><div id="timer-subject-status" style="margin-top:4px;display:none"></div></div>' +
   '<div><label class="label">'+t('timer_topic')+'</label><select class="input" id="timer-topic"><option value="">'+t('dash_any')+'</option></select></div>' +
   '<div><label class="label">'+t('timer_notes')+'</label><textarea class="input" id="timer-notes" rows="3" placeholder="'+t('timer_notes_ph')+'" style="resize:vertical">'+timerState.notes+'</textarea></div>' +
   '</div></div>' +

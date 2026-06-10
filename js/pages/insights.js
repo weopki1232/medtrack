@@ -42,13 +42,13 @@ function computeInsights() {
   // most skipped
   var sessionCounts = {};
   sessions.forEach(function(s){ sessionCounts[s.subjectId]=(sessionCounts[s.subjectId]||0)+1; });
-  var mostSkipped = DEFAULT_SUBJECTS.reduce(function(worst,s){ return (!worst||(sessionCounts[s.id]||0)<(sessionCounts[worst.id]||0))?s:worst; }, null);
+  var mostSkipped = getSubjects().reduce(function(worst,s){ return (!worst||(sessionCounts[s.id]||0)<(sessionCounts[worst.id]||0))?s:worst; }, null);
 
   // longest session
   var longestSession = sessions.reduce(function(mx,s){ return s.duration>mx?s.duration:mx; }, 0);
 
   // weakness ranking
-  var weaknesses = DEFAULT_SUBJECTS.map(function(s) {
+  var weaknesses = getSubjects().map(function(s) {
     var mins = totals[s.id]||0;
     var hScore = Math.min(1, mins/(s.targetHours*60));
     var td = s.topics.filter(function(t){return topicDone[t.id];}).length;
@@ -57,7 +57,7 @@ function computeInsights() {
   }).sort(function(a,b){return a.score-b.score;});
 
   // goal projections
-  var projections = DEFAULT_SUBJECTS.map(function(s) {
+  var projections = getSubjects().map(function(s) {
     var logged = (totals[s.id]||0)/60;
     var remaining = Math.max(0, s.targetHours - logged);
     var last14 = sessions.filter(function(x){

@@ -66,7 +66,7 @@ function renderJourney() {
     var ymDays = history.filter(function(d){ return d.substring(0,7)===ym; }).length;
     if (ymDays > 0) events.push({ icon:'🔥', text: ymDays+' '+t('jour_study_days') });
     // Phase transitions
-    STUDY_PHASES.forEach(function(p) {
+    getStudyPhases().forEach(function(p) {
       if (p.start.substring(0,7)===ym) events.push({ icon:'🚀', text:t('jour_entered')+' '+p.name });
     });
     // Daily reviews this month

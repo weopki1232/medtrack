@@ -161,8 +161,16 @@ const STRINGS = {
     sidebar_main:'Main', sidebar_track:'Track', sidebar_tools:'Tools',
     nav_dashboard:'Dashboard', nav_timer:'Study Timer', nav_subjects:'Subjects',
     nav_analytics:'Analytics', nav_tasks:'Tasks', nav_diagrams:'Diagrams', nav_settings:'Settings',
-    sidebar_footer_label:'TPAT1 Medical', sidebar_days_until:'days until Feb 13, 2027',
+    sidebar_footer_label:'TPAT1 Medical', sidebar_days_until:'days until {date}',
     header_quick_start:'⏱ Quick Start',
+    // Generation & exam date settings
+    set_gen_title:'🎓 Generation & Exam Dates', set_gen_label:'Your generation (dek)',
+    set_gen_desc:'Built-in dates are for dek 70 (TCAS70). Changing this shifts all default exam dates to your year — each date below stays individually editable.',
+    set_countdown_title:'Sidebar countdown shows', set_countdown_custom:'Custom label + date…',
+    set_countdown_custom_label:'Label', set_countdown_custom_date:'Date',
+    set_exam_dates:'Exam dates', set_exam_reset:'↩ Reset all dates to generation defaults',
+    toast_gen_saved:'Generation updated — all default dates shifted', toast_exam_saved:'Exam date saved', toast_countdown_saved:'Countdown updated',
+    prio_set:'Priority',
     // Priority badges
     prio_critical:'🔴 Critical', prio_high:'🟡 High', prio_medium:'🟢 Medium', prio_low:'🔵 Low',
     // Timer phases & buttons
@@ -352,8 +360,16 @@ const STRINGS = {
     sidebar_main:'หลัก', sidebar_track:'ติดตาม', sidebar_tools:'เครื่องมือ',
     nav_dashboard:'หน้าหลัก', nav_timer:'ตั้งเวลาเรียน', nav_subjects:'วิชา',
     nav_analytics:'สถิติ', nav_tasks:'งาน', nav_diagrams:'ไดอะแกรม', nav_settings:'การตั้งค่า',
-    sidebar_footer_label:'TPAT1 แพทย์', sidebar_days_until:'วันก่อนถึง 13 ก.พ. 2570',
+    sidebar_footer_label:'TPAT1 แพทย์', sidebar_days_until:'วันก่อนถึง {date}',
     header_quick_start:'⏱ เริ่มด่วน',
+    // Generation & exam date settings
+    set_gen_title:'🎓 รุ่น (เด็ก) และวันสอบ', set_gen_label:'รุ่นของคุณ (เด็ก)',
+    set_gen_desc:'ค่าเริ่มต้นเป็นวันสอบของเด็ก 70 (TCAS70) — เปลี่ยนรุ่นเพื่อเลื่อนวันสอบเริ่มต้นทั้งหมดเป็นปีของคุณ และยังแก้ไขแต่ละวันด้านล่างได้',
+    set_countdown_title:'นับถอยหลังแถบข้างแสดง', set_countdown_custom:'กำหนดชื่อ + วันที่เอง…',
+    set_countdown_custom_label:'ชื่อ', set_countdown_custom_date:'วันที่',
+    set_exam_dates:'วันสอบ', set_exam_reset:'↩ คืนค่าวันสอบตามรุ่น',
+    toast_gen_saved:'บันทึกรุ่นแล้ว — เลื่อนวันสอบเริ่มต้นทั้งหมด', toast_exam_saved:'บันทึกวันสอบแล้ว', toast_countdown_saved:'บันทึกการนับถอยหลังแล้ว',
+    prio_set:'ความสำคัญ',
     // Priority badges
     prio_critical:'🔴 วิกฤต', prio_high:'🟡 สูง', prio_medium:'🟢 ปานกลาง', prio_low:'🔵 ต่ำ',
     // Timer phases & buttons

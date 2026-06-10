@@ -9,7 +9,7 @@ function getAchievementProgress(id) {
   var totalHours = sessions.reduce(function(a,s){return a+s.duration;},0) / 60;
   var pomoCount  = sessions.filter(function(s){return s.type==='pomodoro';}).length;
   var doneCount  = Object.values(topicDone).filter(Boolean).length;
-  var allTopics  = DEFAULT_SUBJECTS.reduce(function(a,s){return a+(s.topics?s.topics.length:0);},0);
+  var allTopics  = getSubjects().reduce(function(a,s){return a+(s.topics?s.topics.length:0);},0);
   var sow = new Date(); sow.setDate(sow.getDate()-sow.getDay()); sow.setHours(0,0,0,0);
   var weekSubs   = new Set(sessions.filter(function(s){return new Date(s.date+'T00:00:00')>=sow;}).map(function(s){return s.subjectId;}));
 
@@ -26,7 +26,7 @@ function getAchievementProgress(id) {
     formulas_5:    {current:formulas.length,                   target:5,                   unit:'formulas saved'},
     diagram_1:     {current:diagrams.length,                   target:1,                   unit:'diagram created'},
     pomo_10:       {current:pomoCount,                         target:10,                  unit:'Pomodoro sessions'},
-    all_round:     {current:weekSubs.size,                     target:DEFAULT_SUBJECTS.length, unit:'subjects this week'},
+    all_round:     {current:weekSubs.size,                     target:getSubjects().length, unit:'subjects this week'},
     mistake_5:     {current:mistakes.length,                   target:5,                   unit:'mistakes logged'},
   };
   var p = map[id] || {current:0, target:1, unit:''};
@@ -123,7 +123,7 @@ function checkAchievements() {
   var totalHours = totalMins / 60;
   var pomoSessions = sessions.filter(function(s){return s.type==='pomodoro';}).length;
   var doneCount = Object.values(topicDone).filter(Boolean).length;
-  var allTopicCount = DEFAULT_SUBJECTS.reduce(function(a,s){return a+(s.topics?s.topics.length:0);},0);
+  var allTopicCount = getSubjects().reduce(function(a,s){return a+(s.topics?s.topics.length:0);},0);
 
   // Check what subjects were studied this week
   var now = new Date(); var dow = now.getDay();
@@ -143,7 +143,7 @@ function checkAchievements() {
     {id:'formulas_5',     pass: formulas.length >= 5},
     {id:'diagram_1',      pass: diagrams.length >= 1},
     {id:'pomo_10',        pass: pomoSessions >= 10},
-    {id:'all_round',      pass: thisWeekSubs.size >= DEFAULT_SUBJECTS.length},
+    {id:'all_round',      pass: thisWeekSubs.size >= getSubjects().length},
     {id:'mistake_5',      pass: mistakes.length >= 5},
   ];
 

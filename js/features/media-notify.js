@@ -104,7 +104,7 @@ function printWeeklyReport() {
   var unlocked = ACHIEVEMENTS.filter(function(a){return !!ach[a.id];});
   var streak = Storage.getStreak();
 
-  var rowsHtml = DEFAULT_SUBJECTS.filter(function(s){return totals[s.id];}).map(function(s){
+  var rowsHtml = getSubjects().filter(function(s){return totals[s.id];}).map(function(s){
     return '<tr><td>'+s.icon+' '+s.name+'</td><td style="text-align:right">'+fmtMins(totals[s.id]||0)+'</td></tr>';
   }).join('');
 

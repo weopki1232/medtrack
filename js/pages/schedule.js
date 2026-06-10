@@ -48,7 +48,7 @@ function computeRecommendedSchedule() {
   var goalMins = getSettings().dailyGoalMinutes || 90;
   var cutoff7 = new Date(); cutoff7.setDate(cutoff7.getDate()-7);
 
-  var scored = DEFAULT_SUBJECTS.filter(function(s){ return !isSubjectInactive(s.id); }).map(function(s) {
+  var scored = getSubjects().filter(function(s){ return !isSubjectInactive(s.id); }).map(function(s) {
     var loggedMins = totals[s.id]||0;
     var behind = isSubjectBehind(s.id, loggedMins);
     var dl = daysUntil(s.examDate);
@@ -190,7 +190,7 @@ function openCustomizeScheduleModal() {
     var sub = getSubject(sl.subjectId);
     return '<div style="display:flex;align-items:center;gap:8px;margin-bottom:8px" id="sched-slot-'+i+'">' +
       '<select class="input" id="sched-sub-'+i+'" style="flex:1">' +
-      DEFAULT_SUBJECTS.map(function(s){return '<option value="'+s.id+'"'+(s.id===sl.subjectId?' selected':'')+'>'+s.icon+' '+s.shortName+'</option>';}).join('') +
+      getSubjects().map(function(s){return '<option value="'+s.id+'"'+(s.id===sl.subjectId?' selected':'')+'>'+s.icon+' '+s.shortName+'</option>';}).join('') +
       '</select>' +
       '<input type="number" class="input" id="sched-dur-'+i+'" value="'+sl.durationMins+'" min="10" max="300" style="width:70px" title="'+t('sched_duration')+'">' +
       '<span style="color:var(--muted);font-size:11px">'+t('sched_mins')+'</span>' +
@@ -216,7 +216,7 @@ function addSchedSlot() {
   div.id = 'sched-slot-'+i;
   div.style.cssText = 'display:flex;align-items:center;gap:8px;margin-bottom:8px';
   div.innerHTML = '<select class="input" id="sched-sub-'+i+'" style="flex:1">' +
-    DEFAULT_SUBJECTS.map(function(s){return '<option value="'+s.id+'">'+s.icon+' '+s.shortName+'</option>';}).join('') +
+    getSubjects().map(function(s){return '<option value="'+s.id+'">'+s.icon+' '+s.shortName+'</option>';}).join('') +
     '</select><input type="number" class="input" id="sched-dur-'+i+'" value="30" min="10" max="300" style="width:70px">' +
     '<span style="color:var(--muted);font-size:11px">'+t('sched_mins')+'</span>' +
     '<button class="btn btn-ghost btn-xs" onclick="this.parentElement.remove()">✕</button>';
@@ -360,7 +360,7 @@ function openCalAddSlotModal(dateStr) {
     '<div class="modal-title">📅 ' + t('cal_slot_title') + ' ' + fmtDate(dateStr) + '</div>' +
     '<div class="form-group"><label class="label">' + t('cal_slot_subj') + '</label>' +
     '<select class="input" id="cal-slot-subj">' +
-    DEFAULT_SUBJECTS.map(function(s) { return '<option value="' + s.id + '">' + s.icon + ' ' + s.shortName + '</option>'; }).join('') +
+    getSubjects().map(function(s) { return '<option value="' + s.id + '">' + s.icon + ' ' + s.shortName + '</option>'; }).join('') +
     '</select></div>' +
     '<div class="form-group"><label class="label">' + t('cal_slot_dur') + '</label>' +
     '<input type="number" class="input" id="cal-slot-dur" value="60" min="10" max="360"></div>' +

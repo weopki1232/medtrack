@@ -32,8 +32,7 @@ function setLang(lang) {
   var secMain = document.getElementById('nav-sec-main'); if(secMain) secMain.textContent = t('sidebar_main');
   var secTrack = document.getElementById('nav-sec-track'); if(secTrack) secTrack.textContent = t('sidebar_track');
   var secTools = document.getElementById('nav-sec-tools'); if(secTools) secTools.textContent = t('sidebar_tools');
-  var fLabel = document.getElementById('sidebar-footer-label'); if(fLabel) fLabel.textContent = t('sidebar_footer_label');
-  var fDays = document.getElementById('sidebar-days-until'); if(fDays) fDays.textContent = t('sidebar_days_until');
+  updateCountdownSidebar();
   var qs = document.getElementById('header-quick-start'); if(qs) qs.textContent = t('header_quick_start');
   // Update header title
   var titleEl = document.getElementById('header-title');

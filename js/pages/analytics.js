@@ -19,7 +19,7 @@ function renderAnalytics() {
   '<div class="grid-2">'+
   '<div class="card"><div class="section-header"><span class="section-title">'+t('ana_per_sub')+'</span></div>'+(Object.keys(totals).length===0?'<div class="empty-state"><div class="empty-icon">📊</div><p>'+t('ana_no_data')+'</p></div>':'<canvas id="chart-subjects" height="200"></canvas>')+'</div>'+
   '<div class="card"><div class="section-header"><span class="section-title">'+t('ana_phase_prog')+'</span></div>'+
-  STUDY_PHASES.map(function(p){const ps=new Date(p.start),pe=new Date(p.end),now=new Date();let pct=0;if(now>=pe)pct=100;else if(now>ps)pct=Math.round((now-ps)/(pe-ps)*100);const act=today()>=p.start&&today()<=p.end;return '<div style="margin-bottom:14px"><div style="display:flex;justify-content:space-between;margin-bottom:5px"><span style="font-size:13px;font-weight:'+(act?700:400)+'">'+p.name+(act?' '+t('ana_now'):'')+'</span><span style="font-size:12px;color:var(--muted)">'+pct+'%</span></div><div class="progress-bar progress-bar-lg"><div class="progress-fill" style="width:'+pct+'%;background:'+p.color+'"></div></div><div style="font-size:11px;color:var(--muted);margin-top:3px">'+fmtDate(p.start)+' → '+fmtDate(p.end)+'</div></div>';}).join('')+
+  getStudyPhases().map(function(p){const ps=new Date(p.start),pe=new Date(p.end),now=new Date();let pct=0;if(now>=pe)pct=100;else if(now>ps)pct=Math.round((now-ps)/(pe-ps)*100);const act=today()>=p.start&&today()<=p.end;return '<div style="margin-bottom:14px"><div style="display:flex;justify-content:space-between;margin-bottom:5px"><span style="font-size:13px;font-weight:'+(act?700:400)+'">'+p.name+(act?' '+t('ana_now'):'')+'</span><span style="font-size:12px;color:var(--muted)">'+pct+'%</span></div><div class="progress-bar progress-bar-lg"><div class="progress-fill" style="width:'+pct+'%;background:'+p.color+'"></div></div><div style="font-size:11px;color:var(--muted);margin-top:3px">'+fmtDate(p.start)+' → '+fmtDate(p.end)+'</div></div>';}).join('')+
   '</div>'+
   '</div>'+
   '<div class="card"><div class="section-header"><span class="section-title">'+t('ana_heatmap')+'</span></div>'+renderHeatmap(hm)+'</div>'+
@@ -27,7 +27,7 @@ function renderAnalytics() {
   '<div class="card"><div class="section-header"><span class="section-title">'+t('ana_all_sessions')+'</span><span style="font-size:13px;color:var(--muted)">'+sessions.length+' '+t('ana_total')+'</span></div>'+
   '<div style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px">'+
   '<input class="input" id="sf-search" placeholder="'+t('sess_filter_search')+'" value="'+escHtml(sessionFilter.search)+'" oninput="applySessionFilter()" style="max-width:220px">'+
-  '<select class="input" id="sf-subject" onchange="applySessionFilter()" style="max-width:180px;width:auto"><option value="">'+t('dash_choose')+'</option>'+DEFAULT_SUBJECTS.map(function(s){return '<option value="'+s.id+'"'+(sessionFilter.subject===s.id?' selected':'')+'>'+s.icon+' '+s.shortName+'</option>';}).join('')+'</select>'+
+  '<select class="input" id="sf-subject" onchange="applySessionFilter()" style="max-width:180px;width:auto"><option value="">'+t('dash_choose')+'</option>'+getSubjects().map(function(s){return '<option value="'+s.id+'"'+(sessionFilter.subject===s.id?' selected':'')+'>'+s.icon+' '+s.shortName+'</option>';}).join('')+'</select>'+
   '<input type="date" class="input" id="sf-from" value="'+sessionFilter.dateFrom+'" onchange="applySessionFilter()" title="'+t('sess_filter_from')+'" style="max-width:150px">'+
   '<input type="date" class="input" id="sf-to" value="'+sessionFilter.dateTo+'" onchange="applySessionFilter()" title="'+t('sess_filter_to')+'" style="max-width:150px">'+
   '<button class="btn btn-ghost btn-sm" onclick="sessionFilter={subject:\'\',search:\'\',dateFrom:\'\',dateTo:\'\'};renderAnalytics()">'+t('sess_reset')+'</button>'+
@@ -131,7 +131,7 @@ function openAddScoreModal() {
     '<div class="modal-title">'+t('score_modal_title')+'</div>'+
     '<div class="form-group"><label class="label">'+t('score_test_name')+'</label><input class="input" id="score-name" placeholder="'+t('score_test_ph')+'"></div>'+
     '<div class="grid-2" style="gap:10px">'+
-    '<div class="form-group"><label class="label">'+t('score_subject')+'</label><select class="input" id="score-subj"><option value="">— '+t('modal_none')+' —</option>'+DEFAULT_SUBJECTS.map(function(s){return '<option value="'+s.id+'">'+s.icon+' '+s.shortName+'</option>';}).join('')+'</select></div>'+
+    '<div class="form-group"><label class="label">'+t('score_subject')+'</label><select class="input" id="score-subj"><option value="">— '+t('modal_none')+' —</option>'+getSubjects().map(function(s){return '<option value="'+s.id+'">'+s.icon+' '+s.shortName+'</option>';}).join('')+'</select></div>'+
     '<div class="form-group"><label class="label">'+t('score_date')+'</label><input type="date" class="input" id="score-date" value="'+today()+'"></div>'+
     '</div>'+
     '<div class="form-group"><label class="label">'+t('score_score')+' (0–100)</label><input type="number" class="input" id="score-val" min="0" max="100" placeholder="85"></div>'+
