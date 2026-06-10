@@ -11,6 +11,24 @@ function renderSettings(){
   '<div class="form-group" style="display:flex;align-items:center;justify-content:space-between;margin:0"><div><label class="label" style="margin:0">Animation Quality</label><div style="font-size:11px;color:var(--muted)">Min = lower CPU · Max = full quality</div></div><div class="pill-tabs" style="gap:2px"><button class="pill-tab '+(_powerMode==='min'?'active':'')+'" onclick="togglePowerMode()" style="padding:5px 12px;font-size:12px">⚡ Min</button><button class="pill-tab '+(_powerMode==='max'?'active':'')+'" onclick="togglePowerMode()" style="padding:5px 12px;font-size:12px">🔥 Max</button></div></div>'+
   '<div class="form-group" style="display:flex;align-items:center;justify-content:space-between"><div><label class="label" style="margin:0">'+t('set_auto_sched')+'</label><div style="font-size:11px;color:var(--muted)">'+t('set_auto_sched_desc')+'</div></div><button class="btn '+(s.autoSchedule!==false?'btn-primary':'btn-outline')+' btn-sm" onclick="toggleAutoSchedule()">'+(s.autoSchedule!==false?'✅ '+t('set_auto_sched_on'):'⬜ '+t('set_auto_sched_off'))+'</button></div>'+
   '</div>'+
+  // ── Generation & exam dates card ──────────────────────────────────────────
+  (function(){
+    var cdc = s.countdown || {mode:'exam', examId:'tpat1'};
+    var exams = getExamDates();
+    var h = '<div class="card"><div class="section-title" style="margin-bottom:12px">'+t('set_gen_title')+'</div>'+
+    '<div class="form-group"><label class="label">'+t('set_gen_label')+'</label><input type="number" class="input" id="set-generation" value="'+getGeneration()+'" min="60" max="200" onchange="saveGenerationUI(this.value)" style="max-width:120px"><div style="font-size:11px;color:var(--muted);margin-top:4px">'+t('set_gen_desc')+'</div></div>'+
+    '<div class="form-group"><label class="label">'+t('set_countdown_title')+'</label><select class="input" id="set-countdown-exam" onchange="saveCountdownUI()">'+
+      exams.map(function(e){return '<option value="'+e.id+'"'+(cdc.mode!=='custom'&&(cdc.examId||'tpat1')===e.id?' selected':'')+'>'+e.label+' ('+fmtDate(e.date)+')</option>';}).join('')+
+      '<option value="__custom"'+(cdc.mode==='custom'?' selected':'')+'>✏️ '+t('set_countdown_custom')+'</option></select>'+
+      (cdc.mode==='custom'?'<div style="display:flex;gap:8px;margin-top:8px;flex-wrap:wrap"><input class="input" id="set-countdown-label" placeholder="'+t('set_countdown_custom_label')+'" value="'+escHtml(cdc.label||'')+'" onchange="saveCountdownUI()" style="flex:1;min-width:140px"><input type="date" class="input" id="set-countdown-date" value="'+(cdc.date||'')+'" onchange="saveCountdownUI()" style="max-width:170px"></div>':'')+
+    '</div>'+
+    '<div class="form-group" style="margin:0"><label class="label">'+t('set_exam_dates')+'</label>'+
+      exams.map(function(e){return '<div style="display:flex;align-items:center;gap:8px;margin-bottom:6px"><span style="width:8px;height:8px;border-radius:50%;background:'+e.color+';flex-shrink:0"></span><span style="flex:1;font-size:12px">'+e.label+'</span><input type="date" class="input" style="max-width:165px;width:auto;font-size:12px;padding:4px 8px" value="'+e.date+'" onchange="saveExamDateUI(\''+e.id+'\',this.value)"></div>';}).join('')+
+      '<button class="btn btn-ghost btn-sm" style="margin-top:4px" onclick="resetExamDatesUI()">'+t('set_exam_reset')+'</button>'+
+    '</div></div>';
+    return h;
+  })()+
+
   '<div class="card"><div class="section-title" style="margin-bottom:16px">'+t('set_pomo')+'</div>'+
   '<div class="grid-2" style="gap:10px">'+
   '<div class="form-group"><label class="label">'+t('set_work')+'</label><input type="number" class="input" id="set-pomo-work" value="'+s.pomodoroWork+'" min="5" max="120"></div>'+
@@ -70,6 +88,37 @@ function renderSettings(){
   '</div>';
 }
 function saveSettings(){Storage.saveSettings({userName:document.getElementById('set-name').value||'Student',dailyGoalMinutes:parseInt(document.getElementById('set-goal').value||'90'),pomodoroWork:parseInt(document.getElementById('set-pomo-work').value||'25'),pomodoroShortBreak:parseInt(document.getElementById('set-pomo-short').value||'5'),pomodoroLongBreak:parseInt(document.getElementById('set-pomo-long').value||'15'),pomodoroCycles:parseInt(document.getElementById('set-pomo-cycles').value||'4')});toast(t('toast_settings_saved'),'success');}
+function saveGenerationUI(v){
+  var g = parseInt(v, 10);
+  if (!g || g < 60 || g > 200) { toast('60–200', 'error'); return; }
+  Storage.saveSettings({generation:g});
+  toast(t('toast_gen_saved'), 'success');
+  updateCountdownSidebar(); renderSettings();
+}
+function saveExamDateUI(id, date){
+  if (!date) return;
+  var ov = Object.assign({}, getSettings().examDates || {});
+  ov[id] = date;
+  Storage.saveSettings({examDates:ov});
+  toast(t('toast_exam_saved'), 'success');
+  updateCountdownSidebar();
+}
+function resetExamDatesUI(){
+  Storage.saveSettings({examDates:{}});
+  toast(t('toast_exam_saved'), 'success');
+  updateCountdownSidebar(); renderSettings();
+}
+function saveCountdownUI(){
+  var sel = document.getElementById('set-countdown-exam');
+  if (sel.value === '__custom') {
+    var lblEl = document.getElementById('set-countdown-label'), dEl = document.getElementById('set-countdown-date');
+    Storage.saveSettings({countdown:{mode:'custom', label:(lblEl?lblEl.value:''), date:(dEl?dEl.value:'')}});
+  } else {
+    Storage.saveSettings({countdown:{mode:'exam', examId:sel.value}});
+  }
+  toast(t('toast_countdown_saved'), 'success');
+  updateCountdownSidebar(); renderSettings();
+}
 function setDarkMode(mode){
   var isAuto=(mode==='auto');
   var isDark=isAuto?window.matchMedia('(prefers-color-scheme: dark)').matches:(mode==='dark');

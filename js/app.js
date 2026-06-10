@@ -66,8 +66,6 @@ function init() {
       var secMain=document.getElementById('nav-sec-main'); if(secMain)secMain.textContent=t('sidebar_main');
       var secTrack=document.getElementById('nav-sec-track'); if(secTrack)secTrack.textContent=t('sidebar_track');
       var secTools=document.getElementById('nav-sec-tools'); if(secTools)secTools.textContent=t('sidebar_tools');
-      var fLabel=document.getElementById('sidebar-footer-label'); if(fLabel)fLabel.textContent=t('sidebar_footer_label');
-      var fDays=document.getElementById('sidebar-days-until'); if(fDays)fDays.textContent=t('sidebar_days_until');
       var qs=document.getElementById('header-quick-start'); if(qs)qs.textContent=t('header_quick_start');
     }
   }
@@ -76,9 +74,7 @@ function init() {
     var now = new Date();
     var el = document.getElementById('header-date');
     if (el) el.textContent = now.toLocaleDateString('en-GB', {weekday:'long',day:'numeric',month:'long',year:'numeric'});
-    var tpat1 = new Date('2027-02-13T00:00:00');
-    var cel = document.getElementById('sidebar-countdown');
-    if (cel) cel.textContent = Math.max(0, Math.ceil((tpat1-now)/86400000));
+    updateCountdownSidebar();
   }
   updateDate();
   setInterval(updateDate, 60000);

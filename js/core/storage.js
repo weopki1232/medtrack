@@ -1,5 +1,5 @@
 // ── Storage ───────────────────────────────────────────────────────────────────
-const KEYS = { SESSIONS:'mt_sessions', TASKS:'mt_tasks', TOPIC_DONE:'mt_topic_done', SETTINGS:'mt_settings', DIAGRAMS:'mt_diagrams', STREAK:'mt_streak', FORMULAS:'mt_formulas', DAILY_REVIEW:'mt_daily_review', SCORES:'mt_scores', REVIEW:'mt_review', SCHEDULE:'mt_schedule', TOPIC_NOTES:'mt_topic_notes', ACHIEVEMENTS:'mt_achievements', MISTAKES:'mt_mistakes', WEEKLY_TARGETS:'mt_weekly_targets' };
+const KEYS = { SESSIONS:'mt_sessions', TASKS:'mt_tasks', TOPIC_DONE:'mt_topic_done', SETTINGS:'mt_settings', DIAGRAMS:'mt_diagrams', STREAK:'mt_streak', FORMULAS:'mt_formulas', DAILY_REVIEW:'mt_daily_review', SCORES:'mt_scores', REVIEW:'mt_review', SCHEDULE:'mt_schedule', TOPIC_NOTES:'mt_topic_notes', ACHIEVEMENTS:'mt_achievements', MISTAKES:'mt_mistakes', WEEKLY_TARGETS:'mt_weekly_targets', SUBJECT_PREFS:'mt_subject_prefs' };
 
 const Storage = {
   get(key, fb=null) { try { const v=localStorage.getItem(key); return v ? JSON.parse(v) : fb; } catch { return fb; } },
@@ -51,6 +51,14 @@ const Storage = {
   addMistake(m)            { var ms=this.getMistakes(); ms.unshift(m); this.set(KEYS.MISTAKES,ms); },
   deleteMistake(id)        { this.set(KEYS.MISTAKES, this.getMistakes().filter(function(m){return m.id!==id;})); },
   getWeeklyTargets()       { return this.get(KEYS.WEEKLY_TARGETS, {}); },
+  getSubjectPrefs()        { return this.get(KEYS.SUBJECT_PREFS, {}); },
+  setSubjectPref(sid, patch) {
+    var all = this.getSubjectPrefs();
+    var cur = Object.assign({}, all[sid] || {}, patch);
+    Object.keys(cur).forEach(function(k){ if (cur[k]===null || cur[k]===undefined || cur[k]==='') delete cur[k]; });
+    if (Object.keys(cur).length) all[sid] = cur; else delete all[sid];
+    this.set(KEYS.SUBJECT_PREFS, all);
+  },
   setWeeklyTarget(sid,h)   { var wt=this.getWeeklyTargets(); if(parseFloat(h)>0) wt[sid]=parseFloat(h); else delete wt[sid]; this.set(KEYS.WEEKLY_TARGETS,wt); },
   getWeekMinsForSubject(sid){ var now=new Date(),dow=now.getDay(),sow=new Date(now); sow.setDate(now.getDate()-dow); sow.setHours(0,0,0,0); return this.getSessions().filter(function(s){return s.subjectId===sid&&new Date(s.date+'T00:00:00')>=sow;}).reduce(function(a,s){return a+s.duration;},0); },
 

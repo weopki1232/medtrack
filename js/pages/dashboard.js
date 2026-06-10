@@ -122,14 +122,14 @@ function renderDashboard() {
   var examsHtml =
     '<div><div class="section-header"><span class="section-title">'+t('dash_exam_countdown')+'</span></div>'+
       '<div style="display:flex;gap:12px;overflow-x:auto;padding-bottom:4px">'+
-        EXAM_DATES.filter(function(e){return daysUntil(e.date)>=0;}).map(function(e){var d=daysUntil(e.date);return '<div class="countdown-card" style="min-width:155px;max-width:200px;border-color:'+e.color+'22" title="'+e.label+' — '+fmtDate(e.date)+'"><div class="countdown-days" style="color:'+(d<=30?'var(--red)':e.color)+'">'+d+'</div><div class="countdown-label">'+t('dash_days_left')+'</div><div class="countdown-name">'+e.label+'</div><div class="countdown-label">'+fmtDate(e.date)+'</div></div>';}).join('')+
+        getExamDates().filter(function(e){return daysUntil(e.date)>=0;}).map(function(e){var d=daysUntil(e.date);return '<div class="countdown-card" style="min-width:155px;max-width:200px;border-color:'+e.color+'22" title="'+e.label+' — '+fmtDate(e.date)+'"><div class="countdown-days" style="color:'+(d<=30?'var(--red)':e.color)+'">'+d+'</div><div class="countdown-label">'+t('dash_days_left')+'</div><div class="countdown-name">'+e.label+'</div><div class="countdown-label">'+fmtDate(e.date)+'</div></div>';}).join('')+
       '</div>'+
     '</div>';
 
   var subExamsHtml =
     '<div><div class="section-header"><span class="section-title">'+t('dash_sub_exams')+'</span></div>'+
       '<div style="display:flex;gap:8px;flex-wrap:wrap">'+
-        DEFAULT_SUBJECTS.filter(function(s){return s.examDate;}).sort(function(a,b){return daysUntil(a.examDate)-daysUntil(b.examDate);}).map(function(s){var dl=daysUntil(s.examDate);var col=dl<=7?'var(--red,#ef4444)':dl<=21?'var(--yellow,#f59e0b)':'var(--green,#22c55e)';return '<div class="sub-exam-badge" style="display:flex;align-items:center;gap:8px;padding:7px 12px;background:var(--bg2);border:1px solid var(--border);border-left:3px solid '+col+';border-radius:8px;font-size:12px"><span>'+s.icon+'</span><span style="font-weight:500">'+s.shortName+'</span><span style="color:'+col+';font-weight:700">'+dl+'d</span></div>';}).join('')+
+        getSubjects().filter(function(s){return s.examDate;}).sort(function(a,b){return daysUntil(a.examDate)-daysUntil(b.examDate);}).map(function(s){var dl=daysUntil(s.examDate);var col=dl<=7?'var(--red,#ef4444)':dl<=21?'var(--yellow,#f59e0b)':'var(--green,#22c55e)';return '<div class="sub-exam-badge" style="display:flex;align-items:center;gap:8px;padding:7px 12px;background:var(--bg2);border:1px solid var(--border);border-left:3px solid '+col+';border-radius:8px;font-size:12px"><span>'+s.icon+'</span><span style="font-weight:500">'+s.shortName+'</span><span style="color:'+col+';font-weight:700">'+dl+'d</span></div>';}).join('')+
       '</div>'+
     '</div>';
 
@@ -149,7 +149,7 @@ function renderDashboard() {
 
   var progressHtml =
     '<div><div class="section-header"><span class="section-title">'+t('dash_subject_progress')+'</span><button class="btn btn-outline btn-sm" onclick="navigate(\'subjects\')">'+t('dash_all_subjects')+'</button></div>'+
-      '<div class="grid-auto">'+DEFAULT_SUBJECTS.slice(0,6).map(function(s){return renderSubjectMiniCard(s,totals[s.id]||0);}).join('')+'</div>'+
+      '<div class="grid-auto">'+getSubjects().slice(0,6).map(function(s){return renderSubjectMiniCard(s,totals[s.id]||0);}).join('')+'</div>'+
     '</div>';
 
   var cfSessions = Storage.getSessions();
@@ -187,7 +187,7 @@ function renderDashboard() {
 }
 
 function renderQuickLogForm() {
-  return '<div style="display:flex;flex-direction:column;gap:10px"><div class="form-group" style="margin:0"><label class="label">'+t('dash_subject')+'</label><select class="input" id="ql-subject" onchange="updateQLTopics()"><option value="">'+t('dash_choose')+'</option>'+DEFAULT_SUBJECTS.map(s=>'<option value="'+s.id+'">'+s.icon+' '+s.shortName+'</option>').join('')+'</select></div><div class="form-group" style="margin:0"><label class="label">'+t('dash_topic_opt')+'</label><select class="input" id="ql-topic"><option value="">'+t('dash_any')+'</option></select></div><div class="grid-2" style="gap:8px"><div><label class="label">'+t('dash_duration_min')+'</label><input type="number" class="input" id="ql-duration" value="60" min="1" max="480"></div><div><label class="label">'+t('dash_date_lbl')+'</label><input type="date" class="input" id="ql-date" value="'+today()+'"></div></div><input type="text" class="input" id="ql-notes" placeholder="'+t('dash_notes_opt')+'"><button class="btn btn-primary" onclick="logQuickSession()">'+t('dash_log_btn')+'</button></div>';
+  return '<div style="display:flex;flex-direction:column;gap:10px"><div class="form-group" style="margin:0"><label class="label">'+t('dash_subject')+'</label><select class="input" id="ql-subject" onchange="updateQLTopics()"><option value="">'+t('dash_choose')+'</option>'+getSubjects().map(s=>'<option value="'+s.id+'">'+s.icon+' '+s.shortName+'</option>').join('')+'</select></div><div class="form-group" style="margin:0"><label class="label">'+t('dash_topic_opt')+'</label><select class="input" id="ql-topic"><option value="">'+t('dash_any')+'</option></select></div><div class="grid-2" style="gap:8px"><div><label class="label">'+t('dash_duration_min')+'</label><input type="number" class="input" id="ql-duration" value="60" min="1" max="480"></div><div><label class="label">'+t('dash_date_lbl')+'</label><input type="date" class="input" id="ql-date" value="'+today()+'"></div></div><input type="text" class="input" id="ql-notes" placeholder="'+t('dash_notes_opt')+'"><button class="btn btn-primary" onclick="logQuickSession()">'+t('dash_log_btn')+'</button></div>';
 }
 function updateQLTopics() {
   const sid=document.getElementById('ql-subject').value;

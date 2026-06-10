@@ -9,12 +9,21 @@ const PAGE_TITLES = { dashboard:'📊 Dashboard', timer:'⏱ Study Timer', subje
 // ── Helpers ───────────────────────────────────────────────────────────────────
 function uid()        { return Date.now().toString(36)+Math.random().toString(36).slice(2,7); }
 function today()      { return new Date().toISOString().split('T')[0]; }
-function getSubject(id) { return DEFAULT_SUBJECTS.find(s=>s.id===id); }
+function getSubjects() {
+  var shift = getGeneration() - BASE_GENERATION;
+  var prefs = Storage.getSubjectPrefs();
+  return DEFAULT_SUBJECTS.map(function(s) {
+    var o = Object.assign({}, s);
+    if (o.examDate) o.examDate = shiftDateYears(o.examDate, shift);
+    return Object.assign(o, prefs[s.id] || {});
+  });
+}
+function getSubject(id) { return getSubjects().find(s=>s.id===id); }
 function getSettings()  { return Storage.getSettings(); }
 function fmtMins(m)   { const h=Math.floor(m/60),mn=m%60; return h===0?mn+'m':mn===0?h+'h':h+'h '+mn+'m'; }
 function fmtDate(str) { return new Date(str+'T00:00:00').toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'}); }
 function daysUntil(d) { const n=new Date(); n.setHours(0,0,0,0); return Math.ceil((new Date(d+'T00:00:00')-n)/86400000); }
-function getCurrentPhase() { const t=today(); return STUDY_PHASES.find(p=>t>=p.start&&t<=p.end)||null; }
+function getCurrentPhase() { const t=today(); return getStudyPhases().find(p=>t>=p.start&&t<=p.end)||null; }
 function priorityBadge(p) { var m={critical:['badge-red','prio_critical'],high:['badge-amber','prio_high'],medium:['badge-green','prio_medium'],low:['badge-cyan','prio_low']}; var pair=m[p]||m.medium; return '<span class="badge '+pair[0]+'">'+t(pair[1])+'</span>'; }
 
 function toast(msg, type='info') {

@@ -1,7 +1,7 @@
 // ── Subjects ──────────────────────────────────────────────────────────────────
 function renderSubjectsPage() {
   const totals=Storage.getSubjectTotals();
-  document.getElementById('page-subjects').innerHTML='<div style="display:flex;flex-direction:column;gap:16px"><div class="section-header"><span class="section-title">'+t('subj_all')+'</span><span style="font-size:13px;color:var(--muted)">'+DEFAULT_SUBJECTS.length+' '+t('subj_topics_lbl')+'</span></div><div style="display:flex;flex-direction:column;gap:12px">'+DEFAULT_SUBJECTS.map(function(s){return renderSubjectCard(s,totals[s.id]||0,openSubjectId===s.id);}).join('')+'</div></div>';
+  document.getElementById('page-subjects').innerHTML='<div style="display:flex;flex-direction:column;gap:16px"><div class="section-header"><span class="section-title">'+t('subj_all')+'</span><span style="font-size:13px;color:var(--muted)">'+getSubjects().length+' '+t('subj_topics_lbl')+'</span></div><div style="display:flex;flex-direction:column;gap:12px">'+getSubjects().map(function(s){return renderSubjectCard(s,totals[s.id]||0,openSubjectId===s.id);}).join('')+'</div></div>';
 }
 function renderSubjectCard(s, loggedMins, expanded) {
   const td=s.topics.filter(t=>Storage.isTopicDone(t.id)).length;
@@ -26,6 +26,8 @@ function renderSubjectCard(s, loggedMins, expanded) {
     html+='<div style="display:flex;align-items:center;gap:10px;padding:8px 0;flex-wrap:wrap"><span style="font-size:12px;font-weight:600;color:var(--muted);white-space:nowrap">'+t('week_this_week')+':</span><span style="font-size:13px;font-weight:600;color:var(--primary-l)">'+(weekMins/60).toFixed(1)+'h</span><span style="font-size:12px;color:var(--muted)">/</span><input type="number" min="0" max="40" step="0.5" value="'+(wTarget||'')+'" placeholder="'+t('week_set_target')+'" style="width:60px;font-size:12px;padding:3px 6px;border-radius:6px;border:1px solid var(--border);background:var(--bg3);color:var(--text)" onclick="event.stopPropagation()" onchange="event.stopPropagation();Storage.setWeeklyTarget(\''+s.id+'\',this.value)" title="Weekly target hours"><span style="font-size:11px;color:var(--muted)">h/week</span>'+(wTarget>0?'<div class="progress-bar" style="flex:1;min-width:60px"><div class="progress-fill" style="width:'+wPct+'%;background:'+s.color+'"></div></div><span style="font-size:11px;color:var(--muted)">'+wPct+'%</span>':'')+'</div>';
     // Active in study plan toggle
     html+='<div style="display:flex;align-items:center;gap:8px;padding:8px 0;font-size:12px;flex-wrap:wrap"><span style="font-weight:600;color:var(--muted)">📅 '+t('subj_in_plan')+'</span><button class="btn '+(isSubjectInactive(s.id)?'btn-outline':'btn-primary')+' btn-xs" style="margin-left:auto" onclick="event.stopPropagation();setSubjectActive(\''+s.id+'\','+isSubjectInactive(s.id)+')">'+(isSubjectInactive(s.id)?'💤 '+t('subj_paused'):'✓ '+t('subj_in_plan'))+'</button></div>';
+    // Priority (importance) — user-customizable per subject
+    html+='<div style="display:flex;align-items:center;gap:8px;padding:8px 0;font-size:12px;flex-wrap:wrap"><span style="font-weight:600;color:var(--muted)">⭐ '+t('prio_set')+'</span><select class="input" style="margin-left:auto;width:auto;font-size:12px;padding:4px 8px" onclick="event.stopPropagation()" onchange="event.stopPropagation();setSubjectPriorityUI(\''+s.id+'\',this.value)">'+['critical','high','medium','low'].map(function(p){return '<option value="'+p+'"'+(s.priority===p?' selected':'')+'>'+t('prio_'+p)+'</option>';}).join('')+'</select></div>';
     // Prior (pre-tracking) hours + bulk topic completion
     html+='<div style="display:flex;align-items:center;gap:8px;padding:8px 0;font-size:12px;flex-wrap:wrap"><span style="font-weight:600;color:var(--muted)">📚 '+t('subj_prior')+'</span><input type="number" min="0" step="0.5" value="'+(Storage.get('mt_prior_hours_'+s.id,0)||'')+'" placeholder="0" style="width:64px;font-size:12px;padding:3px 6px;border-radius:6px;border:1px solid var(--border);background:var(--bg3);color:var(--text)" onclick="event.stopPropagation()" onchange="event.stopPropagation();setPriorHoursUI(\''+s.id+'\',this.value)"><span style="font-size:11px;color:var(--muted)">h</span><button class="btn btn-outline btn-xs" style="margin-left:auto" onclick="event.stopPropagation();markAllTopicsUI(\''+s.id+'\',true)">✓ '+t('subj_mark_all')+'</button><button class="btn btn-ghost btn-xs" onclick="event.stopPropagation();markAllTopicsUI(\''+s.id+'\',false)" title="'+t('subj_undo_all')+'">↩</button></div>';
     // Topics
@@ -45,6 +47,7 @@ function renderSubjectCard(s, loggedMins, expanded) {
   return html;
 }
 function toggleSubjectExpand(id) { openSubjectId=(openSubjectId===id)?null:id; renderSubjectsPage(); }
+function setSubjectPriorityUI(sid, p) { Storage.setSubjectPref(sid, {priority:p}); toast(t('toast_settings_saved'),'success'); renderSubjectsPage(); }
 function toggleTopicUI(tid, sid) { const done=Storage.toggleTopic(tid); toast(t(done?'toast_topic_done':'toast_topic_undone'),done?'success':'info'); checkAchievements(); renderSubjectsPage(); }
 function startTimerForTopic(sid, topic) { timerState.selectedSubjectId=sid; timerState.selectedTopic=topic; navigate('timer'); }
 function markTopicForReview(tid) { Storage.markReview(tid,1); toast('📌 '+t('sr_mark_review'),'info'); renderSubjectsPage(); }
@@ -85,7 +88,7 @@ function reopenReview(tid){ _setReview(tid,'reviewing'); }
 function removeFromReview(tid){ _setReview(tid,null); }
 function renderReviewWidget(){
   var m=getReviewMap(); var items=[];
-  DEFAULT_SUBJECTS.forEach(function(s){ s.topics.forEach(function(tp){ if(m[tp.id]) items.push({s:s,tp:tp,st:m[tp.id]}); }); });
+  getSubjects().forEach(function(s){ s.topics.forEach(function(tp){ if(m[tp.id]) items.push({s:s,tp:tp,st:m[tp.id]}); }); });
   if(items.length===0) return '';
   var reviewing=items.filter(function(i){return i.st==='reviewing';}).length;
   var h='<div class="card" style="border-color:var(--primary)"><div class="section-header"><span class="section-title">🔄 '+t('dash_review_title')+'</span><span style="font-size:13px;color:var(--muted)">'+reviewing+' '+t('dash_reviewing')+'</span></div><div style="display:flex;flex-direction:column;gap:6px">';

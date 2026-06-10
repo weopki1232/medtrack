@@ -23,7 +23,27 @@ f.onload = function() {
     });
     var fnCount = 0;
     for (var k in win) { try { if (typeof win[k] === 'function' && win.hasOwnProperty(k)) fnCount++; } catch(e) {} }
-    document.getElementById('out').textContent = 'PARITYRESULT|' + results.join('|') + '|errors=' + errors.length + (errors.length ? '|' + errors.join(';') : '') + '|globalFns=' + fnCount;
+    // Functional checks: generation shift, exam-date override, subject prefs, countdown
+    // const Storage shadows the DOM interface and isn't a window property — eval in app context
+    var fx = [];
+    function ev(code) { return win.eval(code); }
+    try {
+      ev("Storage.saveSettings({generation:71})");
+      fx.push('gen71-tpat1=' + ev("getExamById('tpat1').date"));                     // expect 2028-02-13
+      fx.push('gen71-bio-exam=' + ev("getSubject('alevel_bio').examDate"));          // expect 2028-03-13
+      ev("Storage.saveSettings({examDates:{tpat1:'2028-02-20'}})");
+      fx.push('override-tpat1=' + ev("getExamById('tpat1').date"));                  // expect 2028-02-20
+      ev("Storage.setSubjectPref('alevel_bio', {priority:'low'})");
+      fx.push('bio-prio=' + ev("getSubject('alevel_bio').priority"));                // expect low
+      ev("Storage.saveSettings({countdown:{mode:'custom', label:'My Exam', date:'2030-01-01'}})");
+      fx.push('cd-custom=' + ev("getCountdownTarget().date"));                       // expect 2030-01-01
+      ev("Storage.saveSettings({countdown:{mode:'exam', examId:'alevel1'}, generation:70, examDates:{}})");
+      ev("Storage.setSubjectPref('alevel_bio', {priority:null})");
+      fx.push('cd-exam=' + ev("getCountdownTarget().date"));                         // expect 2027-03-13
+      fx.push('bio-prio-restored=' + ev("getSubject('alevel_bio').priority"));       // expect high
+      win.localStorage.clear();
+    } catch (e) { fx.push('FXTHREW ' + e.message); }
+    document.getElementById('out').textContent = 'PARITYRESULT|' + results.join('|') + '|errors=' + errors.length + (errors.length ? '|' + errors.join(';') : '') + '|globalFns=' + fnCount + '|FX|' + fx.join('|');
   }, 1500);
 };
 </script>
