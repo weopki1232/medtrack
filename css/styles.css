@@ -1134,3 +1134,11 @@ body.theme-enchant input, body.theme-enchant textarea { cursor:text; }
 /* Parchment — quill pen (feather at top-right, nib tip at bottom-left) */
 body.theme-parchment { cursor:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32'%3E%3Cpath d='M27,2 C21,6 14,15 10,24 C8,28 7,31 7,31 L10,29 C12,23 16,17 22,11 C25,7 27,5 27,2Z' fill='%237c3000' opacity='0.88'/%3E%3Cpath d='M7,31 L10,29 L8,27Z' fill='%232c1808'/%3E%3Cpath d='M27,2 C23,5 18,10 14,17' stroke='%23d4a050' stroke-width='0.8' fill='none' opacity='0.55'/%3E%3C/svg%3E") 8 29, default; }
 body.theme-parchment input, body.theme-parchment textarea { cursor:text; }
+
+/* ── Mobile navigation (hamburger) ─────────────────────────────────────────── */
+#mobile-menu-btn { display:none; background:var(--bg2); border:1px solid var(--border); color:var(--text); border-radius:8px; padding:6px 11px; font-size:16px; cursor:pointer; margin-right:10px; }
+@media (max-width:700px) {
+  #mobile-menu-btn { display:inline-block; }
+  #sidebar { transition: transform .25s ease; z-index: 300; }
+  #sidebar.open { transform: translateX(0); box-shadow: 0 0 40px rgba(0,0,0,.55); }
+}

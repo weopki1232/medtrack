@@ -81,7 +81,11 @@ function init() {
   setInterval(updateDate, 60000);
 
   document.querySelectorAll('.nav-item').forEach(function(el) {
-    el.addEventListener('click', function() { navigate(el.dataset.page); });
+    el.addEventListener('click', function() {
+      navigate(el.dataset.page);
+      var sb = document.getElementById('sidebar');
+      if (sb) sb.classList.remove('open');
+    });
   });
 
   diagramState.name = t('diag_untitled');
@@ -92,6 +96,8 @@ function init() {
   var _pmBtn = document.getElementById('power-mode-btn');
   if (_pmBtn) _pmBtn.textContent = _powerMode === 'min' ? '⚡ Min' : '🔥 Max';
   navigate('dashboard');
+  initAuth();
+  renderAccountBadge();
   if (_freshUser) setTimeout(openOnboardingModal, 400);
 
   document.addEventListener('keydown', function(e) {
@@ -118,3 +124,9 @@ function init() {
   });
 }
 
+
+// ── Mobile sidebar toggle ──────────────────────────────────────────────────────
+function toggleSidebar() {
+  var sb = document.getElementById('sidebar');
+  if (sb) sb.classList.toggle('open');
+}

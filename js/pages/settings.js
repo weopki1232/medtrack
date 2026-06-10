@@ -78,6 +78,24 @@ function renderSettings(){
     '<button class="btn btn-outline btn-sm" onclick="printWeeklyReport()">'+t('print_report')+'</button>'+
   '</div></div>'+
 
+  // ── Account & sync card ────────────────────────────────────────────────────
+  (function(){
+    if (!syncConfigured()) return '';
+    var h = '<div class="card"><div class="section-title" style="margin-bottom:10px">☁️ '+t('sync_title')+'</div>';
+    if (!syncAvailableHere()) {
+      h += '<div style="font-size:12px;color:var(--muted)">'+t('sync_web_only')+'</div>';
+    } else if (_syncUser) {
+      h += '<div style="font-size:13px;margin-bottom:8px">'+t('sync_signed_in_as')+' <b>'+escHtml(_syncUser.email||'')+'</b></div>'+
+        (SyncEngine.lastSyncedAt?'<div style="font-size:11px;color:var(--muted);margin-bottom:10px">'+t('sync_last')+': '+SyncEngine.lastSyncedAt.toLocaleTimeString()+'</div>':'')+
+        '<div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn btn-outline btn-sm" onclick="SyncEngine.manualSync()">🔄 '+t('sync_now')+'</button>'+
+        '<button class="btn btn-ghost btn-sm" onclick="signOutUI()">'+t('sync_sign_out')+'</button></div>';
+    } else {
+      h += '<div style="font-size:12px;color:var(--muted);margin-bottom:10px">'+t('sync_desc')+'</div>'+
+        '<button class="btn btn-primary btn-sm" onclick="signInWithGoogle()">🔑 '+t('sync_sign_in')+'</button>';
+    }
+    return h+'</div>';
+  })()+
+
   '<div class="card"><div class="section-title" style="margin-bottom:12px">'+t('set_data')+'</div><div style="display:flex;gap:10px;flex-wrap:wrap"><button class="btn btn-outline btn-sm" onclick="exportData()">'+t('set_export')+'</button><button class="btn btn-outline btn-sm" onclick="importData()">'+t('set_import')+'</button><button class="btn btn-danger btn-sm" onclick="clearAllData()">'+t('set_clear')+'</button></div></div>'+
   '<div class="card"><div class="section-title" style="margin-bottom:4px">'+t('set_theme')+'</div><div style="font-size:12px;color:var(--muted);margin-bottom:2px">'+t('set_theme_sub')+'</div><div class="theme-grid">'+
   [
