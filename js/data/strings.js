@@ -182,6 +182,12 @@ const STRINGS = {
     onboard_title:'Welcome to MedTrack! 🎓',
     onboard_sub:'What are you preparing for? Pick a track to set up your subjects — you can change everything later in Settings.',
     onboard_custom:"🛠 I'll choose my own subjects",
+    // Account & sync
+    sync_title:'Account & Sync', sync_desc:'Sign in with Google to back up your data and sync it automatically across all your devices.',
+    sync_sign_in:'Sign in with Google', sync_sign_in_short:'Sign in', sync_sign_out:'Sign out',
+    sync_signed_in_as:'Signed in as', sync_now:'Sync now', sync_last:'Last synced',
+    sync_done:'Synced ✓', sync_failed:'Sync failed — will retry', sync_signed_out:'Signed out', sync_synced:'Synced',
+    sync_web_only:'Sign-in & sync work in the web app — open MedTrack in your browser. Desktop data stays on this computer (use Export/Import to move it).',
     // Priority badges
     prio_critical:'🔴 Critical', prio_high:'🟡 High', prio_medium:'🟢 Medium', prio_low:'🔵 Low',
     // Timer phases & buttons
@@ -392,6 +398,12 @@ const STRINGS = {
     onboard_title:'ยินดีต้อนรับสู่ MedTrack! 🎓',
     onboard_sub:'คุณกำลังเตรียมสอบสายไหน? เลือกสายเพื่อตั้งค่าวิชาของคุณ — เปลี่ยนได้ทุกอย่างภายหลังในการตั้งค่า',
     onboard_custom:'🛠 เลือกวิชาเองทั้งหมด',
+    // Account & sync
+    sync_title:'บัญชีและการซิงก์', sync_desc:'ลงชื่อเข้าใช้ด้วย Google เพื่อสำรองข้อมูลและซิงก์อัตโนมัติทุกอุปกรณ์',
+    sync_sign_in:'ลงชื่อเข้าใช้ด้วย Google', sync_sign_in_short:'ลงชื่อเข้าใช้', sync_sign_out:'ออกจากระบบ',
+    sync_signed_in_as:'เข้าสู่ระบบเป็น', sync_now:'ซิงก์ตอนนี้', sync_last:'ซิงก์ล่าสุด',
+    sync_done:'ซิงก์แล้ว ✓', sync_failed:'ซิงก์ล้มเหลว — จะลองใหม่', sync_signed_out:'ออกจากระบบแล้ว', sync_synced:'ซิงก์แล้ว',
+    sync_web_only:'การลงชื่อเข้าใช้และซิงก์ใช้ได้ในเวอร์ชันเว็บ — เปิด MedTrack ในเบราว์เซอร์ ข้อมูลบนเดสก์ท็อปยังอยู่ในเครื่องนี้ (ใช้ส่งออก/นำเข้าเพื่อย้ายข้อมูล)',
     // Priority badges
     prio_critical:'🔴 วิกฤต', prio_high:'🟡 สูง', prio_medium:'🟢 ปานกลาง', prio_low:'🔵 ต่ำ',
     // Timer phases & buttons
