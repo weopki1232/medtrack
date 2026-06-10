@@ -28,6 +28,15 @@ f.onload = function() {
     var fx = [];
     function ev(code) { return win.eval(code); }
     try {
+      // Subject picker / presets / onboarding
+      fx.push('onboard=' + !!win.document.getElementById('onboard-modal'));          // expect true (fresh profile)
+      fx.push('all=' + ev('getAllSubjects().length'));                               // expect 24
+      fx.push('enabled-default=' + ev('getSubjects().length'));                      // expect 10
+      ev("applyTrackPresetUI('engineering')");
+      fx.push('onboard-closed=' + !win.document.getElementById('onboard-modal'));    // expect true
+      fx.push('eng-count=' + ev('getSubjects().length'));                            // expect 8
+      fx.push('tpat3-on=' + ev("getSubjects().some(function(s){return s.id==='tpat3'})")); // expect true
+      fx.push('disabled-lookup=' + ev("getSubject('alevel_bio').shortName"));        // expect Biology
       ev("Storage.saveSettings({generation:71})");
       fx.push('gen71-tpat1=' + ev("getExamById('tpat1').date"));                     // expect 2028-02-13
       fx.push('gen71-bio-exam=' + ev("getSubject('alevel_bio').examDate"));          // expect 2028-03-13

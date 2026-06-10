@@ -19,6 +19,48 @@ const DEFAULT_SUBJECTS = [
     topics:[{id:'tg2_01',name:'Thai Language Ability'},{id:'tg2_02',name:'Numerical Ability'},{id:'tg2_03',name:'Spatial Relations'},{id:'tg2_04',name:'Logical Reasoning'}]},
   { id:'tpat1', name:'TPAT1 - Medical Aptitude', shortName:'TPAT1', color:'#ef4444', icon:'🩺', targetHours:80, priority:'critical', examDate:'2027-02-13',
     topics:[{id:'tp1_01',name:'Scientific Reasoning'},{id:'tp1_02',name:'Biology Applications'},{id:'tp1_03',name:'Chemistry Applications'},{id:'tp1_04',name:'Physics Applications'},{id:'tp1_05',name:'Math Applications'},{id:'tp1_06',name:'Critical Analysis'},{id:'tp1_07',name:'Past Papers Practice'}]},
+  { id:'tgat3', name:'TGAT3 - Future Workforce Competencies', shortName:'TGAT3', color:'#84cc16', icon:'💼', targetHours:30, priority:'medium', examDate:'2027-01-30',
+    topics:[{id:'tg3_01',name:'Value Creation & Innovation'},{id:'tg3_02',name:'Complex Problem Solving'},{id:'tg3_03',name:'Emotional Management'},{id:'tg3_04',name:'Civic & Social Engagement'}]},
+  { id:'tpat2', name:'TPAT2 - Arts Aptitude', shortName:'TPAT2', color:'#f43f5e', icon:'🎨', targetHours:40, priority:'medium', examDate:'2027-01-30',
+    topics:[{id:'tp2_01',name:'Visual Arts Fundamentals'},{id:'tp2_02',name:'Visual Arts Analysis & Application'},{id:'tp2_03',name:'Music Theory & Notation'},{id:'tp2_04',name:'Music Listening & Application'},{id:'tp2_05',name:'Dance & Drama Fundamentals'},{id:'tp2_06',name:'Dance & Drama Analysis'}]},
+  { id:'tpat3', name:'TPAT3 - Science, Technology & Engineering', shortName:'TPAT3', color:'#0ea5e9', icon:'🔧', targetHours:60, priority:'medium', examDate:'2027-01-30',
+    topics:[{id:'tp3_01',name:'Numerical Reasoning'},{id:'tp3_02',name:'Diagrammatic & Spatial Reasoning'},{id:'tp3_03',name:'Mechanical & Physics Reasoning'},{id:'tp3_04',name:'Scientific & Engineering Thinking'},{id:'tp3_05',name:'STEM News & Current Affairs'}]},
+  { id:'tpat4', name:'TPAT4 - Architecture Aptitude', shortName:'TPAT4', color:'#d97706', icon:'🏛️', targetHours:40, priority:'medium', examDate:'2027-01-30',
+    topics:[{id:'tp4_01',name:'Art & Design General Knowledge'},{id:'tp4_02',name:'Color Theory & Aesthetics'},{id:'tp4_03',name:'Structural Systems Basics'},{id:'tp4_04',name:'Spatial Visualization & Perception'}]},
+  { id:'tpat5', name:'TPAT5 - Teaching Aptitude', shortName:'TPAT5', color:'#22c55e', icon:'🍎', targetHours:40, priority:'medium', examDate:'2027-01-30',
+    topics:[{id:'tp5_01',name:'Professional Teacher Competency'},{id:'tp5_02',name:'Situational Judgment in Education'},{id:'tp5_03',name:'Communication & Comprehension'},{id:'tp5_04',name:'General Knowledge & Current Affairs'}]},
+  { id:'alevel_math2', name:'A-Level Math 2', shortName:'Math 2', color:'#c084fc', icon:'📏', targetHours:80, priority:'medium', examDate:'2027-03-15',
+    topics:[{id:'m2_01',name:'Sets & Basic Logic'},{id:'m2_02',name:'Real Numbers & Exponents'},{id:'m2_03',name:'Functions & Graphs'},{id:'m2_04',name:'Sequences & Series'},{id:'m2_05',name:'Financial Math & Interest'},{id:'m2_06',name:'Counting & Probability'},{id:'m2_07',name:'Statistics & Data Analysis'}]},
+  { id:'alevel_sci', name:'A-Level Applied Science', shortName:'Applied Sci', color:'#34d399', icon:'🔬', targetHours:70, priority:'medium', examDate:'2027-03-15',
+    topics:[{id:'sci_01',name:'Physical Science (Force & Energy)'},{id:'sci_02',name:'Matter & Chemical Change'},{id:'sci_03',name:'Life Science & Ecology'},{id:'sci_04',name:'Earth, Astronomy & Space'},{id:'sci_05',name:'Science & Technology in Daily Life'}]},
+  { id:'alevel_fre', name:'A-Level French', shortName:'French', color:'#3b82f6', icon:'🇫🇷', targetHours:60, priority:'low', examDate:'2027-03-15',
+    topics:[{id:'fre_01',name:'Vocabulary & Expressions'},{id:'fre_02',name:'Grammar & Structures'},{id:'fre_03',name:'Reading Comprehension'},{id:'fre_04',name:'Communication & Culture'}]},
+  { id:'alevel_ger', name:'A-Level German', shortName:'German', color:'#71717a', icon:'🇩🇪', targetHours:60, priority:'low', examDate:'2027-03-15',
+    topics:[{id:'ger_01',name:'Vocabulary & Expressions'},{id:'ger_02',name:'Grammar & Structures'},{id:'ger_03',name:'Reading Comprehension'},{id:'ger_04',name:'Communication & Culture'}]},
+  { id:'alevel_jap', name:'A-Level Japanese', shortName:'Japanese', color:'#fb7185', icon:'🇯🇵', targetHours:60, priority:'low', examDate:'2027-03-15',
+    topics:[{id:'jap_01',name:'Vocabulary & Kanji'},{id:'jap_02',name:'Grammar & Structures'},{id:'jap_03',name:'Reading Comprehension'},{id:'jap_04',name:'Communication & Culture'}]},
+  { id:'alevel_kor', name:'A-Level Korean', shortName:'Korean', color:'#60a5fa', icon:'🇰🇷', targetHours:60, priority:'low', examDate:'2027-03-15',
+    topics:[{id:'kor_01',name:'Vocabulary & Expressions'},{id:'kor_02',name:'Grammar & Structures'},{id:'kor_03',name:'Reading Comprehension'},{id:'kor_04',name:'Communication & Culture'}]},
+  { id:'alevel_chi', name:'A-Level Chinese', shortName:'Chinese', color:'#dc2626', icon:'🇨🇳', targetHours:60, priority:'low', examDate:'2027-03-15',
+    topics:[{id:'chi_01',name:'Vocabulary & Characters'},{id:'chi_02',name:'Grammar & Structures'},{id:'chi_03',name:'Reading Comprehension'},{id:'chi_04',name:'Communication & Culture'}]},
+  { id:'alevel_bali', name:'A-Level Pali', shortName:'Pali', color:'#a16207', icon:'📿', targetHours:60, priority:'low', examDate:'2027-03-15',
+    topics:[{id:'bali_01',name:'Vocabulary & Roots'},{id:'bali_02',name:'Grammar & Translation'},{id:'bali_03',name:'Reading Comprehension'},{id:'bali_04',name:'Buddhist Texts & Context'}]},
+  { id:'alevel_spa', name:'A-Level Spanish', shortName:'Spanish', color:'#fbbf24', icon:'🇪🇸', targetHours:60, priority:'low', examDate:'2027-03-15',
+    topics:[{id:'spa_01',name:'Vocabulary & Expressions'},{id:'spa_02',name:'Grammar & Structures'},{id:'spa_03',name:'Reading Comprehension'},{id:'spa_04',name:'Communication & Culture'}]},
+];
+
+// The 11 subjects that existed before the multi-track expansion — used as the
+// default enabled set for users who installed before subject selection existed.
+const ORIGINAL_SUBJECT_IDS = ['alevel_bio','alevel_chem','alevel_phys','alevel_math1','alevel_eng','alevel_thai','alevel_social','tgat1','tgat2','tpat1'];
+
+const TRACK_PRESETS = [
+  { id:'medicine',     icon:'🩺', subjects:['tpat1','alevel_bio','alevel_chem','alevel_phys','alevel_math1','alevel_eng','alevel_thai','alevel_social','tgat1','tgat2','tgat3'] },
+  { id:'engineering',  icon:'🔧', subjects:['tpat3','alevel_math1','alevel_phys','alevel_chem','alevel_eng','tgat1','tgat2','tgat3'] },
+  { id:'science',      icon:'🔬', subjects:['alevel_math1','alevel_phys','alevel_chem','alevel_bio','alevel_eng','tgat1','tgat2','tgat3'] },
+  { id:'arts',         icon:'🎨', subjects:['tpat2','alevel_thai','alevel_social','alevel_eng','tgat1','tgat2','tgat3'] },
+  { id:'architecture', icon:'🏛️', subjects:['tpat4','alevel_math1','alevel_phys','alevel_eng','tgat1','tgat2','tgat3'] },
+  { id:'education',    icon:'🍎', subjects:['tpat5','alevel_thai','alevel_eng','alevel_social','alevel_math2','tgat1','tgat2','tgat3'] },
+  { id:'humanities',   icon:'🌏', subjects:['alevel_thai','alevel_social','alevel_eng','alevel_math2','tgat1','tgat2','tgat3'] },
 ];
 
 const TOPIC_NAMES_TH = {
@@ -75,6 +117,39 @@ const TOPIC_NAMES_TH = {
   tp1_01:'การใช้เหตุผลทางวิทยาศาสตร์', tp1_02:'การประยุกต์ใช้ชีววิทยา',
   tp1_03:'การประยุกต์ใช้เคมี', tp1_04:'การประยุกต์ใช้ฟิสิกส์',
   tp1_05:'การประยุกต์ใช้คณิตศาสตร์', tp1_06:'การวิเคราะห์เชิงวิจารณ์', tp1_07:'ฝึกข้อสอบเก่า',
+  // TGAT3
+  tg3_01:'การสร้างคุณค่าและนวัตกรรม', tg3_02:'การแก้ไขปัญหาที่ซับซ้อน',
+  tg3_03:'การบริหารจัดการอารมณ์', tg3_04:'การเป็นพลเมืองที่มีส่วนร่วมของสังคม',
+  // TPAT2
+  tp2_01:'พื้นฐานทัศนศิลป์', tp2_02:'การวิเคราะห์และประยุกต์ใช้ทัศนศิลป์',
+  tp2_03:'ทฤษฎีดนตรีและโน้ตดนตรี', tp2_04:'การฟังและประยุกต์ใช้ดนตรี',
+  tp2_05:'พื้นฐานนาฏศิลป์และการแสดง', tp2_06:'การวิเคราะห์นาฏศิลป์และการแสดง',
+  // TPAT3
+  tp3_01:'ความถนัดด้านตัวเลข', tp3_02:'ความถนัดด้านมิติสัมพันธ์',
+  tp3_03:'ความถนัดเชิงกลและฟิสิกส์', tp3_04:'ความคิดเชิงวิทยาศาสตร์ เทคโนโลยี และวิศวกรรม',
+  tp3_05:'ข่าวสารความรู้ด้านวิทยาศาสตร์และเทคโนโลยี',
+  // TPAT4
+  tp4_01:'ความรู้ทั่วไปด้านศิลปะและการออกแบบ', tp4_02:'ทฤษฎีสีและความงามทางศิลปะ',
+  tp4_03:'พื้นฐานระบบโครงสร้างทางสถาปัตยกรรม', tp4_04:'มิติสัมพันธ์และการรับรู้เชิงพื้นที่',
+  // TPAT5
+  tp5_01:'ความสามารถพื้นฐานทางวิชาชีพครู', tp5_02:'การตัดสินใจเชิงสถานการณ์ทางการศึกษา',
+  tp5_03:'การสื่อสารและความเข้าใจ', tp5_04:'ความรู้ทั่วไปและเหตุการณ์ปัจจุบัน',
+  // Math 2
+  m2_01:'เซตและตรรกศาสตร์เบื้องต้น', m2_02:'จำนวนจริงและเลขยกกำลัง', m2_03:'ฟังก์ชันและกราฟ',
+  m2_04:'ลำดับและอนุกรม', m2_05:'คณิตศาสตร์การเงินและดอกเบี้ย', m2_06:'การนับและความน่าจะเป็น',
+  m2_07:'สถิติและการวิเคราะห์ข้อมูล',
+  // Applied Science
+  sci_01:'วิทยาศาสตร์กายภาพ (แรงและพลังงาน)', sci_02:'สสารและการเปลี่ยนแปลงทางเคมี',
+  sci_03:'วิทยาศาสตร์ชีวภาพและนิเวศวิทยา', sci_04:'โลก ดาราศาสตร์ และอวกาศ',
+  sci_05:'วิทยาศาสตร์และเทคโนโลยีในชีวิตประจำวัน',
+  // Foreign languages
+  fre_01:'คำศัพท์และสำนวน', fre_02:'ไวยากรณ์และโครงสร้าง', fre_03:'การอ่านจับใจความ', fre_04:'การสื่อสารและวัฒนธรรม',
+  ger_01:'คำศัพท์และสำนวน', ger_02:'ไวยากรณ์และโครงสร้าง', ger_03:'การอ่านจับใจความ', ger_04:'การสื่อสารและวัฒนธรรม',
+  jap_01:'คำศัพท์และคันจิ', jap_02:'ไวยากรณ์และโครงสร้าง', jap_03:'การอ่านจับใจความ', jap_04:'การสื่อสารและวัฒนธรรม',
+  kor_01:'คำศัพท์และสำนวน', kor_02:'ไวยากรณ์และโครงสร้าง', kor_03:'การอ่านจับใจความ', kor_04:'การสื่อสารและวัฒนธรรม',
+  chi_01:'คำศัพท์และตัวอักษรจีน', chi_02:'ไวยากรณ์และโครงสร้าง', chi_03:'การอ่านจับใจความ', chi_04:'การสื่อสารและวัฒนธรรม',
+  bali_01:'ศัพท์และรากศัพท์บาลี', bali_02:'ไวยากรณ์และการแปล', bali_03:'การอ่านจับใจความ', bali_04:'คัมภีร์พุทธศาสนาและบริบท',
+  spa_01:'คำศัพท์และสำนวน', spa_02:'ไวยากรณ์และโครงสร้าง', spa_03:'การอ่านจับใจความ', spa_04:'การสื่อสารและวัฒนธรรม',
 };
 function tTopic(id, fallback) {
   var lang = Storage.getSettings ? (Storage.getSettings().lang || 'en') : 'en';

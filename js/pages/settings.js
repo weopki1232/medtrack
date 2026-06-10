@@ -29,6 +29,19 @@ function renderSettings(){
     return h;
   })()+
 
+  // ── Subject picker / track presets card ───────────────────────────────────
+  (function(){
+    var enabled = getEnabledSubjectIds();
+    return '<div class="card"><div class="section-title" style="margin-bottom:6px">'+t('subj_picker_title')+'</div>'+
+    '<div style="font-size:12px;color:var(--muted);margin-bottom:10px">'+t('subj_picker_desc')+'</div>'+
+    '<div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px">'+
+      TRACK_PRESETS.map(function(p){return '<button class="btn btn-outline btn-sm" onclick="applyTrackPresetUI(\''+p.id+'\')">'+p.icon+' '+t('preset_'+p.id)+'</button>';}).join('')+
+    '</div>'+
+    '<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:6px">'+
+      getAllSubjects().map(function(su){var on=enabled.indexOf(su.id)!==-1;return '<label style="display:flex;align-items:center;gap:8px;font-size:12px;padding:6px 8px;border:1px solid var(--border);border-radius:8px;cursor:pointer;background:'+(on?'var(--bg2)':'transparent')+';opacity:'+(on?'1':'.55')+'"><input type="checkbox" '+(on?'checked':'')+' onchange="toggleSubjectEnabledUI(\''+su.id+'\',this.checked)">'+su.icon+' <span>'+su.shortName+'</span></label>';}).join('')+
+    '</div></div>';
+  })()+
+
   '<div class="card"><div class="section-title" style="margin-bottom:16px">'+t('set_pomo')+'</div>'+
   '<div class="grid-2" style="gap:10px">'+
   '<div class="form-group"><label class="label">'+t('set_work')+'</label><input type="number" class="input" id="set-pomo-work" value="'+s.pomodoroWork+'" min="5" max="120"></div>'+
@@ -88,6 +101,36 @@ function renderSettings(){
   '</div>';
 }
 function saveSettings(){Storage.saveSettings({userName:document.getElementById('set-name').value||'Student',dailyGoalMinutes:parseInt(document.getElementById('set-goal').value||'90'),pomodoroWork:parseInt(document.getElementById('set-pomo-work').value||'25'),pomodoroShortBreak:parseInt(document.getElementById('set-pomo-short').value||'5'),pomodoroLongBreak:parseInt(document.getElementById('set-pomo-long').value||'15'),pomodoroCycles:parseInt(document.getElementById('set-pomo-cycles').value||'4')});toast(t('toast_settings_saved'),'success');}
+function applyTrackPresetUI(presetId){
+  var p = TRACK_PRESETS.find(function(x){return x.id===presetId;});
+  if (!p) return;
+  Storage.saveSettings({enabledSubjects:p.subjects.slice(), track:presetId});
+  toast(t('toast_preset_applied'), 'success');
+  if (document.getElementById('onboard-modal')) closeModal('onboard-modal');
+  renderPage(currentPage);
+}
+function toggleSubjectEnabledUI(sid, on){
+  var en = getEnabledSubjectIds().slice();
+  var i = en.indexOf(sid);
+  if (on && i === -1) en.push(sid);
+  if (!on && i !== -1) en.splice(i, 1);
+  if (!en.length) { toast(t('subj_picker_min'), 'error'); renderSettings(); return; }
+  Storage.saveSettings({enabledSubjects:en});
+  toast(t('toast_subjects_saved'), 'success');
+  renderSettings();
+}
+// First-run track chooser — shown once when no settings exist yet
+function openOnboardingModal(){
+  if (document.getElementById('onboard-modal')) return;
+  var o = document.createElement('div'); o.className='modal-overlay fade-in'; o.id='onboard-modal';
+  o.innerHTML='<div class="modal-box" style="max-width:440px"><div class="modal-title">'+t('onboard_title')+'</div>'+
+    '<div style="font-size:13px;color:var(--muted);margin:10px 0 16px">'+t('onboard_sub')+'</div>'+
+    '<div style="display:flex;flex-direction:column;gap:8px">'+
+    TRACK_PRESETS.map(function(p){return '<button class="btn btn-outline" style="text-align:left" onclick="applyTrackPresetUI(\''+p.id+'\')">'+p.icon+' '+t('preset_'+p.id)+'</button>';}).join('')+
+    '<button class="btn btn-ghost" onclick="closeModal(\'onboard-modal\');navigate(\'settings\')">'+t('onboard_custom')+'</button>'+
+    '</div></div>';
+  document.body.appendChild(o);
+}
 function saveGenerationUI(v){
   var g = parseInt(v, 10);
   if (!g || g < 60 || g > 200) { toast('60–200', 'error'); return; }
