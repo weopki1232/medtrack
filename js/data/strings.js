@@ -171,6 +171,17 @@ const STRINGS = {
     set_exam_dates:'Exam dates', set_exam_reset:'↩ Reset all dates to generation defaults',
     toast_gen_saved:'Generation updated — all default dates shifted', toast_exam_saved:'Exam date saved', toast_countdown_saved:'Countdown updated',
     prio_set:'Priority',
+    // Subject picker & track presets
+    subj_picker_title:'📚 My Subjects & Track',
+    subj_picker_desc:'Pick a track preset or choose exactly which exams you track. Subjects you turn off keep their logged history and can be re-enabled anytime.',
+    preset_medicine:'Medicine (กสพท)', preset_engineering:'Engineering', preset_science:'Science',
+    preset_arts:'Fine & Applied Arts', preset_architecture:'Architecture', preset_education:'Education / Teaching',
+    preset_humanities:'Humanities & Languages',
+    toast_preset_applied:'Track preset applied', toast_subjects_saved:'Subjects updated',
+    subj_picker_min:'Keep at least one subject enabled',
+    onboard_title:'Welcome to MedTrack! 🎓',
+    onboard_sub:'What are you preparing for? Pick a track to set up your subjects — you can change everything later in Settings.',
+    onboard_custom:"🛠 I'll choose my own subjects",
     // Priority badges
     prio_critical:'🔴 Critical', prio_high:'🟡 High', prio_medium:'🟢 Medium', prio_low:'🔵 Low',
     // Timer phases & buttons
@@ -370,6 +381,17 @@ const STRINGS = {
     set_exam_dates:'วันสอบ', set_exam_reset:'↩ คืนค่าวันสอบตามรุ่น',
     toast_gen_saved:'บันทึกรุ่นแล้ว — เลื่อนวันสอบเริ่มต้นทั้งหมด', toast_exam_saved:'บันทึกวันสอบแล้ว', toast_countdown_saved:'บันทึกการนับถอยหลังแล้ว',
     prio_set:'ความสำคัญ',
+    // Subject picker & track presets
+    subj_picker_title:'📚 วิชาและสายของฉัน',
+    subj_picker_desc:'เลือกสายที่เตรียมสอบหรือเลือกวิชาเองได้ทั้งหมด วิชาที่ปิดไว้ยังเก็บประวัติการเรียนเดิมและเปิดกลับได้ทุกเมื่อ',
+    preset_medicine:'แพทย์ (กสพท)', preset_engineering:'วิศวกรรมศาสตร์', preset_science:'วิทยาศาสตร์',
+    preset_arts:'ศิลปกรรมศาสตร์', preset_architecture:'สถาปัตยกรรมศาสตร์', preset_education:'ครุศาสตร์/ศึกษาศาสตร์',
+    preset_humanities:'มนุษยศาสตร์และภาษา',
+    toast_preset_applied:'ใช้สายที่เลือกแล้ว', toast_subjects_saved:'บันทึกวิชาแล้ว',
+    subj_picker_min:'ต้องเปิดอย่างน้อย 1 วิชา',
+    onboard_title:'ยินดีต้อนรับสู่ MedTrack! 🎓',
+    onboard_sub:'คุณกำลังเตรียมสอบสายไหน? เลือกสายเพื่อตั้งค่าวิชาของคุณ — เปลี่ยนได้ทุกอย่างภายหลังในการตั้งค่า',
+    onboard_custom:'🛠 เลือกวิชาเองทั้งหมด',
     // Priority badges
     prio_critical:'🔴 วิกฤต', prio_high:'🟡 สูง', prio_medium:'🟢 ปานกลาง', prio_low:'🔵 ต่ำ',
     // Timer phases & buttons

@@ -9,7 +9,8 @@ const PAGE_TITLES = { dashboard:'📊 Dashboard', timer:'⏱ Study Timer', subje
 // ── Helpers ───────────────────────────────────────────────────────────────────
 function uid()        { return Date.now().toString(36)+Math.random().toString(36).slice(2,7); }
 function today()      { return new Date().toISOString().split('T')[0]; }
-function getSubjects() {
+function getEnabledSubjectIds() { return getSettings().enabledSubjects || ORIGINAL_SUBJECT_IDS; }
+function getAllSubjects() {
   var shift = getGeneration() - BASE_GENERATION;
   var prefs = Storage.getSubjectPrefs();
   return DEFAULT_SUBJECTS.map(function(s) {
@@ -18,7 +19,12 @@ function getSubjects() {
     return Object.assign(o, prefs[s.id] || {});
   });
 }
-function getSubject(id) { return getSubjects().find(s=>s.id===id); }
+function getSubjects() {
+  var en = getEnabledSubjectIds();
+  return getAllSubjects().filter(function(s) { return en.indexOf(s.id) !== -1; });
+}
+// Looks up ANY subject (enabled or not) so old sessions/scores keep resolving
+function getSubject(id) { return getAllSubjects().find(s=>s.id===id); }
 function getSettings()  { return Storage.getSettings(); }
 function fmtMins(m)   { const h=Math.floor(m/60),mn=m%60; return h===0?mn+'m':mn===0?h+'h':h+'h '+mn+'m'; }
 function fmtDate(str) { return new Date(str+'T00:00:00').toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'}); }

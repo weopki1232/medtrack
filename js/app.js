@@ -1,5 +1,6 @@
 // ── Init ──────────────────────────────────────────────────────────────────────
 function init() {
+  var _freshUser = Storage.get(KEYS.SETTINGS, null) === null;
   var s = Storage.getSettings();
   if (s.darkModeAuto) {
     var mqDark = window.matchMedia('(prefers-color-scheme: dark)');
@@ -91,6 +92,7 @@ function init() {
   var _pmBtn = document.getElementById('power-mode-btn');
   if (_pmBtn) _pmBtn.textContent = _powerMode === 'min' ? '⚡ Min' : '🔥 Max';
   navigate('dashboard');
+  if (_freshUser) setTimeout(openOnboardingModal, 400);
 
   document.addEventListener('keydown', function(e) {
     var tag = (e.target||{}).tagName||'';
