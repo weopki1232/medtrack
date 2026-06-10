@@ -16,7 +16,11 @@ function getAllSubjects() {
   return DEFAULT_SUBJECTS.map(function(s) {
     var o = Object.assign({}, s);
     if (o.examDate) o.examDate = shiftDateYears(o.examDate, shift);
-    return Object.assign(o, prefs[s.id] || {});
+    // Only these fields are user-overridable — a malformed prefs entry must
+    // never replace id/topics/name and corrupt identity lookups
+    var p = prefs[s.id] || {};
+    ['priority', 'examDate', 'targetHours'].forEach(function(k) { if (p[k] !== undefined) o[k] = p[k]; });
+    return o;
   });
 }
 function getSubjects() {

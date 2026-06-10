@@ -81,6 +81,7 @@ var SyncEngine = {
           var merged = self._mergeRecordArrays(localVal, row.value, remoteTs > localTs);
           if (JSON.stringify(merged) !== JSON.stringify(localVal)) { localStorage.setItem(row.key, JSON.stringify(merged)); changedLocally = true; }
           if (JSON.stringify(merged) !== JSON.stringify(row.value)) self._dirty[row.key] = true;
+          else meta[row.key] = remoteTs; // in sync — record it so next pull skips the merge
         } else if (remoteTs > localTs) {
           if (JSON.stringify(row.value) !== JSON.stringify(localVal)) { localStorage.setItem(row.key, JSON.stringify(row.value)); changedLocally = true; }
           meta[row.key] = remoteTs;

@@ -16,10 +16,15 @@ function shiftDateYears(iso, years) {
 }
 
 function getExamDates() {
+  var s = getSettings();
   var shift = getGeneration() - BASE_GENERATION;
-  var ov = getSettings().examDates || {};
+  var ov = s.examDates || {};
+  var th = s.lang === 'th';
   return EXAM_DATES.map(function(e) {
-    return Object.assign({}, e, { date: ov[e.id] || shiftDateYears(e.date, shift) });
+    return Object.assign({}, e, {
+      label: (th && e.labelTh) ? e.labelTh : e.label,
+      date: ov[e.id] || shiftDateYears(e.date, shift)
+    });
   });
 }
 

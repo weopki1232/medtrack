@@ -109,6 +109,8 @@ const Storage = {
     this.set(key, cur);
   },
   getDayData(d)       { return this.get('mt_daily_'+d, {total:0,subjects:{}}); },
+  // Deliberately DEFAULT_SUBJECTS (all, not just enabled): totals are history,
+  // and disabled subjects keep their logged sessions + prior hours
   getSubjectTotals()  { const t={}; this.getSessions().forEach(s=>{ t[s.subjectId]=(t[s.subjectId]||0)+s.duration; }); DEFAULT_SUBJECTS.forEach(s=>{ var ph=this.get('mt_prior_hours_'+s.id,0); if(ph>0)t[s.id]=(t[s.id]||0)+ph*60; }); return t; },
   getLast14()         { const r=[]; for(let i=13;i>=0;i--){ const d=new Date(); d.setDate(d.getDate()-i); const s=d.toISOString().split('T')[0]; r.push({date:s,minutes:this.getDayData(s).total}); } return r; },
   getHeatmap(months=6) {
