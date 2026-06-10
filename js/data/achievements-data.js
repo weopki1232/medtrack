@@ -1,0 +1,16 @@
+var ACHIEVEMENTS = [
+  {id:'first_session', icon:'🎯', name:'First Step',       desc:'Logged your first study session'},
+  {id:'streak_3',      icon:'🔥', name:'On Fire',          desc:'3-day study streak'},
+  {id:'streak_7',      icon:'🏆', name:'Week Warrior',     desc:'7-day streak'},
+  {id:'streak_30',     icon:'💎', name:'Diamond Mind',     desc:'30-day streak'},
+  {id:'hours_10',      icon:'⏱', name:'10 Hours In',      desc:'10 total study hours'},
+  {id:'hours_50',      icon:'📚', name:'Scholar',          desc:'50 total study hours'},
+  {id:'hours_100',     icon:'🧠', name:'Century Scholar',  desc:'100 total study hours'},
+  {id:'topics_10',     icon:'✅', name:'Topic Hunter',     desc:'10 topics completed'},
+  {id:'topics_all',    icon:'🌟', name:'Grand Scholar',    desc:'Every topic completed'},
+  {id:'formulas_5',    icon:'⚗️', name:'Formula Keeper',  desc:'5 formulas saved'},
+  {id:'diagram_1',     icon:'🗺', name:'Mind Mapper',      desc:'First diagram created'},
+  {id:'pomo_10',       icon:'🍅', name:'Pomodoro Pro',     desc:'10 Pomodoro sessions'},
+  {id:'all_round',     icon:'🌈', name:'All-Rounder',      desc:'Studied every subject this week'},
+  {id:'mistake_5',     icon:'💡', name:'Self-Aware',       desc:'Logged 5 mistakes — growth mindset!'},
+];

@@ -27,7 +27,7 @@ function createWindow() {
     ...(require('fs').existsSync(path.join(__dirname, 'icon.ico')) && { icon: path.join(__dirname, 'icon.ico') }),
   });
 
-  mainWin.loadFile(path.join(__dirname, 'medtrack.html'));
+  mainWin.loadFile(path.join(__dirname, 'index.html'));
 
   // Auto-import browser data if extractor dropped mt_export.json in Downloads
   mainWin.webContents.once('did-finish-load', () => {

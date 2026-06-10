@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html><head><meta charset="UTF-8"><title>parity</title></head>
+<body>
+<div id="out">PENDING</div>
+<iframe id="f" src="../index.html" style="width:1400px;height:860px"></iframe>
+<script>
+var errors = [];
+var f = document.getElementById('f');
+f.onload = function() {
+  var win = f.contentWindow;
+  win.onerror = function(msg, src, line) { errors.push('RUNTIME: ' + msg + ' @' + (src||'').split('/').pop() + ':' + line); };
+  var pages = ['dashboard','timer','subjects','analytics','insights','journey','tasks','vault','diagrams','settings','schedule'];
+  var results = [];
+  setTimeout(function() {
+    pages.forEach(function(p) {
+      try {
+        win.navigate(p);
+        var el = win.document.getElementById('page-' + p);
+        var visible = el && el.style.display !== 'none';
+        var hasContent = el && el.innerHTML.length > 50;
+        results.push(p + ':' + (visible && hasContent ? 'OK(' + el.innerHTML.length + ')' : 'FAIL(el=' + !!el + ')'));
+      } catch (e) { results.push(p + ':THREW ' + e.message); }
+    });
+    var fnCount = 0;
+    for (var k in win) { try { if (typeof win[k] === 'function' && win.hasOwnProperty(k)) fnCount++; } catch(e) {} }
+    document.getElementById('out').textContent = 'PARITYRESULT|' + results.join('|') + '|errors=' + errors.length + (errors.length ? '|' + errors.join(';') : '') + '|globalFns=' + fnCount;
+  }, 1500);
+};
+</script>
+</body></html>
