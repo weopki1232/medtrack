@@ -20,11 +20,11 @@ function renderDiagrams() {
   '<button class="tool-btn '+(diagramState.nodeTexture==='dots'?'active':'')+'" onclick="setDiagramTexture(\'dots\')" title="Dots">∷</button>'+
   '<button class="tool-btn '+(diagramState.nodeTexture==='grid'?'active':'')+'" onclick="setDiagramTexture(\'grid\')" title="Grid">⊞</button>'+
   '<button class="tool-btn '+(diagramState.nodeTexture==='gradient'?'active':'')+'" onclick="setDiagramTexture(\'gradient\')" title="Gradient">◑</button>'+
-  '<button class="tool-btn '+(diagramState.nodeTexture==='wood'?'active':'')+'" onclick="setDiagramTexture(\'wood\')" title="Wood">🪵</button>'+
-  '<button class="tool-btn '+(diagramState.nodeTexture==='glass'?'active':'')+'" onclick="setDiagramTexture(\'glass\')" title="Glass">💎</button>'+
+  '<button class="tool-btn '+(diagramState.nodeTexture==='wood'?'active':'')+'" onclick="setDiagramTexture(\'wood\')" title="Wood">▥</button>'+
+  '<button class="tool-btn '+(diagramState.nodeTexture==='glass'?'active':'')+'" onclick="setDiagramTexture(\'glass\')" title="Glass">◇</button>'+
   '<button class="tool-btn '+(diagramState.nodeTexture==='marble'?'active':'')+'" onclick="setDiagramTexture(\'marble\')" title="Marble">◈</button>'+
   '<button class="tool-btn '+(diagramState.nodeTexture==='neon'?'active':'')+'" onclick="setDiagramTexture(\'neon\')" title="Neon glow">✦</button>'+
-  '<button class="tool-btn '+(diagramState.nodeTexture==='paper'?'active':'')+'" onclick="setDiagramTexture(\'paper\')" title="Parchment paper">📜</button>'+
+  '<button class="tool-btn '+(diagramState.nodeTexture==='paper'?'active':'')+'" onclick="setDiagramTexture(\'paper\')" title="Parchment paper">▱</button>'+
   '</div>'+
   '<div style="width:1px;background:var(--border);margin:0 4px"></div>'+
   '<div style="display:flex;align-items:center;gap:4px;font-size:12px;color:var(--muted)">'+t('diag_arrow_lbl')+
@@ -34,10 +34,10 @@ function renderDiagrams() {
   '<button class="tool-btn '+(diagramState.connStyle==='dotted'?'active':'')+'" onclick="setDiagramConnStyle(\'dotted\')" title="Dotted">⋯</button>'+
   '<button class="tool-btn '+(diagramState.connStyle==='double'?'active':'')+'" onclick="setDiagramConnStyle(\'double\')" title="Double line">⇒</button>'+
   '<button class="tool-btn '+(diagramState.connStyle==='wave'?'active':'')+'" onclick="setDiagramConnStyle(\'wave\')" title="Wave">〰</button>'+
-  '<button class="tool-btn '+(diagramState.connStyle==='thunder'?'active':'')+'" onclick="setDiagramConnStyle(\'thunder\')" title="Lightning">⚡</button>'+
+  '<button class="tool-btn '+(diagramState.connStyle==='thunder'?'active':'')+'" onclick="setDiagramConnStyle(\'thunder\')" title="Lightning">⚡&#xfe0e;</button>'+
   '</div>'+
   '<div style="width:1px;background:var(--border);margin:0 4px"></div>'+
-  '<button class="tool-btn '+(diagramState.floating?'active':'')+'" onclick="toggleDiagramFloat()" title="Toggle floating animation" style="gap:4px">🌊 '+(diagramState.floating?t('diag_float_on'):t('diag_float_off'))+'</button>'+
+  '<button class="tool-btn '+(diagramState.floating?'active':'')+'" onclick="toggleDiagramFloat()" title="Toggle floating animation" style="gap:4px">∿ '+(diagramState.floating?t('diag_float_on'):t('diag_float_off'))+'</button>'+
   '<div style="margin-left:auto"><button class="tool-btn" onclick="clearDiagram()">'+t('diag_clear')+'</button></div>'+
   '</div>'+
   '<div style="display:flex;gap:14px;flex:1;min-height:0">'+
