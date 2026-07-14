@@ -1142,3 +1142,67 @@ body.theme-parchment input, body.theme-parchment textarea { cursor:text; }
   #sidebar { transition: transform .25s ease; z-index: 300; }
   #sidebar.open { transform: translateX(0); box-shadow: 0 0 40px rgba(0,0,0,.55); }
 }
+
+/* ══════════════════════════════════════════════════════════════════════════
+   MERIDIAN — redesign design-system layer (north-star base)
+   Appended last so it overrides base rules; the 8 themes still override tokens.
+   ══════════════════════════════════════════════════════════════════════════ */
+:root {
+  --bg:#08090c; --bg2:#0f1319; --bg3:#171b23; --border:rgba(255,255,255,.08);
+  --text:#eef1f6; --muted:#8b93a2;
+  --primary:#c9f24d; --primary-l:#d6ff5f; --on-primary:#0a0c05;
+  --cyan:#5ad4e6; --green:#57e18b; --amber:#ffbe4d; --red:#ff5d5d;
+  --glow: color-mix(in srgb, var(--primary) 40%, transparent);
+  --glow-sm: color-mix(in srgb, var(--primary) 18%, transparent);
+  --motion:1;                                   /* theme-scoped motion budget */
+  --font-display:'Familjen Grotesk','Lexend',system-ui,sans-serif;
+  --font-mono:'JetBrains Mono',monospace;
+  --ease:cubic-bezier(.2,.8,.2,1);
+}
+/* dark-primary themes need light button text (base volt-lime uses dark) */
+body.theme-neon, body.theme-cyber, body.theme-minimal, body.theme-academia,
+body.theme-enchant, body.theme-parchment, .light-mode, .light-mode body { --on-primary:#fff; }
+
+/* editorial typography */
+.section-title { font-family:var(--font-mono); font-size:11px !important; letter-spacing:.18em; text-transform:uppercase; color:var(--muted); font-weight:600; }
+.stat-main { font-family:var(--font-display); letter-spacing:-.02em; }
+.card { border-radius:16px; }
+.btn-primary { color:var(--on-primary); }
+.btn-primary:hover { color:var(--on-primary); }
+
+/* countdown cards → editorial */
+.countdown-days { font-family:var(--font-display); font-size:40px; font-weight:700; line-height:1; letter-spacing:-.02em; }
+.countdown-label { font-family:var(--font-mono); font-size:10px; letter-spacing:.08em; text-transform:uppercase; color:var(--muted); }
+.countdown-name { font-weight:600; }
+
+/* ── Dashboard hero band ── */
+.dash-hero { position:relative; border:1px solid var(--border); border-radius:20px; padding:30px 34px; overflow:hidden; transform-style:preserve-3d; transition:transform .3s var(--ease);
+  background:linear-gradient(160deg, color-mix(in srgb, var(--primary) 7%, var(--bg2)), var(--bg) 72%); }
+.dash-hero-glare { position:absolute; inset:0; border-radius:20px; pointer-events:none; opacity:0; transition:opacity .3s;
+  background:radial-gradient(340px 340px at var(--gx,50%) var(--gy,0%), color-mix(in srgb, var(--primary) 16%, transparent), transparent 70%); }
+.dash-hero:hover .dash-hero-glare { opacity:1; }
+.dash-hero-eyebrow { font-family:var(--font-mono); font-size:11px; letter-spacing:.18em; text-transform:uppercase; color:var(--muted); position:relative; }
+.dash-hero-count { font-family:var(--font-display); font-weight:700; font-size:clamp(70px,10vw,116px); line-height:.86; letter-spacing:-.045em; color:#f4f7fc; margin-top:14px; position:relative; }
+.dash-hero-count b { color:var(--primary); }
+.dash-hero-count .dash-hero-unit { font-family:var(--font-mono); font-size:13px; font-weight:600; letter-spacing:.1em; text-transform:uppercase; color:var(--muted); }
+.dash-hero-sub { margin-top:12px; display:flex; align-items:baseline; gap:14px; flex-wrap:wrap; position:relative; }
+.dash-hero-name { font-family:var(--font-display); font-size:22px; font-weight:600; color:var(--text); }
+.dash-hero-date { font-family:var(--font-mono); font-size:12px; color:var(--muted); }
+.dash-hero-prog { margin-top:22px; height:5px; border-radius:99px; background:rgba(255,255,255,.07); overflow:hidden; position:relative; }
+.dash-hero-prog i { display:block; height:100%; width:100%; transform-origin:left; border-radius:99px; background:linear-gradient(90deg, var(--primary), color-mix(in srgb, var(--primary) 60%, #7ad600)); }
+
+/* ── One-time entrance (only first dashboard paint per load; never on re-render) ── */
+.dash-entering > * { opacity:0; animation:dashRise .6s var(--ease) forwards; }
+.dash-entering > *:nth-child(1){animation-delay:.02s}
+.dash-entering > *:nth-child(2){animation-delay:.08s}
+.dash-entering > *:nth-child(3){animation-delay:.14s}
+.dash-entering > *:nth-child(4){animation-delay:.20s}
+.dash-entering > *:nth-child(5){animation-delay:.26s}
+.dash-entering > *:nth-child(n+6){animation-delay:.32s}
+@keyframes dashRise { from{opacity:0;transform:translateY(16px)} to{opacity:1;transform:none} }
+
+/* motion off when the theme sets --motion:0 or the OS asks for reduced motion */
+@media (prefers-reduced-motion:reduce) {
+  .dash-entering > * { animation:none; opacity:1; transform:none; }
+  .dash-hero { transition:none; } .dash-hero:hover .dash-hero-glare { opacity:0; }
+}

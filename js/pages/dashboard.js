@@ -166,9 +166,27 @@ function renderDashboard() {
       '<div class="casefile-stamp">CONFIDENTIAL</div>'+
     '</div>';
 
+  // ── Hero: the single most urgent upcoming exam ──
+  var _up = getExamDates().filter(function(e){return daysUntil(e.date)>=0;}).sort(function(a,b){return daysUntil(a.date)-daysUntil(b.date);});
+  var heroHtml = '';
+  if (_up.length) {
+    var _he=_up[0], _hd=daysUntil(_he.date), _hz=daysUntil(_up[_up.length-1].date)||_hd;
+    var _pr=_hz>0?Math.max(0,Math.min(1,1-_hd/_hz)):0;
+    heroHtml =
+      '<div class="dash-hero" id="dash-hero">'+
+        '<div class="dash-hero-glare"></div>'+
+        '<div class="dash-hero-eyebrow">▸ '+t('dash_exam_countdown')+'</div>'+
+        '<div class="dash-hero-count"><b>'+_hd+'</b> <span class="dash-hero-unit">'+t('dash_days_left')+'</span></div>'+
+        '<div class="dash-hero-sub"><span class="dash-hero-name">'+_he.label+'</span><span class="dash-hero-date">'+fmtDate(_he.date)+'</span></div>'+
+        '<div class="dash-hero-prog"><i style="transform:scaleX('+_pr.toFixed(3)+')"></i></div>'+
+        '<div class="dash-hero-eyebrow" style="margin-top:12px">'+Math.round(_pr*100)+'%</div>'+
+      '</div>';
+  }
+
   document.getElementById('page-dashboard').innerHTML =
-    '<div style="display:flex;flex-direction:column;gap:20px;overflow-x:hidden">'+
+    '<div id="dash-stack" style="display:flex;flex-direction:column;gap:22px;overflow-x:hidden">'+
       caseFileHtml+
+      heroHtml+
       sec('stats',        statsHtml)+
       sec('exams',        examsHtml)+
       sec('sub_exams',    subExamsHtml)+
@@ -184,6 +202,32 @@ function renderDashboard() {
     '</div>';
 
   applyDashShelfState();
+
+  // one-time entrance (never replays on data re-render) + pointer life
+  var _stack = document.getElementById('dash-stack');
+  if (_stack && !window.__dashEntered) {
+    window.__dashEntered = true;
+    _stack.classList.add('dash-entering');
+    setTimeout(function(){ _stack.classList.remove('dash-entering'); }, 1200);
+  }
+  _dashMotion();
+}
+
+// Hero pointer life (tilt + glare), gated on theme --motion and reduced-motion
+function _dashMotion() {
+  var reduce = matchMedia('(prefers-reduced-motion:reduce)').matches;
+  var motionOn = parseFloat(getComputedStyle(document.body).getPropertyValue('--motion')||'1') > 0;
+  if (reduce || !motionOn || !matchMedia('(hover:hover)').matches) return;
+  var hero = document.getElementById('dash-hero');
+  if (!hero) return;
+  hero.addEventListener('pointermove', function(e){
+    var r = hero.getBoundingClientRect();
+    var px = (e.clientX-r.left)/r.width, py = (e.clientY-r.top)/r.height;
+    hero.style.transform = 'perspective(1000px) rotateY('+((px-.5)*5)+'deg) rotateX('+((.5-py)*5)+'deg)';
+    hero.style.setProperty('--gx', px*100+'%');
+    hero.style.setProperty('--gy', py*100+'%');
+  });
+  hero.addEventListener('pointerleave', function(){ hero.style.transform=''; });
 }
 
 function renderQuickLogForm() {
