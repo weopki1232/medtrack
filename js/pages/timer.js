@@ -47,7 +47,7 @@ function updateTimerTopics() {
       var beh=isSubjectBehind(sid,totals[sid]||0);
       statusEl.style.display='';
       statusEl.innerHTML=beh
-        ?'<span style="color:var(--red,#ef4444);font-size:12px">⚠️ '+t('subj_behind')+' — prioritise this subject</span>'
+        ?'<span style="color:var(--red,#ef4444);font-size:12px">'+t('subj_behind')+' — prioritise this subject</span>'
         :'<span style="color:var(--green,#22c55e);font-size:12px">✓ On track</span>';
     } else {
       statusEl.style.display='none';
@@ -150,7 +150,7 @@ function openPomodoroNoteModal() {
   _pomoMood = '';
   var o=document.createElement('div'); o.className='modal-overlay fade-in'; o.id='pomo-note-modal';
   o.innerHTML='<div class="modal-box" style="max-width:400px">'+
-    '<div class="modal-title">🍅 '+t('pomo_note_title')+'</div>'+
+    '<div class="modal-title">'+t('pomo_note_title')+'</div>'+
     '<textarea class="input" id="pomo-note-text" rows="3" placeholder="'+t('pomo_note_ph')+'" style="resize:vertical;margin-bottom:12px"></textarea>'+
     '<div style="font-size:12px;font-weight:600;color:var(--muted);margin-bottom:8px">'+t('refl_mood')+'</div>'+
     '<div style="display:flex;gap:8px;margin-bottom:16px">'+

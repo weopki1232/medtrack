@@ -10,9 +10,9 @@ function renderVault() {
   var html = '<div style="display:flex;flex-direction:column;gap:16px">';
   html += '<div class="section-header"><span class="section-title">'+t('page_vault')+'</span><div style="display:flex;gap:8px">'+
     (!vaultQuizMode&&!vaultFlashMode?'<button class="btn btn-primary btn-sm" onclick="openAddFormulaModal()">'+t('add_formula')+'</button>':'')+
-    (!vaultQuizMode&&!vaultFlashMode?'<button class="btn btn-outline btn-sm" onclick="importUbuCards()" title="Import UBU Pharmatalent flashcards">📥 UBU</button>':'')+
+    (!vaultQuizMode&&!vaultFlashMode?'<button class="btn btn-outline btn-sm" onclick="importUbuCards()" title="Import UBU Pharmatalent flashcards">⇩ UBU</button>':'')+
     (vaultFlashMode?'<button class="btn btn-primary btn-sm" onclick="vaultFlashMode=false;vaultFlashIdx=0;renderVault()">✕ '+t('flash_exit')+'</button>':'<button class="btn btn-outline btn-sm" onclick="startVaultFlash()">🃏 '+t('flash_mode')+'</button>')+
-    (!vaultFlashMode?'<button class="btn '+(vaultQuizMode?'btn-primary':'btn-outline')+' btn-sm" onclick="vaultQuizMode=!vaultQuizMode;vaultRevealed=new Set();renderVault()">'+(vaultQuizMode?'✕ '+t('vault_quiz_exit'):'📋 '+t('vault_quiz'))+'</button>':'')+
+    (!vaultFlashMode?'<button class="btn '+(vaultQuizMode?'btn-primary':'btn-outline')+' btn-sm" onclick="vaultQuizMode=!vaultQuizMode;vaultRevealed=new Set();renderVault()">'+(vaultQuizMode?'✕ '+t('vault_quiz_exit'):'▦ '+t('vault_quiz'))+'</button>':'')+
   '</div></div>';
 
   // ── Flashcard mode view ───────────────────────────────────────────────────
@@ -30,7 +30,7 @@ function renderVault() {
       html += cardBadge(fc);
       html += '<div style="font-size:18px;font-weight:700;text-align:center;margin-bottom:4px">'+escHtml(fc.name)+'</div>';
       if (!revealed) {
-        html += '<div style="color:var(--muted);font-size:13px;border:1px dashed var(--border);border-radius:8px;padding:10px 20px">🔍 Tap to reveal</div>';
+        html += '<div style="color:var(--muted);font-size:13px;border:1px dashed var(--border);border-radius:8px;padding:10px 20px">◌ Tap to reveal</div>';
       } else {
         html += '<div id="flash-formula-'+fc.id+'" style="font-size:15px;text-align:center">'+cardBackHtml(fc)+'</div>';
         if (fc.latex && fc.notes) html += '<div style="font-size:12px;color:var(--muted);text-align:center">'+escHtml(fc.notes)+'</div>';
@@ -63,7 +63,7 @@ function renderVault() {
   }
 
   if (filtered.length === 0) {
-    html += '<div class="empty-state"><div class="empty-icon">🔬</div><p>'+(formulas.length===0?t('no_formulas'):'No results for "'+vaultSearch+'".')+'</p></div>';
+    html += '<div class="empty-state"><div class="empty-icon">⚗&#xfe0e;</div><p>'+(formulas.length===0?t('no_formulas'):'No results for "'+vaultSearch+'".')+'</p></div>';
   } else {
     html += '<div class="grid-auto">';
     filtered.forEach(function(f) {
@@ -73,7 +73,7 @@ function renderVault() {
       html += '<div class="formula-name"><span>'+escHtml(f.name)+'</span>'+(vaultQuizMode?'':'<button class="btn btn-ghost btn-xs" onclick="deleteFormulaUI(\''+f.id+'\')">✕</button>')+'</div>';
       html += cardBadge(f);
       if (vaultQuizMode && !revealed) {
-        html += '<div id="fq-'+f.id+'" onclick="revealFormula(\''+f.id+'\')" style="cursor:pointer;display:flex;align-items:center;justify-content:center;height:60px;border:2px dashed var(--border);border-radius:8px;color:var(--muted);font-size:13px;gap:6px">🔍 '+t('vault_quiz_reveal')+'</div>';
+        html += '<div id="fq-'+f.id+'" onclick="revealFormula(\''+f.id+'\')" style="cursor:pointer;display:flex;align-items:center;justify-content:center;height:60px;border:2px dashed var(--border);border-radius:8px;color:var(--muted);font-size:13px;gap:6px">◌ '+t('vault_quiz_reveal')+'</div>';
       } else {
         html += '<div class="formula-expr" id="fq-'+f.id+'">'+cardBackHtml(f)+'</div>';
         if (!vaultQuizMode && f.latex && f.notes) html += '<div style="font-size:12px;color:var(--muted)">'+escHtml(f.notes)+'</div>';

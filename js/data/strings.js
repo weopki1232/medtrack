@@ -26,11 +26,11 @@ const STRINGS = {
     sched_save:'Save Plan', sched_duration:'Min', sched_why:'Why:',
     sched_reason_behind:'Behind schedule', sched_reason_urgent:'Exam soon',
     sched_reason_neglect:'Not studied recently',
-    dash_end_day:'End Day', review_modal_title:'📝 Daily Review', review_modal_prompt:'What did you struggle with today? Any notes?',
+    dash_end_day:'End Day', review_modal_title:'Daily Review', review_modal_prompt:'What did you struggle with today? Any notes?',
     review_modal_ph:'Write your thoughts, struggles, key takeaways...', review_save:'Save Review', review_saved:'Daily review saved!',
     review_already:'Review already saved for today — update it?', review_journey_lbl:'Review',
     // Exam Score Tracker
-    score_title:'Exam Scores', score_add:'+ Log Score', score_modal_title:'📊 Log Exam Score',
+    score_title:'Exam Scores', score_add:'+ Log Score', score_modal_title:'Log Exam Score',
     score_test_name:'Test / Exam Name', score_test_ph:'e.g. Mock Exam 1 — TCAS', score_subject:'Subject',
     score_score:'Score (%)', score_date:'Date', score_save:'Save Score', score_saved:'Score saved!',
     score_deleted:'Score deleted.', score_no_scores:'No scores logged yet.',
@@ -49,7 +49,7 @@ const STRINGS = {
     // Achievements
     ach_title:'Achievements', ach_unlocked_at:'Unlocked', ach_locked:'Locked', ach_new:'Achievement unlocked!',
     // Topic notes
-    note_title:'Topic Note', note_ph:'Key points, common mistakes, things to remember...', note_save:'Save', note_clear:'Clear note', note_hint:'Click 📝 on any topic to add notes',
+    note_title:'Topic Note', note_ph:'Key points, common mistakes, things to remember...', note_save:'Save', note_clear:'Clear note', note_hint:'Click ✎ on any topic to add notes',
     // Session reflection (mood)
     refl_title:'How did that session go?', refl_mood:'Mood:', refl_tough:'Tough', refl_good:'Good', refl_flow:'Flow state', refl_skip:'Skip', refl_log:'Log session',
     // Weekly target per subject
@@ -62,7 +62,7 @@ const STRINGS = {
     // Ambient sound
     sound_title:'Ambient Sound', sound_off:'Off', sound_white:'White Noise', sound_brown:'Brown Noise', sound_rain:'Rain', sound_cafe:'Cafe',
     // Print report
-    print_report:'🖨 Weekly Report',
+    print_report:'Weekly Report',
     // Flashcard
     flash_mode:'Flashcard Mode', flash_exit:'Exit Flashcards', flash_know:'✓ Know it', flash_hard:'✗ Hard', flash_skip:'Skip →', flash_progress:'Card',
     // Subject exam strip on dashboard
@@ -88,12 +88,12 @@ const STRINGS = {
     // Dark mode auto
     set_dark_auto:'Auto', set_dark_dark:'Dark', set_dark_light:'Light',
     // Timer
-    timer_pomodoro:'🍅 Pomodoro', timer_custom:'⏱ Custom', timer_session_setup:'Session Setup',
+    timer_pomodoro:'◉ Pomodoro', timer_custom:'⏱︎ Custom', timer_session_setup:'Session Setup',
     timer_subject:'Subject', timer_topic:'Topic', timer_notes:'Notes',
     timer_notes_ph:'What are you focusing on?', timer_preset:'Pomodoro Preset',
     timer_today:"Today's Sessions", timer_ready:'Ready', timer_running:'Running',
     timer_paused:'Paused', timer_no_today:'No sessions yet today',
-    timer_dur:'Duration (minutes)', timer_focus:'🌌 Focus Mode',
+    timer_dur:'Duration (minutes)', timer_focus:'◐ Focus Mode',
     // Subjects
     subj_all:'All Subjects', subj_topics:'Topics Checklist',
     subj_logged:'logged', subj_target:'Target', subj_topics_lbl:'topics',
@@ -101,7 +101,7 @@ const STRINGS = {
     subj_d_left:'d left', subj_passed:'Passed',
     // Analytics
     ana_total_time:'Total Study Time', ana_sessions:'Total Sessions',
-    ana_best_streak:'🔥 Best Streak', ana_most_studied:'Most Studied',
+    ana_best_streak:'Best Streak', ana_most_studied:'Most Studied',
     ana_14days:'Last 14 Days', ana_per_sub:'Time per Subject',
     ana_phase_prog:'Phase Progress', ana_heatmap:'Study Heatmap (last 6 months)',
     ana_all_sessions:'All Sessions', ana_total:'total', ana_now:'← now',
@@ -117,13 +117,13 @@ const STRINGS = {
     set_dark:'Dark Mode', set_sound:'Sound', set_on:'On', set_off:'Off',
     set_pomo:'Pomodoro Defaults', set_work:'Work (min)',
     set_short:'Short Break (min)', set_long:'Long Break (min)', set_cycles:'Cycles',
-    set_save:'💾 Save Settings', set_data:'Data Management',
-    set_export:'📤 Export', set_import:'📥 Import', set_clear:'🗑 Clear All',
-    set_theme:'🎨 Theme', set_theme_sub:'Choose your color scheme', set_lang:'🌐 Language',
+    set_save:'Save Settings', set_data:'Data Management',
+    set_export:'⇧ Export', set_import:'⇩ Import', set_clear:'Clear All',
+    set_theme:'Theme', set_theme_sub:'Choose your color scheme', set_lang:'Language',
     // Diagrams
-    diag_title:'Diagram Builder', diag_save:'💾 Save', diag_new:'✚ New',
+    diag_title:'Diagram Builder', diag_save:'Save', diag_new:'✚ New',
     diag_saved:'Saved Diagrams', diag_no_saved:'No saved diagrams', diag_nodes:'nodes',
-    diag_clear:'🗑 Clear',
+    diag_clear:'Clear',
     // Insights hardcoded text
     sec_patterns:'Study Patterns', sec_burnout:'Burnout Check',
     sec_weakness:'Weakness Analysis', sec_stats:'Advanced Stats', sec_projection:'Goal Projection',
@@ -162,9 +162,9 @@ const STRINGS = {
     nav_dashboard:'Dashboard', nav_timer:'Study Timer', nav_subjects:'Subjects',
     nav_analytics:'Analytics', nav_tasks:'Tasks', nav_diagrams:'Diagrams', nav_settings:'Settings',
     sidebar_footer_label:'TPAT1 Medical', sidebar_days_until:'days until {date}',
-    header_quick_start:'⏱ Quick Start',
+    header_quick_start:'⏱︎ Quick Start',
     // Generation & exam date settings
-    set_gen_title:'🎓 Generation & Exam Dates', set_gen_label:'Your generation (dek)',
+    set_gen_title:'Generation & Exam Dates', set_gen_label:'Your generation (dek)',
     set_gen_desc:'Built-in dates are for dek 70 (TCAS70). Changing this shifts all default exam dates to your year — each date below stays individually editable.',
     set_countdown_title:'Sidebar countdown shows', set_countdown_custom:'Custom label + date…',
     set_countdown_custom_label:'Label', set_countdown_custom_date:'Date',
@@ -172,7 +172,7 @@ const STRINGS = {
     toast_gen_saved:'Generation updated — all default dates shifted', toast_exam_saved:'Exam date saved', toast_countdown_saved:'Countdown updated',
     prio_set:'Priority',
     // Subject picker & track presets
-    subj_picker_title:'📚 My Subjects & Track',
+    subj_picker_title:'My Subjects & Track',
     subj_picker_desc:'Pick a track preset or choose exactly which exams you track. Subjects you turn off keep their logged history and can be re-enabled anytime.',
     preset_medicine:'Medicine (กสพท)', preset_engineering:'Engineering', preset_science:'Science',
     preset_arts:'Fine & Applied Arts', preset_architecture:'Architecture', preset_education:'Education / Teaching',
@@ -181,7 +181,7 @@ const STRINGS = {
     subj_picker_min:'Keep at least one subject enabled',
     onboard_title:'Welcome to MedTrack! 🎓',
     onboard_sub:'What are you preparing for? Pick a track to set up your subjects — you can change everything later in Settings.',
-    onboard_custom:"🛠 I'll choose my own subjects",
+    onboard_custom:"I'll choose my own subjects",
     // Account & sync
     sync_title:'Account & Sync', sync_desc:'Sign in with Google to back up your data and sync it automatically across all your devices.',
     sync_sign_in:'Sign in with Google', sync_sign_in_short:'Sign in', sync_sign_out:'Sign out',
@@ -191,7 +191,7 @@ const STRINGS = {
     // Priority badges
     prio_critical:'🔴 Critical', prio_high:'🟡 High', prio_medium:'🟢 Medium', prio_low:'🔵 Low',
     // Timer phases & buttons
-    phase_work:'📚 Focus', phase_short_break:'☕ Short Break', phase_long_break:'🛋 Long Break',
+    phase_work:'Focus', phase_short_break:'Short Break', phase_long_break:'Long Break',
     timer_btn_start:'▶ Start', timer_btn_stop:'⏹ Stop', timer_btn_pause:'⏸ Pause', timer_btn_resume:'▶ Resume',
     set_auto_sched:'Auto-planning', set_auto_sched_desc:'Suggest what to study each day',
     set_auto_sched_on:'On', set_auto_sched_off:'Off',
@@ -242,8 +242,8 @@ const STRINGS = {
     heatmap_days:['Mon','','Wed','','Fri','','Sun'],
     // Focus overlay
     focus_label:'FOCUS', focus_break:'BREAK', focus_long_break:'LONG BREAK',
-    focus_sound_on:'🎵 Sound On', focus_sound_off:'🔇 Sound Off',
-    focus_pause:'⏸ Pause', focus_resume:'▶ Resume', focus_exit:'✕ Exit Focus',
+    focus_sound_on:'◉ Sound On', focus_sound_off:'○ Sound Off',
+    focus_pause:'⏸︎ Pause', focus_resume:'▶ Resume', focus_exit:'✕ Exit Focus',
     // Misc
     confirm_clear_data:'Delete ALL study data? This cannot be undone.',
     diag_untitled:'Untitled Diagram',
@@ -251,7 +251,7 @@ const STRINGS = {
     sessions_logged:'sessions logged',
     jour_sessions:'sessions', jour_subjects_count:'subjects',
     proj_subject:'Subject', proj_progress:'Progress',
-    proj_done:'✅ Done!', proj_no_data:'Need more data',
+    proj_done:'✓ Done!', proj_no_data:'Need more data',
     vault_all_subjects:'All subjects',
     ins_hours_lbl:'Hours', ins_topics_lbl:'Topics',
     fm_subj_lbl:'Subject', fm_none:'— none —',
@@ -283,10 +283,10 @@ const STRINGS = {
     sched_save:'บันทึกแผน', sched_duration:'นาที', sched_why:'เหตุผล:',
     sched_reason_behind:'ไม่ทันกำหนด', sched_reason_urgent:'สอบใกล้แล้ว',
     sched_reason_neglect:'นานไม่ได้เรียน',
-    dash_end_day:'สรุปวันนี้', review_modal_title:'📝 สรุปประจำวัน', review_modal_prompt:'วันนี้ติดปัญหาอะไรบ้าง? มีบันทึกอะไรไหม?',
+    dash_end_day:'สรุปวันนี้', review_modal_title:'สรุปประจำวัน', review_modal_prompt:'วันนี้ติดปัญหาอะไรบ้าง? มีบันทึกอะไรไหม?',
     review_modal_ph:'เขียนความคิด ปัญหา หรือสิ่งที่เรียนรู้...', review_save:'บันทึก', review_saved:'บันทึกสรุปวันแล้ว!',
     review_already:'มีบันทึกวันนี้แล้ว — อัปเดตได้เลย', review_journey_lbl:'บันทึก',
-    score_title:'คะแนนสอบ', score_add:'+ บันทึกคะแนน', score_modal_title:'📊 บันทึกคะแนนสอบ',
+    score_title:'คะแนนสอบ', score_add:'+ บันทึกคะแนน', score_modal_title:'บันทึกคะแนนสอบ',
     score_test_name:'ชื่อข้อสอบ / การสอบ', score_test_ph:'เช่น Mock Exam 1 — TCAS', score_subject:'วิชา',
     score_score:'คะแนน (%)', score_date:'วันที่', score_save:'บันทึกคะแนน', score_saved:'บันทึกคะแนนแล้ว!',
     score_deleted:'ลบคะแนนแล้ว', score_no_scores:'ยังไม่มีคะแนนที่บันทึก',
@@ -304,12 +304,12 @@ const STRINGS = {
     sess_showing:'แสดง', sess_of:'จาก', sess_no_match:'ไม่พบเซสชันที่ตรงกับตัวกรอง', sess_reset:'รีเซ็ต',
     set_dark_auto:'อัตโนมัติ', set_dark_dark:'มืด', set_dark_light:'สว่าง',
     // Timer
-    timer_pomodoro:'🍅 โปโมโดโร', timer_custom:'⏱ กำหนดเอง', timer_session_setup:'ตั้งค่าเซสชัน',
+    timer_pomodoro:'◉ โปโมโดโร', timer_custom:'⏱︎ กำหนดเอง', timer_session_setup:'ตั้งค่าเซสชัน',
     timer_subject:'วิชา', timer_topic:'หัวข้อ', timer_notes:'หมายเหตุ',
     timer_notes_ph:'กำลังเรียนเรื่องอะไร?', timer_preset:'พรีเซ็ตโปโมโดโร',
     timer_today:'เซสชันวันนี้', timer_ready:'พร้อม', timer_running:'กำลังนับ',
     timer_paused:'หยุดชั่วคราว', timer_no_today:'ยังไม่มีเซสชันวันนี้',
-    timer_dur:'เวลา (นาที)', timer_focus:'🌌 โหมดโฟกัส',
+    timer_dur:'เวลา (นาที)', timer_focus:'◐ โหมดโฟกัส',
     // Subjects
     subj_all:'ทุกวิชา', subj_topics:'รายการหัวข้อ',
     subj_logged:'บันทึกแล้ว', subj_target:'เป้าหมาย', subj_topics_lbl:'หัวข้อ',
@@ -317,7 +317,7 @@ const STRINGS = {
     subj_d_left:'วันที่เหลือ', subj_passed:'ผ่านไปแล้ว',
     // Analytics
     ana_total_time:'เวลาเรียนรวม', ana_sessions:'จำนวนเซสชัน',
-    ana_best_streak:'🔥 สตรีคสูงสุด', ana_most_studied:'วิชาที่เรียนมากสุด',
+    ana_best_streak:'สตรีคสูงสุด', ana_most_studied:'วิชาที่เรียนมากสุด',
     ana_14days:'14 วันล่าสุด', ana_per_sub:'เวลาต่อวิชา',
     ana_phase_prog:'ความคืบหน้าเฟส', ana_heatmap:'ฮีตแมป (6 เดือน)',
     ana_all_sessions:'เซสชันทั้งหมด', ana_total:'รวม', ana_now:'← ตอนนี้',
@@ -333,13 +333,13 @@ const STRINGS = {
     set_dark:'โหมดมืด', set_sound:'เสียง', set_on:'เปิด', set_off:'ปิด',
     set_pomo:'ค่าเริ่มต้นโปโมโดโร', set_work:'ทำงาน (นาที)',
     set_short:'พักสั้น (นาที)', set_long:'พักยาว (นาที)', set_cycles:'รอบ',
-    set_save:'💾 บันทึกการตั้งค่า', set_data:'จัดการข้อมูล',
-    set_export:'📤 ส่งออก', set_import:'📥 นำเข้า', set_clear:'🗑 ลบทั้งหมด',
-    set_theme:'🎨 ธีม', set_theme_sub:'เลือกรูปแบบสี', set_lang:'🌐 ภาษา',
+    set_save:'บันทึกการตั้งค่า', set_data:'จัดการข้อมูล',
+    set_export:'⇧ ส่งออก', set_import:'⇩ นำเข้า', set_clear:'ลบทั้งหมด',
+    set_theme:'ธีม', set_theme_sub:'เลือกรูปแบบสี', set_lang:'ภาษา',
     // Diagrams
-    diag_title:'สร้างไดอะแกรม', diag_save:'💾 บันทึก', diag_new:'✚ ใหม่',
+    diag_title:'สร้างไดอะแกรม', diag_save:'บันทึก', diag_new:'✚ ใหม่',
     diag_saved:'ไดอะแกรมที่บันทึก', diag_no_saved:'ยังไม่มีไดอะแกรม', diag_nodes:'โหนด',
-    diag_clear:'🗑 ล้าง',
+    diag_clear:'ล้าง',
     // Insights
     sec_patterns:'รูปแบบการเรียน', sec_burnout:'ตรวจสอบความเหนื่อยล้า',
     sec_weakness:'วิเคราะห์จุดอ่อน', sec_stats:'สถิติขั้นสูง', sec_projection:'คาดการณ์เป้าหมาย',
@@ -378,9 +378,9 @@ const STRINGS = {
     nav_dashboard:'หน้าหลัก', nav_timer:'ตั้งเวลาเรียน', nav_subjects:'วิชา',
     nav_analytics:'สถิติ', nav_tasks:'งาน', nav_diagrams:'ไดอะแกรม', nav_settings:'การตั้งค่า',
     sidebar_footer_label:'TPAT1 แพทย์', sidebar_days_until:'วันก่อนถึง {date}',
-    header_quick_start:'⏱ เริ่มด่วน',
+    header_quick_start:'⏱︎ เริ่มด่วน',
     // Generation & exam date settings
-    set_gen_title:'🎓 รุ่น (เด็ก) และวันสอบ', set_gen_label:'รุ่นของคุณ (เด็ก)',
+    set_gen_title:'รุ่น (เด็ก) และวันสอบ', set_gen_label:'รุ่นของคุณ (เด็ก)',
     set_gen_desc:'ค่าเริ่มต้นเป็นวันสอบของเด็ก 70 (TCAS70) — เปลี่ยนรุ่นเพื่อเลื่อนวันสอบเริ่มต้นทั้งหมดเป็นปีของคุณ และยังแก้ไขแต่ละวันด้านล่างได้',
     set_countdown_title:'นับถอยหลังแถบข้างแสดง', set_countdown_custom:'กำหนดชื่อ + วันที่เอง…',
     set_countdown_custom_label:'ชื่อ', set_countdown_custom_date:'วันที่',
@@ -388,7 +388,7 @@ const STRINGS = {
     toast_gen_saved:'บันทึกรุ่นแล้ว — เลื่อนวันสอบเริ่มต้นทั้งหมด', toast_exam_saved:'บันทึกวันสอบแล้ว', toast_countdown_saved:'บันทึกการนับถอยหลังแล้ว',
     prio_set:'ความสำคัญ',
     // Subject picker & track presets
-    subj_picker_title:'📚 วิชาและสายของฉัน',
+    subj_picker_title:'วิชาและสายของฉัน',
     subj_picker_desc:'เลือกสายที่เตรียมสอบหรือเลือกวิชาเองได้ทั้งหมด วิชาที่ปิดไว้ยังเก็บประวัติการเรียนเดิมและเปิดกลับได้ทุกเมื่อ',
     preset_medicine:'แพทย์ (กสพท)', preset_engineering:'วิศวกรรมศาสตร์', preset_science:'วิทยาศาสตร์',
     preset_arts:'ศิลปกรรมศาสตร์', preset_architecture:'สถาปัตยกรรมศาสตร์', preset_education:'ครุศาสตร์/ศึกษาศาสตร์',
@@ -407,7 +407,7 @@ const STRINGS = {
     // Priority badges
     prio_critical:'🔴 วิกฤต', prio_high:'🟡 สูง', prio_medium:'🟢 ปานกลาง', prio_low:'🔵 ต่ำ',
     // Timer phases & buttons
-    phase_work:'📚 โฟกัส', phase_short_break:'☕ พักสั้น', phase_long_break:'🛋 พักยาว',
+    phase_work:'โฟกัส', phase_short_break:'พักสั้น', phase_long_break:'พักยาว',
     timer_btn_start:'▶ เริ่ม', timer_btn_stop:'⏹ หยุด', timer_btn_pause:'⏸ พัก', timer_btn_resume:'▶ ต่อ',
     set_auto_sched:'วางแผนอัตโนมัติ', set_auto_sched_desc:'แนะนำวิชาที่ควรเรียนแต่ละวัน',
     set_auto_sched_on:'เปิด', set_auto_sched_off:'ปิด',
@@ -457,8 +457,8 @@ const STRINGS = {
     heatmap_days:['จ','','พ','','ศ','','อา'],
     // Focus overlay
     focus_label:'โฟกัส', focus_break:'พัก', focus_long_break:'พักยาว',
-    focus_sound_on:'🎵 เสียงเปิด', focus_sound_off:'🔇 เสียงปิด',
-    focus_pause:'⏸ หยุด', focus_resume:'▶ ต่อ', focus_exit:'✕ ออกจากโฟกัส',
+    focus_sound_on:'◉ เสียงเปิด', focus_sound_off:'○ เสียงปิด',
+    focus_pause:'⏸︎ หยุด', focus_resume:'▶ ต่อ', focus_exit:'✕ ออกจากโฟกัส',
     // Misc
     confirm_clear_data:'ลบข้อมูลการเรียนทั้งหมด? ไม่สามารถกู้คืนได้',
     diag_untitled:'ไดอะแกรมไม่มีชื่อ',
@@ -466,7 +466,7 @@ const STRINGS = {
     sessions_logged:'เซสชันที่บันทึก',
     jour_sessions:'เซสชัน', jour_subjects_count:'วิชา',
     proj_subject:'วิชา', proj_progress:'ความคืบหน้า',
-    proj_done:'✅ เสร็จแล้ว!', proj_no_data:'ต้องการข้อมูลเพิ่ม',
+    proj_done:'✓ เสร็จแล้ว!', proj_no_data:'ต้องการข้อมูลเพิ่ม',
     vault_all_subjects:'ทุกวิชา',
     ins_hours_lbl:'ชั่วโมง', ins_topics_lbl:'หัวข้อ',
     fm_subj_lbl:'วิชา', fm_none:'— ไม่มี —',

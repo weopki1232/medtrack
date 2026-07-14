@@ -97,7 +97,7 @@ function renderDashboard() {
 
   // Wrap a section with its stable ID and injected 👁 hide button
   function sec(id, html) {
-    var hideBtn = '<button class="dash-hide-btn" onclick="event.stopPropagation();toggleDashSection(\''+id+'\')" title="Hide section">👁</button>';
+    var hideBtn = '<button class="dash-hide-btn" onclick="event.stopPropagation();toggleDashSection(\''+id+'\')" title="Hide section">⊖</button>';
     // Inject after first section-title span
     var injected = html.replace(/(<span class="section-title">)([\s\S]*?)(<\/span>)/, '$1$2$3'+hideBtn);
     if (injected === html) {
@@ -142,7 +142,7 @@ function renderDashboard() {
     '<div class="card"><div class="section-header"><span class="section-title">'+t('dash_recent')+'</span><button class="btn btn-ghost btn-sm" onclick="navigate(\'analytics\')">'+t('dash_view_all')+'</button></div>'+
       '<div style="display:flex;flex-direction:column;gap:6px">'+
         (sessions.length===0
-          ? '<div class="empty-state"><div class="empty-icon">📝</div><p>'+t('dash_no_sessions')+'</p></div>'
+          ? '<div class="empty-state"><div class="empty-icon">✎</div><p>'+t('dash_no_sessions')+'</p></div>'
           : sessions.map(function(s){var sub=getSubject(s.subjectId);return '<div class="session-item"><div class="session-dot" style="background:'+(sub?sub.color:'#666')+'"></div><div class="session-info"><div style="font-weight:500">'+(sub?sub.shortName:s.subjectId)+'</div><div style="color:var(--muted);font-size:11px">'+(s.topic?s.topic+' · ':'')+fmtDate(s.date)+'</div></div><div class="session-dur">'+fmtMins(s.duration)+'</div><button class="btn btn-ghost btn-xs" onclick="deleteSessionUI(\''+s.id+'\')">✕</button></div>';}).join(''))+
       '</div>'+
     '</div>';

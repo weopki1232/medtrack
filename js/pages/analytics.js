@@ -17,7 +17,7 @@ function renderAnalytics() {
   '</div>'+
   '<div class="card"><div class="section-header"><span class="section-title">'+t('ana_14days')+'</span></div><div style="position:relative;height:220px"><canvas id="chart-14days"></canvas></div></div>'+
   '<div class="grid-2">'+
-  '<div class="card"><div class="section-header"><span class="section-title">'+t('ana_per_sub')+'</span></div>'+(Object.keys(totals).length===0?'<div class="empty-state"><div class="empty-icon">📊</div><p>'+t('ana_no_data')+'</p></div>':'<canvas id="chart-subjects" height="200"></canvas>')+'</div>'+
+  '<div class="card"><div class="section-header"><span class="section-title">'+t('ana_per_sub')+'</span></div>'+(Object.keys(totals).length===0?'<div class="empty-state"><div class="empty-icon">▚</div><p>'+t('ana_no_data')+'</p></div>':'<canvas id="chart-subjects" height="200"></canvas>')+'</div>'+
   '<div class="card"><div class="section-header"><span class="section-title">'+t('ana_phase_prog')+'</span></div>'+
   getStudyPhases().map(function(p){const ps=new Date(p.start),pe=new Date(p.end),now=new Date();let pct=0;if(now>=pe)pct=100;else if(now>ps)pct=Math.round((now-ps)/(pe-ps)*100);const act=today()>=p.start&&today()<=p.end;return '<div style="margin-bottom:14px"><div style="display:flex;justify-content:space-between;margin-bottom:5px"><span style="font-size:13px;font-weight:'+(act?700:400)+'">'+p.name+(act?' '+t('ana_now'):'')+'</span><span style="font-size:12px;color:var(--muted)">'+pct+'%</span></div><div class="progress-bar progress-bar-lg"><div class="progress-fill" style="width:'+pct+'%;background:'+p.color+'"></div></div><div style="font-size:11px;color:var(--muted);margin-top:3px">'+fmtDate(p.start)+' → '+fmtDate(p.end)+'</div></div>';}).join('')+
   '</div>'+
@@ -40,7 +40,7 @@ function renderAnalytics() {
 }
 function renderSessionTable() {
   var all=Storage.getSessions();
-  if(all.length===0)return '<div class="empty-state"><div class="empty-icon">📋</div><p>'+t('ana_no_sessions')+'</p></div>';
+  if(all.length===0)return '<div class="empty-state"><div class="empty-icon">▦</div><p>'+t('ana_no_sessions')+'</p></div>';
   var f=sessionFilter;
   var filtered=all.filter(function(s){
     if(f.subject&&s.subjectId!==f.subject)return false;
@@ -96,7 +96,7 @@ function renderSubjectChart(totals) {
 // ── Exam Score Tracker ────────────────────────────────────────────────────────
 function renderScoreTrackerCard() {
   var scores = Storage.getScores().slice().sort(function(a,b){return a.date.localeCompare(b.date);});
-  var html = '<div class="card"><div class="section-header"><span class="section-title">📊 '+t('score_title')+'</span><button class="btn btn-primary btn-sm" onclick="openAddScoreModal()">'+t('score_add')+'</button></div>';
+  var html = '<div class="card"><div class="section-header"><span class="section-title">'+t('score_title')+'</span><button class="btn btn-primary btn-sm" onclick="openAddScoreModal()">'+t('score_add')+'</button></div>';
   if (scores.length === 0) {
     html += '<div class="empty-state" style="padding:16px 0"><p>'+t('score_no_scores')+'</p></div>';
   } else {

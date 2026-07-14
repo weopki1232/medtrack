@@ -2,7 +2,7 @@
 function renderWeeklySummary() {
   var thisW = getWeekMins(0), lastW = getWeekMins(1);
   if (thisW === 0) {
-    return '<div class="card" style="padding:16px"><div class="section-header"><span class="section-title">📊 '+t('dash_weekly')+'</span></div><div class="empty-state" style="padding:10px 0"><p>'+t('dash_weekly_no_data')+'</p></div></div>';
+    return '<div class="card" style="padding:16px"><div class="section-header"><span class="section-title">'+t('dash_weekly')+'</span></div><div class="empty-state" style="padding:10px 0"><p>'+t('dash_weekly_no_data')+'</p></div></div>';
   }
   var now = new Date();
   var startOfWeek = new Date(now); startOfWeek.setDate(now.getDate()-now.getDay()); startOfWeek.setHours(0,0,0,0);
@@ -18,7 +18,7 @@ function renderWeeklySummary() {
     var h=m>0?Math.max(6,Math.round(m/maxDay*44)):4;
     var isToday=(i===now.getDay());
     return '<div style="display:flex;flex-direction:column;align-items:center;gap:3px">'+
-      '<div style="width:18px;height:'+h+'px;background:'+(m>0?'var(--primary-l)':'var(--bg3)')+';border-radius:3px;'+(isToday?'outline:2px solid var(--primary);outline-offset:1px':'')+';transition:height .3s"></div>'+
+      '<div style="width:18px;height:'+h+'px;background:'+(m>0?'var(--primary-l)':'var(--bg3)')+';border-radius:3px;'+(isToday?'outline:2px solid var(--primary);outline-offset:1px':'')+'"></div>'+
       '<div style="font-size:10px;color:'+(isToday?'var(--primary-l)':'var(--muted)')+'">'+shortDays[i]+'</div>'+
     '</div>';
   }).join('');
@@ -28,9 +28,9 @@ function renderWeeklySummary() {
   var cmpText='';
   if(lastW>0){var diff=thisW-lastW,pct=Math.abs(Math.round(diff/lastW*100));cmpText=pct+'% '+(diff>0?t('dash_weekly_up'):diff<0?t('dash_weekly_down'):t('dash_weekly_same'));}
   return '<div class="card" style="padding:16px">'+
-    '<div class="section-header"><span class="section-title">📊 '+t('dash_weekly')+'</span>'+
+    '<div class="section-header"><span class="section-title">'+t('dash_weekly')+'</span>'+
     '<div style="display:flex;align-items:center;gap:10px">'+(cmpText?'<span style="font-size:12px;color:var(--muted)">'+cmpText+'</span>':'')+
-    '<button class="btn btn-outline btn-sm" onclick="openDailyReviewModal()">📝 '+t('dash_end_day')+'</button></div></div>'+
+    '<button class="btn btn-outline btn-sm" onclick="openDailyReviewModal()">✎ '+t('dash_end_day')+'</button></div></div>'+
     '<div style="display:flex;align-items:flex-end;gap:16px;margin-top:10px">'+
       '<div style="display:flex;gap:5px;align-items:flex-end">'+barsHtml+'</div>'+
       '<div>'+
@@ -86,10 +86,10 @@ function renderScheduleCard() {
   var d = today();
   var slots = getOrCreateTodaySchedule();
   var html = '<div class="card" style="padding:16px">';
-  html += '<div class="section-header"><span class="section-title">📅 '+t('sched_title')+'</span>';
+  html += '<div class="section-header"><span class="section-title">'+t('sched_title')+'</span>';
   html += '<div style="display:flex;gap:6px;align-items:center">';
   html += '<button class="btn btn-ghost btn-xs" onclick="openScheduleInfoModal()" title="How does this work?" style="font-size:15px;padding:2px 6px">ℹ️</button>';
-  html += '<button class="btn btn-ghost btn-sm" onclick="regenSchedule()">🔄 '+t('sched_regen')+'</button>';
+  html += '<button class="btn btn-ghost btn-sm" onclick="regenSchedule()">↺ '+t('sched_regen')+'</button>';
   html += '<button class="btn btn-outline btn-sm" onclick="openCustomizeScheduleModal()">✏️ '+t('sched_customize')+'</button>';
   html += '</div></div>';
 
@@ -104,14 +104,14 @@ function renderScheduleCard() {
       var sub = getSubject(sl.subjectId);
       if(!sub) return;
       var slotTasks = pendingTasks.filter(function(tk){return tk.subjectId===sl.subjectId;});
-      html += '<div style="display:flex;align-items:center;gap:10px;padding:10px 12px;background:var(--bg2);border-radius:10px;border-left:3px solid '+(sl.done?'var(--green,#22c55e)':sub.color)+'">';
+      html += '<div style="display:flex;align-items:center;gap:10px;padding:10px 12px;background:var(--bg2);border-radius:10px;border:1px solid '+(sl.done?'var(--green,#22c55e)':sub.color)+'2e">';
       html += '<span style="font-size:22px">'+sub.icon+'</span>';
       html += '<div style="flex:1">';
       html += '<div style="font-weight:600;font-size:14px">'+(sl.done?'<s>':'')+sub.shortName+(sl.done?'</s>':'')+'</div>';
       html += '<div style="font-size:11px;color:var(--muted)">'+sl.durationMins+' '+t('sched_mins');
       if(sl.reasons&&sl.reasons.length)html+=' · '+sl.reasons.join(', ');
       html += '</div>';
-      if(slotTasks.length) html += '<div style="font-size:11px;color:var(--primary-l);margin-top:2px">📋 '+slotTasks.length+' task'+(slotTasks.length>1?'s':'')+' pending</div>';
+      if(slotTasks.length) html += '<div style="font-size:11px;color:var(--primary-l);margin-top:2px">▦ '+slotTasks.length+' task'+(slotTasks.length>1?'s':'')+' pending</div>';
       html += '</div>';
       if(sl.done) {
         html += '<span style="color:var(--green,#22c55e);font-size:13px;font-weight:600">'+t('sched_logged')+'</span>';
@@ -152,7 +152,7 @@ function saveNotifTime(v){ Storage.saveSettings({notifTime:v}); }
 function openScheduleInfoModal() {
   var o=document.createElement('div'); o.className='modal-overlay fade-in'; o.id='sched-info-modal';
   o.innerHTML='<div class="modal-box" style="max-width:440px">'+
-    '<div class="modal-title">📅 How Today\'s Plan works</div>'+
+    '<div class="modal-title">How Today\'s Plan works</div>'+
     '<div style="display:flex;flex-direction:column;gap:12px;margin-top:12px;font-size:13px">'+
     '<div style="padding:10px;background:var(--bg2);border-radius:8px"><strong>🔴 Behind schedule</strong><br>You\'re on track to finish this subject\'s target hours <em>after</em> the exam date at your current study pace. You need to study it more to catch up.</div>'+
     '<div style="padding:10px;background:var(--bg2);border-radius:8px"><strong>⚡ Exam soon</strong><br>The exam is within ~2 months. The closer the date, the higher the priority score.</div>'+
@@ -270,7 +270,7 @@ function renderSchedulePage() {
 
   // Header row
   html += '<div class="section-header">';
-  html += '<span class="section-title">📅 ' + t('cal_title') + '</span>';
+  html += '<span class="section-title">' + t('cal_title') + '</span>';
   html += '<div style="display:flex;gap:8px;align-items:center">';
   html += '<button class="btn btn-outline btn-sm" onclick="calWeekOffset--;renderSchedulePage()">‹ ' + t('cal_prev') + '</button>';
   html += '<span style="font-size:13px;color:var(--muted);min-width:160px;text-align:center">' + weekLabel + '</span>';
@@ -306,7 +306,7 @@ function renderSchedulePage() {
     slots.forEach(function(sl, idx) {
       var sub = getSubject(sl.subjectId);
       if (!sub) return;
-      html += '<div style="display:flex;align-items:center;gap:3px;padding:3px 5px;border-radius:5px;background:' + sub.color + '1a;border-left:2px solid ' + sub.color + ';cursor:pointer;position:relative" title="' + sub.shortName + ' — ' + sl.durationMins + 'min" onclick="startScheduledSession(\'' + sl.subjectId + '\',' + sl.durationMins + ')">';
+      html += '<div style="display:flex;align-items:center;gap:3px;padding:3px 5px;border-radius:5px;background:' + sub.color + '1a;border:1px solid ' + sub.color + '30;cursor:pointer;position:relative" title="' + sub.shortName + ' — ' + sl.durationMins + 'min" onclick="startScheduledSession(\'' + sl.subjectId + '\',' + sl.durationMins + ')">';
       html += '<span style="font-size:13px;flex-shrink:0">' + sub.icon + '</span>';
       html += '<div style="flex:1;min-width:0"><div style="font-size:10px;font-weight:600;color:' + sub.color + ';white-space:nowrap;overflow:hidden;text-overflow:ellipsis">' + sub.shortName + '</div>';
       html += '<div style="font-size:9px;color:var(--muted)">' + sl.durationMins + 'm' + (sl.done ? ' ✓' : '') + '</div></div>';
@@ -318,8 +318,8 @@ function renderSchedulePage() {
     dayTasks.forEach(function(tk) {
       var col = pColors[tk.priority] || 'var(--muted)';
       var sub2 = getSubject(tk.subjectId);
-      html += '<div style="padding:3px 5px;border-radius:5px;background:' + col + '18;border-left:2px solid ' + col + ';cursor:pointer;display:flex;align-items:flex-start;gap:4px" title="Click to mark done" onclick="calToggleTask(\'' + tk.id + '\')">';
-      html += '<span style="font-size:11px;margin-top:1px;flex-shrink:0">📋</span>';
+      html += '<div style="padding:3px 5px;border-radius:5px;background:' + col + '18;border:1px solid ' + col + '30;cursor:pointer;display:flex;align-items:flex-start;gap:4px" title="Click to mark done" onclick="calToggleTask(\'' + tk.id + '\')">';
+      html += '<span style="font-size:11px;margin-top:1px;flex-shrink:0">▦</span>';
       html += '<div style="flex:1;min-width:0"><div style="font-size:10px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:var(--text)">' + escHtml(tk.title) + '</div>';
       if (sub2) html += '<div style="font-size:9px;color:var(--muted)">' + sub2.icon + ' ' + sub2.shortName + '</div>';
       html += '</div>';

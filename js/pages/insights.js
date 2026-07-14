@@ -82,7 +82,7 @@ function renderInsights() {
   if (!el) return;
 
   if (I.sessions.length === 0) {
-    el.innerHTML = '<div class="empty-state"><div class="empty-icon">🧠</div><p>'+t('no_data')+'</p></div>';
+    el.innerHTML = '<div class="empty-state"><div class="empty-icon">✦</div><p>'+t('no_data')+'</p></div>';
     return;
   }
 
@@ -101,9 +101,9 @@ function renderInsights() {
   html += '<div><div class="section-header"><span class="section-title">'+t('sec_patterns')+'</span></div>';
   html += '<div class="grid-4">';
   html += '<div class="insight-card"><div class="insight-icon">⏱</div><div class="insight-lbl">'+t('avg_session')+'</div><div class="insight-val">'+fmtMins(I.avgLen)+'</div><div class="insight-sub">'+t('ins_per_block')+'</div></div>';
-  html += '<div class="insight-card"><div class="insight-icon">🕐</div><div class="insight-lbl">'+t('peak_hour')+'</div><div class="insight-val">'+(I.bestHourMins>0?hLabel:'—')+'</div><div class="insight-sub">'+t('ins_productive')+'</div></div>';
-  html += '<div class="insight-card"><div class="insight-icon">📅</div><div class="insight-lbl">'+t('best_day')+'</div><div class="insight-val">'+(I.sessions.length?I.DAYS[I.bestDayIdx]:'—')+'</div><div class="insight-sub">'+t('ins_high_vol')+'</div></div>';
-  html += '<div class="insight-card '+(I.longestSession>=90?'insight-good':'')+'"><div class="insight-icon">🏆</div><div class="insight-lbl">'+t('ins_longest')+'</div><div class="insight-val">'+fmtMins(I.longestSession)+'</div><div class="insight-sub">'+t('ins_personal_best')+'</div></div>';
+  html += '<div class="insight-card"><div class="insight-icon">◷</div><div class="insight-lbl">'+t('peak_hour')+'</div><div class="insight-val">'+(I.bestHourMins>0?hLabel:'—')+'</div><div class="insight-sub">'+t('ins_productive')+'</div></div>';
+  html += '<div class="insight-card"><div class="insight-icon">▦</div><div class="insight-lbl">'+t('best_day')+'</div><div class="insight-val">'+(I.sessions.length?I.DAYS[I.bestDayIdx]:'—')+'</div><div class="insight-sub">'+t('ins_high_vol')+'</div></div>';
+  html += '<div class="insight-card '+(I.longestSession>=90?'insight-good':'')+'"><div class="insight-icon">★</div><div class="insight-lbl">'+t('ins_longest')+'</div><div class="insight-val">'+fmtMins(I.longestSession)+'</div><div class="insight-sub">'+t('ins_personal_best')+'</div></div>';
   html += '</div></div>';
 
   // ── Burnout + Consistency
@@ -118,7 +118,7 @@ function renderInsights() {
   html += '<div><div class="section-header"><span class="section-title">'+t('sec_stats')+'</span></div>';
   html += '<div style="display:flex;flex-direction:column;gap:8px">';
   html += '<div class="insight-card '+(I.consistency>=70?'insight-good':I.consistency>=40?'insight-warn':'insight-alert')+'"><div class="insight-icon">'+(I.consistency>=70?'💪':I.consistency>=40?'📊':'😴')+'</div><div class="insight-lbl">'+t('consistency')+' (last 30 days)</div><div class="insight-val">'+I.consistency+'%</div><div class="insight-sub">'+t('ins_studied_of',{n:Math.round(I.consistency*30/100)})+'</div></div>';
-  html += '<div class="insight-card"><div class="insight-icon">🚫</div><div class="insight-lbl">'+t('most_skipped')+'</div><div class="insight-val">'+(I.mostSkipped?I.mostSkipped.icon+' '+I.mostSkipped.shortName:'—')+'</div><div class="insight-sub">'+(I.mostSkipped?(I.sessionCounts[I.mostSkipped.id]||0)+' '+t('sessions_logged'):'')+'</div></div>';
+  html += '<div class="insight-card"><div class="insight-icon">⊘</div><div class="insight-lbl">'+t('most_skipped')+'</div><div class="insight-val">'+(I.mostSkipped?I.mostSkipped.icon+' '+I.mostSkipped.shortName:'—')+'</div><div class="insight-sub">'+(I.mostSkipped?(I.sessionCounts[I.mostSkipped.id]||0)+' '+t('sessions_logged'):'')+'</div></div>';
   var recovClass = I.recovery ? (I.recovery.avg<=2?'insight-good':I.recovery.avg<=5?'insight-warn':'insight-alert') : '';
   var recovIcon  = I.recovery ? (I.recovery.avg<=2?'⚡':I.recovery.avg<=5?'🔄':'😓') : '✅';
   var recovVal   = I.recovery ? t('ins_bounce_days',{n:I.recovery.avg}) : t('ins_bounce_none');

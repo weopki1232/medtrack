@@ -94,7 +94,7 @@ function init() {
   if (s.ambientUrl) { _ambientType = s.ambientUrl; }
   setTimeout(checkAchievements, 600); // claim any already-earned achievements on load
   var _pmBtn = document.getElementById('power-mode-btn');
-  if (_pmBtn) _pmBtn.textContent = _powerMode === 'min' ? '⚡ Min' : '🔥 Max';
+  if (_pmBtn) _pmBtn.textContent = _powerMode === 'min' ? '⚡︎ Min' : '⚡︎ Max';
   navigate('dashboard');
   initAuth();
   renderAccountBadge();

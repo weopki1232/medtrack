@@ -5,7 +5,7 @@ function renderJourney() {
   var sessions = Storage.getSessions().slice().reverse(); // oldest first
 
   if (sessions.length === 0) {
-    el.innerHTML = '<div class="empty-state"><div class="empty-icon">🗓</div><p>'+t('journey_empty')+'</p></div>';
+    el.innerHTML = '<div class="empty-state"><div class="empty-icon">◷</div><p>'+t('journey_empty')+'</p></div>';
     return;
   }
 
@@ -82,8 +82,8 @@ function renderJourney() {
     html += '<div class="journey-hd">'+monthName+(isCurrentMonth?' <span class="badge badge-purple" style="font-size:10px">'+t('jour_now')+'</span>':'')+'</div>';
     html += '<div class="journey-stats">';
     html += '<span>⏱ '+fmtMins(m.mins)+'</span>';
-    html += '<span>📋 '+m.count+' '+t('jour_sessions')+'</span>';
-    html += '<span>📚 '+m.subjects.size+' '+t('jour_subjects_count')+'</span>';
+    html += '<span>▦ '+m.count+' '+t('jour_sessions')+'</span>';
+    html += '<span>▤ '+m.subjects.size+' '+t('jour_subjects_count')+'</span>';
     html += '</div>';
     if (events.length > 0) {
       html += '<div class="card" style="padding:12px 16px"><div style="display:flex;flex-direction:column;gap:4px">';

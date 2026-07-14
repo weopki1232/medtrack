@@ -363,7 +363,7 @@ function togglePowerMode() {
   _powerMode = _powerMode === 'min' ? 'max' : 'min';
   localStorage.setItem('mt_power_mode', _powerMode);
   var btn = document.getElementById('power-mode-btn');
-  if (btn) { btn.textContent = _powerMode === 'min' ? '⚡ Min' : '🔥 Max'; }
+  if (btn) { btn.textContent = _powerMode === 'min' ? '⚡︎ Min' : '⚡︎ Max'; }
   if (document.body.classList.contains('detective-active')) { stopRain(); startRain(); }
   renderSettings();
 }
