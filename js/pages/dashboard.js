@@ -1,15 +1,15 @@
 // ── Dashboard section visibility ──────────────────────────────────────────────
 var DASH_SEC_LABELS = {
-  stats:        '📊 Stats',
-  exams:        '⏳ Countdowns',
-  sub_exams:    '📅 Subjects',
-  weekly:       '📈 Weekly',
-  schedule:     '📅 Schedule',
-  sr_due:       '⏰ Due',
-  quick_log:    '⚡ Log',
-  recent:       '🕐 Recent',
-  progress:     '📊 Progress',
-  achievements: '🏆 Badges',
+  stats:        '◆ Stats',
+  exams:        '◷ Countdowns',
+  sub_exams:    '▤ Subjects',
+  weekly:       '▚ Weekly',
+  schedule:     '▦ Schedule',
+  sr_due:       '◔ Due',
+  quick_log:    '▸ Log',
+  recent:       '↺ Recent',
+  progress:     '▰ Progress',
+  achievements: '★ Badges',
 };
 
 function getDashHidden() { return Storage.get('mt_dash_hidden', {}); }
@@ -114,9 +114,9 @@ function renderDashboard() {
   var statsHtml =
     '<div class="grid-4">'+
       '<div class="card card-sm"><div class="card-title">'+t('dash_todays_study')+'</div><div class="stat-row"><span class="stat-main">'+fmtMins(todayMins)+'</span><span class="stat-unit"> / '+fmtMins(goalMins)+'</span></div><div style="margin-top:8px"><div class="progress-bar"><div class="progress-fill" style="width:'+goalPct+'%;background:var(--primary-l)"></div></div></div><div style="font-size:11px;color:var(--muted);margin-top:4px">'+goalPct+t('dash_pct_goal')+'</div></div>'+
-      '<div class="card card-sm"><div class="card-title">🔥 '+t('dash_streak')+'</div><div class="stat-row"><span class="stat-main">'+streak.current+'</span><span class="stat-unit">'+t('dash_days')+'</span></div><div class="card-sub">'+t('dash_best')+streak.longest+t('dash_days')+'</div></div>'+
-      '<div class="card card-sm"><div class="card-title">📚 '+t('dash_total_hours')+'</div><div class="stat-row"><span class="stat-main">'+totalH+'</span><span class="stat-unit">'+t('dash_h_logged')+'</span></div><div class="card-sub">'+Storage.getSessions().length+t('dash_sessions_lbl')+'</div></div>'+
-      '<div class="card card-sm"><div class="card-title">📅 '+t('dash_phase')+'</div><div style="font-size:14px;font-weight:600;margin-top:4px">'+(phase?phase.name:'—')+'</div><div class="card-sub">'+(phase?phase.description:'')+'</div></div>'+
+      '<div class="card card-sm"><div class="card-title">'+t('dash_streak')+'</div><div class="stat-row"><span class="stat-main">'+streak.current+'</span><span class="stat-unit">'+t('dash_days')+'</span></div><div class="card-sub">'+t('dash_best')+streak.longest+t('dash_days')+'</div></div>'+
+      '<div class="card card-sm"><div class="card-title">'+t('dash_total_hours')+'</div><div class="stat-row"><span class="stat-main">'+totalH+'</span><span class="stat-unit">'+t('dash_h_logged')+'</span></div><div class="card-sub">'+Storage.getSessions().length+t('dash_sessions_lbl')+'</div></div>'+
+      '<div class="card card-sm"><div class="card-title">'+t('dash_phase')+'</div><div style="font-size:14px;font-weight:600;margin-top:4px">'+(phase?phase.name:'—')+'</div><div class="card-sub">'+(phase?phase.description:'')+'</div></div>'+
     '</div>';
 
   var examsHtml =

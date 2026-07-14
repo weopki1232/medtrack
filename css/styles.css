@@ -1218,6 +1218,22 @@ body.theme-enchant, body.theme-parchment, .light-mode, .light-mode body { --on-p
 #header-title { font-family:var(--font-display); font-weight:600; letter-spacing:-.01em; }
 #header-date { font-family:var(--font-mono); }
 
+/* brand monogram — replaces the emoji stethoscope */
+.logo-mark { display:inline-grid; place-items:center; width:26px; height:26px; margin-right:2px; border-radius:8px;
+  background:var(--primary); color:var(--on-primary, #0a0c05); font-family:var(--font-display);
+  font-size:15px; font-weight:700; letter-spacing:0; vertical-align:-5px; }
+
+/* nav glyphs — monochrome geometric marks, not emoji */
+.nav-icon { font-family:var(--font-mono); font-size:13px; color:var(--muted); transition:color .25s var(--ease); }
+.nav-item:hover .nav-icon { color:var(--text); }
+.nav-item.active .nav-icon { color:var(--primary); }
+
+/* sidebar footer — editorial countdown */
+.side-foot-label { font-family:var(--font-mono); font-size:10px; letter-spacing:.14em; text-transform:uppercase; color:var(--muted); margin-bottom:6px; }
+.side-foot-count { font-family:var(--font-display); font-size:26px; font-weight:700; letter-spacing:-.02em; line-height:1; color:var(--text); }
+.side-foot-count b { color:var(--primary); font-weight:inherit; }
+.side-foot-days { font-family:var(--font-mono); font-size:10.5px; color:var(--muted); margin-top:4px; }
+
 /* ── Subjects page → Meridian (color in an icon chip, not a side-tab) ── */
 .subj-icon { width:46px; height:46px; flex:none; border-radius:13px; display:grid; place-items:center; font-size:24px;
   background:color-mix(in srgb, var(--sc, var(--primary)) 14%, transparent);

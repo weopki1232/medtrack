@@ -3,7 +3,7 @@ const STRINGS = {
   en: {
     // Nav + pages (translatable nav items)
     nav_insights:'Smart Insights', nav_journey:'Journey', nav_vault:'Formula Vault',
-    page_insights:'🧠 Smart Insights', page_journey:'🗓 Study Journey', page_vault:'🔬 Formula Vault',
+    page_insights:'Smart Insights', page_journey:'Study Journey', page_vault:'Formula Vault',
     // Dashboard
     dash_todays_study:"Today's Study", dash_streak:'Current Streak', dash_total_hours:'Total Hours', dash_phase:'Current Phase',
     dash_days:' days', dash_best:' Best: ', dash_h_logged:' h logged', dash_sessions_lbl:' sessions',
@@ -153,9 +153,9 @@ const STRINGS = {
     // Journey empty
     journey_empty:'No study history yet — start logging sessions!',
     // Page titles (all pages)
-    page_dashboard:'📊 Dashboard', page_timer:'⏱ Study Timer', page_subjects:'📚 Subjects & Topics',
-    page_analytics:'📈 Analytics', page_tasks:'✅ Task Manager',
-    page_diagrams:'🗺 Diagrams', page_settings:'⚙️ Settings',
+    page_dashboard:'Dashboard', page_timer:'Study Timer', page_subjects:'Subjects & Topics',
+    page_analytics:'Analytics', page_tasks:'Task Manager',
+    page_diagrams:'Diagrams', page_settings:'Settings',
     // Sidebar
     sidebar_subtitle:'TCAS Study Tracker',
     sidebar_main:'Main', sidebar_track:'Track', sidebar_tools:'Tools',
@@ -196,7 +196,7 @@ const STRINGS = {
     set_auto_sched:'Auto-planning', set_auto_sched_desc:'Suggest what to study each day',
     set_auto_sched_on:'On', set_auto_sched_off:'Off',
     sched_info_got_it:'Got it',
-    nav_schedule:'Schedule', page_schedule:'📅 Schedule',
+    nav_schedule:'Schedule', page_schedule:'Schedule',
     cal_title:'Study Calendar', cal_prev:'Prev', cal_next:'Next', cal_today:'Today',
     cal_add_slot:'+ Add Slot', cal_slot_title:'Plan study for', cal_slot_subj:'Subject',
     cal_slot_dur:'Duration (min)', cal_slot_saved:'Slot added!', cal_slot_del:'Remove',
@@ -261,7 +261,7 @@ const STRINGS = {
   th: {
     // Nav + pages
     nav_insights:'วิเคราะห์อัจฉริยะ', nav_journey:'เส้นทาง', nav_vault:'คลังสูตร',
-    page_insights:'🧠 วิเคราะห์อัจฉริยะ', page_journey:'🗓 ประวัติการเรียน', page_vault:'🔬 คลังสูตร',
+    page_insights:'วิเคราะห์อัจฉริยะ', page_journey:'ประวัติการเรียน', page_vault:'คลังสูตร',
     // Dashboard
     dash_todays_study:'การเรียนวันนี้', dash_streak:'สตรีคปัจจุบัน', dash_total_hours:'ชั่วโมงรวม', dash_phase:'เฟสปัจจุบัน',
     dash_days:' วัน', dash_best:' ดีสุด: ', dash_h_logged:' ชม.', dash_sessions_lbl:' เซสชัน',
@@ -369,9 +369,9 @@ const STRINGS = {
     // Journey empty
     journey_empty:'ยังไม่มีประวัติการเรียน — เริ่มบันทึกเซสชัน!',
     // Page titles
-    page_dashboard:'📊 หน้าหลัก', page_timer:'⏱ ตั้งเวลาเรียน', page_subjects:'📚 วิชาและหัวข้อ',
-    page_analytics:'📈 สถิติ', page_tasks:'✅ จัดการงาน',
-    page_diagrams:'🗺 ไดอะแกรม', page_settings:'⚙️ การตั้งค่า',
+    page_dashboard:'หน้าหลัก', page_timer:'ตั้งเวลาเรียน', page_subjects:'วิชาและหัวข้อ',
+    page_analytics:'สถิติ', page_tasks:'จัดการงาน',
+    page_diagrams:'ไดอะแกรม', page_settings:'การตั้งค่า',
     // Sidebar
     sidebar_subtitle:'ติดตามการเรียน TCAS',
     sidebar_main:'หลัก', sidebar_track:'ติดตาม', sidebar_tools:'เครื่องมือ',
@@ -412,7 +412,7 @@ const STRINGS = {
     set_auto_sched:'วางแผนอัตโนมัติ', set_auto_sched_desc:'แนะนำวิชาที่ควรเรียนแต่ละวัน',
     set_auto_sched_on:'เปิด', set_auto_sched_off:'ปิด',
     sched_info_got_it:'เข้าใจแล้ว',
-    nav_schedule:'ตารางเรียน', page_schedule:'📅 ตารางเรียน',
+    nav_schedule:'ตารางเรียน', page_schedule:'ตารางเรียน',
     cal_title:'ปฏิทินการเรียน', cal_prev:'ก่อนหน้า', cal_next:'ถัดไป', cal_today:'วันนี้',
     cal_add_slot:'+ เพิ่มช่วงเรียน', cal_slot_title:'วางแผนการเรียนสำหรับ', cal_slot_subj:'วิชา',
     cal_slot_dur:'ระยะเวลา (นาที)', cal_slot_saved:'เพิ่มช่วงเรียนแล้ว!', cal_slot_del:'ลบ',

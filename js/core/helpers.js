@@ -4,7 +4,7 @@ let diagramState = { tool:'node', nodes:[], connections:[], dragging:null, dragO
 var _diagBgCache = null;
 let dCanvas = null, dCtx = null;
 
-const PAGE_TITLES = { dashboard:'📊 Dashboard', timer:'⏱ Study Timer', subjects:'📚 Subjects & Topics', analytics:'📈 Analytics', tasks:'✅ Task Manager', diagrams:'🗺 Diagrams', settings:'⚙️ Settings', insights:'🧠 Smart Insights', journey:'🗓 Study Journey', vault:'🔬 Formula Vault' };
+const PAGE_TITLES = { dashboard:'Dashboard', timer:'Study Timer', subjects:'Subjects & Topics', analytics:'Analytics', tasks:'Task Manager', diagrams:'Diagrams', settings:'Settings', insights:'Smart Insights', journey:'Study Journey', vault:'Formula Vault', schedule:'Schedule' };
 
 // ── Helpers ───────────────────────────────────────────────────────────────────
 function uid()        { return Date.now().toString(36)+Math.random().toString(36).slice(2,7); }
