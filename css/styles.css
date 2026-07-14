@@ -1241,3 +1241,11 @@ body.theme-enchant, body.theme-parchment, .light-mode, .light-mode body { --on-p
 .subj-name { font-family:var(--font-display); letter-spacing:-.01em; }
 .subj-pct { font-family:var(--font-display); font-size:22px; font-weight:700; letter-spacing:-.02em; }
 .subj-behind { box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--red) 55%, transparent); }
+
+/* Journey — editorial month headings, mono stats */
+.journey-hd { font-family:var(--font-display); font-size:19px; font-weight:600; letter-spacing:-.01em; }
+.journey-stats { font-family:var(--font-mono); font-size:11.5px; }
+
+/* empty states — quiet glyph in a hairline ring */
+.empty-state .empty-icon { font-size:22px; width:56px; height:56px; margin:0 auto 12px; display:grid; place-items:center;
+  border:1px solid var(--border); border-radius:50%; color:var(--muted); opacity:.85; }

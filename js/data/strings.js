@@ -189,7 +189,7 @@ const STRINGS = {
     sync_done:'Synced ✓', sync_failed:'Sync failed — will retry', sync_signed_out:'Signed out', sync_synced:'Synced',
     sync_web_only:'Sign-in & sync work in the web app — open MedTrack in your browser. Desktop data stays on this computer (use Export/Import to move it).',
     // Priority badges
-    prio_critical:'🔴 Critical', prio_high:'🟡 High', prio_medium:'🟢 Medium', prio_low:'🔵 Low',
+    prio_critical:'Critical', prio_high:'High', prio_medium:'Medium', prio_low:'Low',
     // Timer phases & buttons
     phase_work:'Focus', phase_short_break:'Short Break', phase_long_break:'Long Break',
     timer_btn_start:'▶ Start', timer_btn_stop:'⏹ Stop', timer_btn_pause:'⏸ Pause', timer_btn_resume:'▶ Resume',
@@ -405,7 +405,7 @@ const STRINGS = {
     sync_done:'ซิงก์แล้ว ✓', sync_failed:'ซิงก์ล้มเหลว — จะลองใหม่', sync_signed_out:'ออกจากระบบแล้ว', sync_synced:'ซิงก์แล้ว',
     sync_web_only:'การลงชื่อเข้าใช้และซิงก์ใช้ได้ในเวอร์ชันเว็บ — เปิด MedTrack ในเบราว์เซอร์ ข้อมูลบนเดสก์ท็อปยังอยู่ในเครื่องนี้ (ใช้ส่งออก/นำเข้าเพื่อย้ายข้อมูล)',
     // Priority badges
-    prio_critical:'🔴 วิกฤต', prio_high:'🟡 สูง', prio_medium:'🟢 ปานกลาง', prio_low:'🔵 ต่ำ',
+    prio_critical:'วิกฤต', prio_high:'สูง', prio_medium:'ปานกลาง', prio_low:'ต่ำ',
     // Timer phases & buttons
     phase_work:'โฟกัส', phase_short_break:'พักสั้น', phase_long_break:'พักยาว',
     timer_btn_start:'▶ เริ่ม', timer_btn_stop:'⏹ หยุด', timer_btn_pause:'⏸ พัก', timer_btn_resume:'▶ ต่อ',

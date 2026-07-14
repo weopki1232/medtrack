@@ -18,7 +18,7 @@ function renderVault() {
   // ── Flashcard mode view ───────────────────────────────────────────────────
   if (vaultFlashMode) {
     if (vaultFlashList.length === 0) {
-      html += '<div class="empty-state"><div class="empty-icon">🃏</div><p>No formulas to flash. Add some first!</p></div>';
+      html += '<div class="empty-state"><div class="empty-icon">▤</div><p>No formulas to flash. Add some first!</p></div>';
     } else {
       var fi = Math.min(vaultFlashIdx, vaultFlashList.length-1);
       var fc = vaultFlashList[fi];

@@ -81,7 +81,7 @@ function renderJourney() {
     html += '<div class="journey-dot" style="background:'+dotColor+'"></div>';
     html += '<div class="journey-hd">'+monthName+(isCurrentMonth?' <span class="badge badge-purple" style="font-size:10px">'+t('jour_now')+'</span>':'')+'</div>';
     html += '<div class="journey-stats">';
-    html += '<span>⏱ '+fmtMins(m.mins)+'</span>';
+    html += '<span>⏱&#xfe0e; '+fmtMins(m.mins)+'</span>';
     html += '<span>▦ '+m.count+' '+t('jour_sessions')+'</span>';
     html += '<span>▤ '+m.subjects.size+' '+t('jour_subjects_count')+'</span>';
     html += '</div>';

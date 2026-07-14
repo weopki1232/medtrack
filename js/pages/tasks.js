@@ -7,7 +7,7 @@ function renderTasks() {
   '<div class="section-header"><span class="section-title">'+t('tasks_title')+'</span><button class="btn btn-primary btn-sm" onclick="openAddTaskModal()">'+t('tasks_add')+'</button></div>'+
   '<div class="pill-tabs" style="width:fit-content"><button class="pill-tab '+(taskFilter==='all'?'active':'')+'" onclick="taskFilter=\'all\';renderTasks()">'+t('tasks_all')+' ('+tasks.length+')</button><button class="pill-tab '+(taskFilter==='active'?'active':'')+'" onclick="taskFilter=\'active\';renderTasks()">'+t('tasks_active')+' ('+tasks.filter(function(tx){return !tx.completed;}).length+')</button><button class="pill-tab '+(taskFilter==='done'?'active':'')+'" onclick="taskFilter=\'done\';renderTasks()">'+t('tasks_done')+' ('+tasks.filter(function(tx){return tx.completed;}).length+')</button></div>'+
   '<div style="display:flex;flex-direction:column;gap:8px">'+
-  (filtered.length===0?'<div class="empty-state"><div class="empty-icon">✅</div><p>'+t('tasks_empty')+(taskFilter==='active'?' '+t('tasks_empty_active'):'')+'</p></div>':
+  (filtered.length===0?'<div class="empty-state"><div class="empty-icon">✓</div><p>'+t('tasks_empty')+(taskFilter==='active'?' '+t('tasks_empty_active'):'')+'</p></div>':
   filtered.sort(function(a,b){const po={critical:0,high:1,medium:2,low:3};if(!a.completed&&b.completed)return -1;if(a.completed&&!b.completed)return 1;return(po[a.priority]||2)-(po[b.priority]||2);}).map(function(t){return renderTaskItem(t);}).join(''))+
   '</div></div>';
 }
