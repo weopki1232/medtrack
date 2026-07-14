@@ -1206,3 +1206,14 @@ body.theme-enchant, body.theme-parchment, .light-mode, .light-mode body { --on-p
   .dash-entering > * { animation:none; opacity:1; transform:none; }
   .dash-hero { transition:none; } .dash-hero:hover .dash-hero-glare { opacity:0; }
 }
+
+/* ── Sidebar + header → Meridian chrome (shared across all pages) ── */
+.sidebar-logo h1 { font-family:var(--font-display); letter-spacing:-.02em; }
+.sidebar-logo h1 .logo-name {                 /* retire gradient text (AI tell) → solid accent wordmark */
+  background:none !important; -webkit-background-clip:initial !important; background-clip:initial !important;
+  -webkit-text-fill-color:var(--primary) !important; color:var(--primary) !important; }
+#sidebar-subtitle { font-family:var(--font-mono); font-size:10px; letter-spacing:.14em; text-transform:uppercase; color:var(--muted); }
+.nav-section-label { font-family:var(--font-mono); letter-spacing:.16em; }
+#header { -webkit-backdrop-filter:blur(6px); backdrop-filter:blur(6px); }
+#header-title { font-family:var(--font-display); font-weight:600; letter-spacing:-.01em; }
+#header-date { font-family:var(--font-mono); }
