@@ -2,12 +2,13 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>MedTrack — TCAS Study Tracker</title>
 <meta name="theme-color" content="#0c0e18">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" type="image/png" href="icons/icon-192.png">
 <link rel="apple-touch-icon" href="icons/icon-180.png">
+<meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="MedTrack">
@@ -69,6 +70,7 @@
     </div>
   </div>
 </nav>
+<div id="sidebar-backdrop" onclick="toggleSidebar()" aria-hidden="true"></div>
 
 <div id="main-content">
   <div id="header">
@@ -87,7 +89,7 @@
   </div>
   <div class="page-body">
     <section id="page-dashboard" class="page-section"></section>
-    <section id="page-timer" class="page-section page-hidden" style="height:calc(100vh - 108px)"></section>
+    <section id="page-timer" class="page-section page-hidden" style="height:calc(100vh - 108px);height:calc(100dvh - 108px)"></section>
     <section id="page-subjects" class="page-section page-hidden"></section>
     <section id="page-analytics" class="page-section page-hidden"></section>
     <section id="page-insights" class="page-section page-hidden"></section>
@@ -95,7 +97,7 @@
     <section id="page-tasks"    class="page-section page-hidden"></section>
     <section id="page-schedule" class="page-section page-hidden"></section>
     <section id="page-vault"    class="page-section page-hidden"></section>
-    <section id="page-diagrams" class="page-section page-hidden" style="height:calc(100vh - 108px)"></section>
+    <section id="page-diagrams" class="page-section page-hidden" style="height:calc(100vh - 108px);height:calc(100dvh - 108px)"></section>
     <section id="page-settings" class="page-section page-hidden"></section>
   </div>
 </div>

@@ -72,14 +72,18 @@ function init() {
     }
   }
 
+  var _dateMq = matchMedia('(max-width:900px)');
   function updateDate() {
     var now = new Date();
     var el = document.getElementById('header-date');
-    if (el) el.textContent = now.toLocaleDateString('en-GB', {weekday:'long',day:'numeric',month:'long',year:'numeric'});
+    if (el) el.textContent = _dateMq.matches
+      ? now.toLocaleDateString('en-GB', {weekday:'short',day:'numeric',month:'short'})
+      : now.toLocaleDateString('en-GB', {weekday:'long',day:'numeric',month:'long',year:'numeric'});
     updateCountdownSidebar();
   }
   updateDate();
   setInterval(updateDate, 60000);
+  if (_dateMq.addEventListener) _dateMq.addEventListener('change', updateDate);
 
   document.querySelectorAll('.nav-item').forEach(function(el) {
     el.addEventListener('click', function() {

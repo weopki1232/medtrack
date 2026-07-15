@@ -1197,3 +1197,74 @@ body.icons-emoji .ic2 .ic2-g { display:none; }
 .subj-icon .ic2-g, .subj-icon.ic2 .ic2-g { color:var(--sc, var(--primary)); }
 .journey-ev-icon .ic2-g { color:var(--muted); }
 .subj-icon.ic2 { display:grid; }
+
+
+/* ==========================================================================
+   RESPONSIVE + TOUCH layer (phones / tablets) -- appended last so it wins
+   ========================================================================== */
+
+/* basics: no tap flash, no double-tap zoom delay on controls */
+html { -webkit-tap-highlight-color: transparent; }
+button, .nav-item, .tool-btn, .lang-opt, .card, .theme-swatch, .tab-btn { touch-action: manipulation; }
+
+/* dynamic viewport height (iOS Safari address bar) */
+#sidebar { height: 100dvh; }
+
+/* safe areas (notch / home indicator); env() falls back to 0 */
+#header { padding-left: max(24px, env(safe-area-inset-left)); padding-right: max(24px, env(safe-area-inset-right)); }
+.page-body { padding-bottom: calc(24px + env(safe-area-inset-bottom)); }
+
+/* header title never wraps */
+#header h2 { min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.header-actions { flex-shrink: 0; }
+#header-date { white-space: nowrap; }
+
+/* sidebar backdrop (phone drawer) */
+#sidebar-backdrop { display: none; }
+
+@media (max-width: 700px) {
+  #header { padding-left: max(12px, env(safe-area-inset-left)); padding-right: max(12px, env(safe-area-inset-right)); gap: 8px; }
+  #header-quick-start { display: none; }   /* timer is one tap away in the menu */
+  #header-date { font-size: 11px !important; }
+  .light-switch-btn { padding: 5px 8px; }
+  #sidebar.open + #sidebar-backdrop { display: block; position: fixed; inset: 0; background: rgba(0,0,0,.55); z-index: 250; }
+  .page-body { padding-bottom: calc(16px + env(safe-area-inset-bottom)); }
+  /* page-header action rows (vault, diagrams, ...) wrap instead of overflowing */
+  .section-header { flex-wrap: wrap; row-gap: 8px; }
+  .section-header > div { flex-wrap: wrap; }
+  #diagram-name { width: 150px !important; }
+}
+@media (max-width: 480px) {
+  #header-date { display: none; }   /* page title wins on tiny screens */
+}
+
+/* diagrams: below desktop, stack vertically — full-width canvas, saved list under it */
+@media (max-width: 1024px) {
+  #page-diagrams { height: auto !important; }
+  #page-diagrams > div { height: auto !important; }
+  .diag-work { flex-direction: column !important; }
+  .diag-canvas-box { flex: none !important; height: 52vh; min-height: 300px; }
+  .diag-saved { width: auto !important; }
+  .diagram-toolbar > div { flex-wrap: wrap; }
+}
+
+/* touch devices: bigger targets, no iOS zoom-on-focus, no sticky hover */
+@media (pointer: coarse) {
+  .input, select.input { font-size: 16px; }
+  .nav-item { padding: 12px 16px; }
+  .tool-btn { min-height: 38px; min-width: 38px; }
+  .lang-opt { padding: 7px 12px; }
+  .light-switch-btn { min-height: 36px; }
+  .kb-badge { padding: 4px 9px; }
+}
+
+@media (hover: none) {
+  .card:hover, .countdown-card:hover, .subject-card:hover, .task-item:not(.done):hover,
+  .session-item:hover, .insight-card:hover, .formula-card:hover, .theme-swatch:hover {
+    transform: none; box-shadow: none;
+  }
+  .ach-badge:hover { transform: none !important; }
+  .dash-hero:hover .dash-hero-glare { opacity: 0; }
+  .tool-btn:not(.active):hover { border-color: var(--border); color: var(--text); }
+  body.theme-enchant .nav-item:hover { transform: none; box-shadow: none; filter: none; }
+}
