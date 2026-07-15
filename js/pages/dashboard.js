@@ -17,8 +17,6 @@ function getDashHidden() { return Storage.get('mt_dash_hidden', {}); }
 function toggleDashSection(id) {
   var h = getDashHidden();
   var el = document.getElementById('ds-' + id);
-  var isDetective = document.body.classList.contains('detective-active');
-  var stringSections = { exams:1, sub_exams:1 }; // sections with string connections
   if (h[id]) {
     // SHOW: slide in from right
     delete h[id];
@@ -31,12 +29,10 @@ function toggleDashSection(id) {
       el.style.transition = '';
       requestAnimationFrame(function() { el.classList.remove('dash-shelving'); });
     }
-    if (isDetective && stringSections[id]) _animateStringReconnect();
   } else {
     // HIDE: slide out to right
     h[id] = true;
     Storage.set('mt_dash_hidden', h);
-    if (isDetective && stringSections[id]) _animateStringTear(id);
     if (el) {
       el.classList.add('dash-shelving');
       setTimeout(function() {

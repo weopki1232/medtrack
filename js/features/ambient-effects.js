@@ -23,9 +23,6 @@ function toggleLights() {
     stopSmoke();
     stopDetectiveAmbience();
     stopDetectiveTick();
-    clearRedStrings();
-    _stopStringAnim();
-    _clearStringStubs();
     _stopLampSway();
     if (_lampIdleTimer) { clearTimeout(_lampIdleTimer); _lampIdleTimer = null; }
     _resetLampState();
@@ -78,7 +75,6 @@ function activateDetective() {
   startSmoke();
   startDetectiveAmbience();
   if (timerState.running && !timerState.paused) startDetectiveTick();
-  if (currentPage === 'dashboard') setTimeout(function() { drawRedStrings(); _startStringAnim(); }, 600);
   setTimeout(_restoreLampState, 120);
   setTimeout(_resetLampIdleTimer, 200);
 }
@@ -461,174 +457,6 @@ function stopSmoke() {
   var c = document.getElementById('smoke-container'); if (c) c.remove();
 }
 
-// ── Detective: Red String Evidence Board ─────────────────────────────────────
-var _stringPins   = [];
-var _stringAnimId = null;
-var _stringAnimT  = 0;
-
-function _startStringAnim() {
-  if (_stringAnimId) return;
-  var lastTs = 0;
-  var lastDraw = 0;
-  function tick(ts) {
-    if (!document.body.classList.contains('detective-active') || currentPage !== 'dashboard') {
-      _stringAnimId = null; return;
-    }
-    _stringAnimT += Math.min((ts - lastTs) * 0.001, 0.05);
-    lastTs = ts;
-    if (!document.hidden && (_powerMode === 'max' || ts - lastDraw >= 60)) {
-      lastDraw = ts;
-      drawRedStrings();
-    }
-    _stringAnimId = requestAnimationFrame(tick);
-  }
-  _stringAnimId = requestAnimationFrame(function(ts) { lastTs = ts; _stringAnimId = requestAnimationFrame(tick); });
-}
-
-function _stopStringAnim() {
-  if (_stringAnimId) { cancelAnimationFrame(_stringAnimId); _stringAnimId = null; }
-}
-
-// Only return rect if element is actually visible in the viewport
-function _visRect(el) {
-  if (!el) return null;
-  if (window.getComputedStyle(el).display === 'none') return null;
-  var r = el.getBoundingClientRect();
-  if (r.width < 5 || r.height < 5) return null;
-  if (r.right < 40 || r.left > window.innerWidth - 40) return null;
-  if (r.bottom < 20 || r.top > window.innerHeight - 20) return null;
-  return r;
-}
-
-function drawRedStrings() {
-  var canvas = document.getElementById('red-string-canvas');
-  if (!canvas) return;
-  var W = window.innerWidth, H = window.innerHeight;
-  if (canvas.width !== W || canvas.height !== H) { canvas.width = W; canvas.height = H; }
-  var ctx2 = canvas.getContext('2d');
-  ctx2.clearRect(0,0,W,H);
-
-  var allPins = [];
-  var t = _stringAnimT;
-
-  // Per-segment sag variety table — each string gets its own tension character
-  // Values < 1 = taut/tight, values > 1 = loose/droopy
-  var _SEG_VAR = [0.32, 2.1, 0.7, 2.8, 0.45, 1.5, 0.25, 2.4, 1.0, 0.55, 3.0, 0.8, 1.7];
-
-  // sagBase: overall droop scale for the section  swingAmp: sway amplitude in px
-  function chainSection(selector, pinYFrac, color, sagBase, swingAmp) {
-    sagBase  = sagBase  || 1;
-    swingAmp = swingAmp || 5;
-    var els = Array.from(document.querySelectorAll(selector));
-    var rects = els.map(_visRect).filter(Boolean);
-    if (rects.length < 2) return;
-    var mainColor = color || 'rgba(205,38,28,0.70)';
-    for (var i=0; i<rects.length-1; i++) {
-      var r1=rects[i], r2=rects[i+1];
-      var x1 = r1.left + r1.width*0.5,  y1 = r1.top + r1.height*pinYFrac;
-      var x2 = r2.left + r2.width*0.5,  y2 = r2.top + r2.height*pinYFrac;
-      var dx = x2-x1, dy = y2-y1;
-      var chord = Math.sqrt(dx*dx+dy*dy);
-      if (chord > 520) continue;
-      // Each segment gets its own sag character from the variety table
-      var segVar  = _SEG_VAR[i % _SEG_VAR.length];
-      var baseSag = Math.min(80, Math.max(6, Math.abs(dx)*0.11 + 8) * sagBase * segVar);
-      var swing   = Math.sin(t * 0.75 + i * 1.9) * swingAmp * Math.max(0.3, segVar * 0.5);
-      var sag = baseSag + swing;
-      var cpx = (x1+x2)/2;
-      var cpy = Math.max(y1,y2) + sag;
-      // Soft glow
-      ctx2.strokeStyle = mainColor.replace(/[\d.]+\)$/, '0.13)');
-      ctx2.lineWidth = 4;
-      ctx2.beginPath(); ctx2.moveTo(x1,y1); ctx2.quadraticCurveTo(cpx,cpy,x2,y2); ctx2.stroke();
-      // Main string — tight strings slightly thinner, loose ones slightly thicker
-      ctx2.strokeStyle = mainColor;
-      ctx2.lineWidth = 0.8 + Math.min(1.0, segVar * 0.35);
-      ctx2.beginPath(); ctx2.moveTo(x1,y1); ctx2.quadraticCurveTo(cpx,cpy,x2,y2); ctx2.stroke();
-      if (!allPins.length || allPins[allPins.length-1].x !== x1) allPins.push({x:x1,y:y1});
-      allPins.push({x:x2,y:y2});
-    }
-  }
-
-  // Each section draws its own internal chain — NO cross-section bridges
-  chainSection('#ds-stats .grid-4 > .card',       0.38, 'rgba(205,38,28,0.70)', 1.0, 5);
-  chainSection('#ds-exams .countdown-card',        0.32, 'rgba(195,32,24,0.64)', 1.0, 5);
-  chainSection('#ds-sub_exams .sub-exam-badge',    0.72, 'rgba(188,30,22,0.62)', 2.2, 8);
-
-  // Push-pin dots
-  var drawn = {};
-  allPins.forEach(function(pt) {
-    var key = Math.round(pt.x)+','+Math.round(pt.y);
-    if (drawn[key]) return; drawn[key]=1;
-    ctx2.fillStyle = 'rgba(230,60,40,0.20)';
-    ctx2.beginPath(); ctx2.arc(pt.x,pt.y,6,0,Math.PI*2); ctx2.fill();
-    ctx2.fillStyle = 'rgba(228,52,38,0.92)';
-    ctx2.beginPath(); ctx2.arc(pt.x,pt.y,3.5,0,Math.PI*2); ctx2.fill();
-  });
-  _stringPins = allPins;
-}
-
-function clearRedStrings() {
-  var canvas = document.getElementById('red-string-canvas');
-  if (!canvas) return;
-  canvas.getContext('2d').clearRect(0,0,canvas.width,canvas.height);
-}
-
-// String stubs (dangling ends after tear)
-var _stringStubs = [];
-function _addStringStub(x, y) {
-  var stub = document.createElement('div');
-  stub.className = 'string-stub';
-  stub.style.left   = (x-1)+'px';
-  stub.style.top    = y+'px';
-  stub.style.height = (22+Math.random()*14)+'px';
-  document.body.appendChild(stub);
-  _stringStubs.push(stub);
-}
-function _clearStringStubs() {
-  _stringStubs.forEach(function(s){s.remove();}); _stringStubs=[];
-}
-
-function _animateStringTear(sectionId) {
-  // Flash the string canvas briefly then clear connections to that section
-  var canvas = document.getElementById('red-string-canvas');
-  if (!canvas) return;
-  var ctx2 = canvas.getContext('2d');
-  // Snapshot pins that connect INTO sub_exams/exams sections
-  // We just leave the stat-chain pins as stubs, redraw without hidden section
-  var snap = _stringPins.slice();
-  var flashCount = 0;
-  function flashFrame() {
-    ctx2.clearRect(0,0,canvas.width,canvas.height);
-    if (flashCount%2===0) {
-      snap.forEach(function(pt){
-        ctx2.fillStyle='rgba(240,60,40,0.9)';
-        ctx2.beginPath(); ctx2.arc(pt.x,pt.y,4,0,Math.PI*2); ctx2.fill();
-      });
-    }
-    flashCount++;
-    if (flashCount < 5) { setTimeout(flashFrame, 70); }
-    else {
-      // Leave dangling stubs from stat card right-edge pins
-      _clearStringStubs();
-      var statCards = document.querySelectorAll('#page-dashboard .grid-4 > .card');
-      if (statCards.length) {
-        var last = statCards[statCards.length-1].getBoundingClientRect();
-        _addStringStub(last.right-6, last.top+last.height*0.38+2);
-      }
-      setTimeout(drawRedStrings, 50);
-    }
-  }
-  flashFrame();
-}
-
-function _animateStringReconnect() {
-  _clearStringStubs();
-  // Animation loop continuously redraws — just ensure it's running so strings
-  // track the sliding cards in real-time without needing a fixed delay.
-  _startStringAnim();
-}
-
 // ── Detective: Ambient Sound (vinyl crackle) ─────────────────────────────────
 var _detectiveAudio = null;
 function startDetectiveAmbience() {
@@ -775,10 +603,14 @@ var _CC = {
   sk:'#6ab0d8', wg:'#e8e4d8', lb:'#3a3060'
 };
 
-function _drawClaude(ctx, t, outfit) {
+function _drawClaude(ctx, t, outfit, walkPhase) {
   var C = _CC;
   ctx.clearRect(0, 0, 16, 20);
   var blink = (Math.floor(t / 60) % 100 < 3);
+  // 1px body bob at step rate while walking (row 19 is spare, so bobbing down never clips)
+  var bob = (typeof walkPhase === 'number' && Math.sin(walkPhase * 2) > 0) ? 1 : 0;
+  ctx.save();
+  ctx.translate(0, bob);
   function px(x,y,w,h,c){ctx.fillStyle=c;ctx.fillRect(x,y,w,h);}
 
   var bc = C.bd;
@@ -880,10 +712,26 @@ function _drawClaude(ctx, t, outfit) {
   }
 
   // ── 4 LEGS y=15-18 ──────────────────────────────────────────────────
-  px(2,  15, 2, 4, C.bd);
-  px(5,  15, 2, 4, C.bd);
-  px(9,  15, 2, 4, C.bd);
-  px(12, 15, 2, 4, C.bd);
+  if (walkPhase === 'tuck') {
+    // airborne — all legs tucked up
+    px(2,15,2,2,C.bd); px(5,15,2,2,C.bd); px(9,15,2,2,C.bd); px(12,15,2,2,C.bd);
+  } else if (typeof walkPhase === 'number') {
+    // trot gait — diagonal pairs alternate: lifted foot shortens + strides forward
+    var s1 = Math.sin(walkPhase), s2 = -s1;
+    var legs = [[2,s1],[5,s2],[9,s1],[12,s2]];
+    for (var li = 0; li < 4; li++) {
+      var sw   = legs[li][1];
+      var lift = sw > 0.25 ? 1 : 0;
+      var dx   = Math.round(sw * 1.2);
+      px(legs[li][0] + dx, 15, 2, 4 - lift, C.bd);
+    }
+  } else {
+    px(2,  15, 2, 4, C.bd);
+    px(5,  15, 2, 4, C.bd);
+    px(9,  15, 2, 4, C.bd);
+    px(12, 15, 2, 4, C.bd);
+  }
+  ctx.restore();
 }
 
 function makeClaudeCanvas(outfit, scale) {
@@ -894,7 +742,16 @@ function makeClaudeCanvas(outfit, scale) {
   var ctx = c.getContext('2d');
   ctx.imageSmoothingEnabled = false;
   var raf = null, t0 = performance.now();
-  (function loop(){ _drawClaude(ctx, performance.now()-t0, outfit); raf = requestAnimationFrame(loop); })();
+  c._mode = 'idle'; // 'idle' | 'walk' | 'run' | 'tuck' — drives the leg animation
+  (function loop(){
+    var t = performance.now() - t0;
+    var wp = null;
+    if (c._mode === 'walk')      wp = t * 0.012;
+    else if (c._mode === 'run')  wp = t * 0.022;
+    else if (c._mode === 'tuck') wp = 'tuck';
+    _drawClaude(ctx, t, outfit, wp);
+    raf = requestAnimationFrame(loop);
+  })();
   c._stopAnim = function(){ if(raf){ cancelAnimationFrame(raf); raf=null; } };
   return c;
 }
@@ -957,11 +814,78 @@ function _itemSvg(outfit) {
   return CUP_SVG;
 }
 
+// ── Motion helpers — rAF tweens (skip straight to end state under reduced motion)
+var _REDUCED = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+function _easeOutQuart(p){ return 1 - Math.pow(1-p, 4); }
+function _easeOutBackS(p){ var c = 1.2; return 1 + (c+1)*Math.pow(p-1,3) + c*Math.pow(p-1,2); }
+function _tween(dur, ease, onFrame, onDone) {
+  if (_REDUCED) { onFrame(1, 1); if (onDone) onDone(); return; }
+  var t0 = performance.now();
+  (function step(){
+    var p = Math.min(1, (performance.now() - t0) / dur);
+    onFrame(ease ? ease(p) : p, p);
+    if (p < 1) requestAnimationFrame(step); else if (onDone) onDone();
+  })();
+}
+
+// ── FX canvas — ONE layer for every pixel-particle effect (replaces DOM particle divs)
+var _fxParts = [], _fxRaf = null, _fxCanvas = null;
+function _fxSpawn(x, y, o) {
+  if (_REDUCED) return;
+  o = o || {};
+  var n    = Math.round((o.n || 12) * (_powerMode === 'min' ? 0.6 : 1));
+  var cols = o.colors || ['#c9f24d','#e07a5f','#f2b04d','#e8e4d8'];
+  for (var i = 0; i < n; i++) {
+    var ang = o.up ? (-Math.PI/2 + (Math.random()-0.5)*1.6) : Math.random()*Math.PI*2;
+    var spd = (o.speed || 90) * (0.35 + Math.random()*0.8);
+    _fxParts.push({
+      x: x + (o.spreadX ? (Math.random()-0.5)*o.spreadX : 0),
+      y: y + (o.spreadY ? (Math.random()-0.5)*o.spreadY : 0),
+      vx: Math.cos(ang)*spd, vy: Math.sin(ang)*spd,
+      g: (o.gravity !== undefined ? o.gravity : 260),
+      life: (o.life || 0.7) * (0.6 + Math.random()*0.7), age: 0,
+      s: 2 + Math.random()*(o.size || 4),
+      c: cols[Math.floor(Math.random()*cols.length)]
+    });
+  }
+  if (!_fxRaf) _fxLoop();
+}
+function _fxLoop() {
+  if (!_fxCanvas) {
+    _fxCanvas = document.createElement('canvas');
+    _fxCanvas.id = 'fx-canvas';
+    _fxCanvas.style.cssText = 'position:fixed;top:0;left:0;pointer-events:none;z-index:9998;';
+    document.body.appendChild(_fxCanvas);
+  }
+  if (_fxCanvas.width !== window.innerWidth || _fxCanvas.height !== window.innerHeight) {
+    _fxCanvas.width = window.innerWidth; _fxCanvas.height = window.innerHeight;
+  }
+  var ctx = _fxCanvas.getContext('2d');
+  var last = performance.now();
+  _fxRaf = requestAnimationFrame(function frame(now) {
+    var dt = Math.min(0.05, (now - last)/1000); last = now;
+    ctx.clearRect(0, 0, _fxCanvas.width, _fxCanvas.height);
+    _fxParts = _fxParts.filter(function(p) {
+      p.age += dt; if (p.age >= p.life) return false;
+      p.vy += p.g*dt; p.x += p.vx*dt; p.y += p.vy*dt;
+      var k = 1 - p.age/p.life;
+      ctx.globalAlpha = Math.min(1, k*1.6);
+      ctx.fillStyle = p.c;
+      var s = Math.max(1, Math.round(p.s*k));
+      ctx.fillRect(Math.round(p.x), Math.round(p.y), s, s); // square pixels — matches the sprite
+      return true;
+    });
+    ctx.globalAlpha = 1;
+    if (_fxParts.length) { _fxRaf = requestAnimationFrame(frame); }
+    else { _fxRaf = null; ctx.clearRect(0, 0, _fxCanvas.width, _fxCanvas.height); }
+  });
+}
+
 function summomClaude() {
-  var scene  = document.getElementById('claude-scene');
-  var sofa   = document.getElementById('the-sofa');
-  var table  = document.getElementById('the-table');
-  var sitter = document.getElementById('claude-sitter');
+  var scene   = document.getElementById('claude-scene');
+  var sofa    = document.getElementById('the-sofa');
+  var table   = document.getElementById('the-table');
+  var sitter  = document.getElementById('claude-sitter');
   var drinkEl = document.getElementById('table-drink');
 
   if (SCENE_ACTIVE) { dismissClaude(); return; }
@@ -972,7 +896,6 @@ function summomClaude() {
   var _curOutfit = _OUTFITS[_claudeOutfitIdx % _OUTFITS.length];
   _claudeOutfitIdx++;
 
-  // Pick random entrance style
   var _entrances = ['walk','run','pop','fly'];
   var _entrance  = _entrances[Math.floor(Math.random() * _entrances.length)];
 
@@ -982,108 +905,110 @@ function summomClaude() {
   sofa.classList.add('summoned');
   table.classList.add('summoned');
 
-  // Shared seat function — called at the end of every entrance
-  function doSeat(stopPrev) {
-    if (stopPrev) stopPrev();
+  // ② Build the sitter ONCE — the same canvas walks in and sits down (no swap flicker)
+  var _bbl = document.getElementById('npc-bubble');
+  var head = document.createElement('div');
+  head.className = 'sitter-head'; head.onclick = claudeDodge; head.title = 'Click me!';
+  var cv = makeClaudeCanvas(_curOutfit, 4);
+  _activeSitterStop = cv._stopAnim;
+  head.appendChild(cv);
+  var sd = document.createElement('span');
+  sd.className = 'sitter-drink'; sd.id = 'sitter-drink';
+  sitter.innerHTML = '';
+  sitter._dodging = false;
+  sitter.style.cssText = 'opacity:0;right:86px;bottom:20px;transform:none;';
+  sitter.appendChild(head);
+  sitter.appendChild(sd);
+  if (_bbl) sitter.appendChild(_bbl);
+
+  function seat() {
+    cv._mode = 'idle';
     badgeIcon.style.transform = '';
-    var _sh = document.createElement('div');
-    _sh.className = 'sitter-head'; _sh.onclick = claudeDodge; _sh.title = 'Click me!';
-    var _smc = makeClaudeCanvas(_curOutfit, 4);
-    _activeSitterStop = _smc._stopAnim;
-    _sh.appendChild(_smc);
-    var _sd = document.createElement('span');
-    _sd.className = 'sitter-drink'; _sd.id = 'sitter-drink';
-    var _bbl = document.getElementById('npc-bubble');
-    sitter.innerHTML = '';
-    sitter.style.cssText = 'opacity:1;right:86px;bottom:20px;';
-    sitter.appendChild(_sh);
-    sitter.appendChild(_sd);
-    if (_bbl) sitter.appendChild(_bbl);
+    head.style.transform = '';
     sitter.classList.add('seated');
     scene.classList.add('active');
     SCENE_ACTIVE = true;
-    setTimeout(function(){ sitter.classList.add('idling'); }, 700);
+    setTimeout(function(){ sitter.classList.add('idling'); }, 400);
     // Item on table
     setTimeout(function() {
       if (drinkEl) { drinkEl.innerHTML = _itemSvg(_curOutfit); drinkEl.classList.add('visible'); }
-    }, 800);
+    }, 700);
     // Claude picks it up — vanishes from table, appears in hand
     setTimeout(function() {
       if (drinkEl) drinkEl.classList.remove('visible');
-      var sd = document.getElementById('sitter-drink');
-      if (sd) { sd.innerHTML = _itemSvg(_curOutfit); sd.classList.add('picking-up'); }
+      var sdEl = document.getElementById('sitter-drink');
+      if (sdEl) { sdEl.innerHTML = _itemSvg(_curOutfit); sdEl.classList.add('picking-up'); }
       showNpcMessage();
-    }, 1600);
+    }, 1500);
   }
 
-  // ── WALK ─────────────────────────────────────────────────────────────────
+  // Landing squash shared by the ground entrances
+  function settle() {
+    _tween(200, _easeOutQuart, function(e) {
+      var sx = 1.12 - 0.12*e, sy = 0.86 + 0.14*e;
+      head.style.transform = 'scale('+sx.toFixed(3)+','+sy.toFixed(3)+')';
+    }, seat);
+  }
+
+  // ── WALK — strolls in from the right, legs actually walking ──────────────
   if (_entrance === 'walk') {
     setTimeout(function() {
-      var _bbl = document.getElementById('npc-bubble');
-      var _wc = makeClaudeCanvas(_curOutfit, 4);
-      sitter.innerHTML = ''; sitter.appendChild(_wc); if (_bbl) sitter.appendChild(_bbl);
       sitter.style.opacity = '1';
-      sitter.classList.add('claude-walking');
-      setTimeout(function() {
-        sitter.classList.remove('claude-walking');
-        doSeat(_wc._stopAnim);
-      }, 950);
-    }, 700);
+      cv._mode = 'walk';
+      _tween(1150, _easeOutQuart, function(e, p) {
+        var x   = 210 * (1 - e);
+        var hop = -Math.abs(Math.sin(p * Math.PI * 4.5)) * 2 * (1 - e*0.6);
+        head.style.transform = 'translate('+x.toFixed(1)+'px,'+hop.toFixed(1)+'px)';
+      }, function() { cv._mode = 'idle'; settle(); });
+    }, 550);
 
-  // ── RUN ──────────────────────────────────────────────────────────────────
+  // ── RUN — sprints in leaning forward, skids to a stop ────────────────────
   } else if (_entrance === 'run') {
     setTimeout(function() {
-      var _bbl = document.getElementById('npc-bubble');
-      var _rc = makeClaudeCanvas(_curOutfit, 4);
-      sitter.innerHTML = ''; sitter.appendChild(_rc); if (_bbl) sitter.appendChild(_bbl);
       sitter.style.opacity = '1';
-      sitter.classList.add('claude-running');
-      setTimeout(function() {
-        sitter.classList.remove('claude-running');
-        doSeat(_rc._stopAnim);
-      }, 480);
-    }, 400);
+      cv._mode = 'run';
+      _tween(520, _easeOutQuart, function(e, p) {
+        var x    = 240 * (1 - e);
+        var hop  = -Math.abs(Math.sin(p * Math.PI * 3)) * 5 * (1 - e*0.5);
+        var lean = -8 * (1 - e);
+        head.style.transform = 'translate('+x.toFixed(1)+'px,'+hop.toFixed(1)+'px) rotate('+lean.toFixed(1)+'deg)';
+      }, function() {
+        cv._mode = 'idle';
+        var r = head.getBoundingClientRect();
+        _fxSpawn(r.left + r.width/2, r.bottom - 4, {n:8, up:true, speed:80, gravity:300, life:.45, size:4, spreadX:34, colors:['#8a5a30','#999','#c8a060']});
+        settle();
+      });
+    }, 380);
 
-  // ── POP ──────────────────────────────────────────────────────────────────
+  // ── POP — materialises with a pixel spark ring ────────────────────────────
   } else if (_entrance === 'pop') {
     setTimeout(function() {
-      var _bbl = document.getElementById('npc-bubble');
-      var _pc = makeClaudeCanvas(_curOutfit, 4);
-      sitter.innerHTML = ''; sitter.appendChild(_pc); if (_bbl) sitter.appendChild(_bbl);
       sitter.style.opacity = '1';
-      sitter.classList.add('claude-popping');
-      setTimeout(function() {
-        sitter.classList.remove('claude-popping');
-        doSeat(_pc._stopAnim);
-      }, 560);
+      var r = head.getBoundingClientRect();
+      _fxSpawn(r.left + r.width/2, r.top + r.height/2, {n:18, speed:150, gravity:60, life:.6, size:5});
+      _tween(460, _easeOutBackS, function(e) {
+        head.style.transform = 'scale('+Math.max(0,e).toFixed(3)+') rotate('+(-14*(1-e)).toFixed(1)+'deg)';
+      }, seat);
     }, 350);
 
-  // ── FLY ──────────────────────────────────────────────────────────────────
+  // ── FLY — swoops across the screen trailing pixel sparks ─────────────────
   } else {
-    var rect   = badgeIcon.getBoundingClientRect();
-    var destX  = window.innerWidth  - 110;
-    var destY  = window.innerHeight - 70;
-    var _flyerCanvStop = null, _cnjStop = null;
-    var flyer  = document.createElement('div');
+    var rect  = badgeIcon.getBoundingClientRect();
+    var destX = window.innerWidth  - 110;
+    var destY = window.innerHeight - 70;
+    var flyer = document.createElement('div');
     flyer.className = 'claude-flyer';
-    var _flyerCanvas = makeClaudeCanvas(_curOutfit, 5);
-    _flyerCanvStop = _flyerCanvas._stopAnim;
-    flyer.appendChild(_flyerCanvas);
+    var fcv = makeClaudeCanvas(_curOutfit, 5);
+    flyer.appendChild(fcv);
     flyer.style.cssText = 'left:'+(rect.left+rect.width/2-40)+'px;top:'+(rect.top+rect.height/2-50)+'px;';
     document.body.appendChild(flyer);
 
-    var TRAIL_COLORS = ['#c06aff','#ff9820','#2cb4e8','#58e840','#e04848','#ffea00','#f2dfc0','#ff60a0'];
-    var trailTick = 0;
+    var TRAIL_COLORS = ['#c9f24d','#e07a5f','#2cb4e8','#f2b04d','#e8e4d8','#c06aff'];
     var trailTimer = setInterval(function() {
       if (!document.body.contains(flyer)) { clearInterval(trailTimer); return; }
       var fr = flyer.getBoundingClientRect();
-      var p  = document.createElement('div');
-      p.className = 'trail-particle';
-      var sz = 5 + Math.random() * 10;
-      p.style.cssText = 'width:'+sz+'px;height:'+sz+'px;left:'+(fr.left+fr.width/2-sz/2)+'px;top:'+(fr.top+fr.height/2-sz/2)+'px;background:'+TRAIL_COLORS[trailTick++%TRAIL_COLORS.length]+';animation-duration:'+(0.4+Math.random()*.45)+'s;';
-      document.body.appendChild(p);
-      setTimeout(function(){ if(p.parentNode) p.remove(); }, 850);
-    }, 36);
+      _fxSpawn(fr.left+fr.width/2, fr.top+fr.height/2, {n:2, colors:TRAIL_COLORS, speed:40, gravity:30, life:.5, size:5, spreadX:20, spreadY:20});
+    }, 34);
 
     var flyStyles = [
       function(){ flyer.style.transition='all 1.1s cubic-bezier(.22,1,.36,1)'; flyer.style.transform='scale(1.8) rotate(540deg)'; },
@@ -1099,31 +1024,20 @@ function summomClaude() {
 
     setTimeout(function() {
       clearInterval(trailTimer);
+      fcv._stopAnim();
       if (flyer.parentNode) flyer.remove();
-      var BURST = ['✨','⚡','🌟','💫','🔥','❤️','💥','🎇','🌈','💎'];
-      for (var i=0;i<16;i++) { (function(i){
-        var b=document.createElement('div'); b.className='burst-particle';
-        var ang=(i/16)*Math.PI*2, dist=50+Math.random()*65;
-        b.style.cssText='left:'+destX+'px;top:'+destY+'px;--tx:'+(Math.cos(ang)*dist)+'px;--ty:'+(Math.sin(ang)*dist)+'px;font-size:'+(11+Math.random()*10)+'px;animation-delay:'+(i*.03)+'s;';
-        b.textContent=BURST[i%BURST.length]; document.body.appendChild(b);
-        setTimeout(function(){ if(b.parentNode) b.remove(); },1000);
-      })(i); }
-      var fl=document.createElement('div'); fl.className='snap-flash';
-      fl.style.cssText='left:'+(destX-36)+'px;top:'+(destY-36)+'px;';
+      // Pixel burst instead of emoji confetti
+      _fxSpawn(destX, destY, {n:26, colors:TRAIL_COLORS, speed:190, gravity:120, life:.8, size:5});
+      var fl = document.createElement('div'); fl.className = 'snap-flash';
+      fl.style.cssText = 'left:'+(destX-36)+'px;top:'+(destY-36)+'px;';
       document.body.appendChild(fl);
-      setTimeout(function(){ if(fl.parentNode) fl.remove(); },680);
+      setTimeout(function(){ if (fl.parentNode) fl.remove(); }, 680);
 
-      if (_flyerCanvStop) { _flyerCanvStop(); _flyerCanvStop=null; }
-      var _cnj = makeClaudeCanvas(_curOutfit, 4);
-      _cnjStop = _cnj._stopAnim;
-      var _bbl = document.getElementById('npc-bubble');
-      sitter.innerHTML=''; sitter.appendChild(_cnj); if(_bbl) sitter.appendChild(_bbl);
+      sitter.style.opacity = '1';
       sitter.classList.add('conjuring');
-      sitter.style.opacity='1'; sitter.style.transform='translateY(0) scale(1)';
-
       setTimeout(function() {
         sitter.classList.remove('conjuring');
-        doSeat(_cnjStop);
+        seat();
       }, 900);
     }, 1400);
   }
@@ -1131,26 +1045,11 @@ function summomClaude() {
 
 function spawnSofaDust(el) {
   var rect = el.getBoundingClientRect();
-  var colors = ['#d82020','#f04040','#a01010','#e83030','#ff5858','#c82020','#8a0e0e','#c8a060','#a08040','#999','#555'];
-  for (var i = 0; i < 75; i++) {
-    (function() {
-      var p = document.createElement('div');
-      p.className = 'dust-particle';
-      var x = rect.left + Math.random() * rect.width;
-      var y = rect.top  + rect.height * (0.1 + Math.random() * 0.9);
-      var size = 2 + Math.random() * 6;
-      var angle = -Math.PI/2 + (Math.random() - 0.5) * Math.PI * 1.5;
-      var dist  = 35 + Math.random() * 90;
-      var dur   = (0.5 + Math.random() * 0.85).toFixed(2);
-      p.style.cssText = 'left:'+x+'px;top:'+y+'px;width:'+size+'px;height:'+size+'px;'
-        +'background:'+colors[Math.floor(Math.random()*colors.length)]+';'
-        +'--dx:'+(Math.cos(angle)*dist).toFixed(1)+'px;'
-        +'--dy:'+(Math.sin(angle)*dist).toFixed(1)+'px;'
-        +'--dur:'+dur+'s;';
-      document.body.appendChild(p);
-      setTimeout(function(){ if(p.parentNode) p.remove(); }, dur*1000+120);
-    })();
-  }
+  _fxSpawn(rect.left + rect.width/2, rect.top + rect.height*0.55, {
+    n:38, up:true, speed:170, gravity:320, life:.8, size:5,
+    spreadX:rect.width, spreadY:rect.height*0.6,
+    colors:['#d82020','#f04040','#a01010','#e83030','#c8a060','#8a5a30','#999','#555']
+  });
 }
 
 function dismissClaude() {
@@ -1191,17 +1090,27 @@ function dismissClaude() {
     table.style.transform  = 'scale(0.9)';
   }, 380);
 
-  // ③ Claude walks away sadly after the snap
+  // ③ Claude walks away sadly after the snap — real gait, fading out
   setTimeout(function() {
     sitter.classList.remove('claude-snapping');
-    sitter.classList.add('dismissing');
     sitter.style.filter = 'drop-shadow(0 4px 8px rgba(0,0,0,.5))';
+    var head = sitter.querySelector('.sitter-head');
+    var cv   = head && head.querySelector('canvas');
+    if (cv) cv._mode = 'walk';
+    if (head) {
+      _tween(1900, null, function(e, p) {
+        var hop = -Math.abs(Math.sin(p * Math.PI * 7)) * 2;
+        head.style.transform = 'translate('+(-175*p).toFixed(1)+'px,'+hop.toFixed(1)+'px) scaleX(-1)';
+        head.style.opacity   = String(Math.max(0, 1 - p*p*1.1));
+      });
+    }
   }, 520);
 
   // ④ Full cleanup
   setTimeout(function() {
-    sitter.classList.remove('seated','dismissing','idling','claude-snapping');
+    sitter.classList.remove('seated','idling','claude-snapping');
     sitter.innerHTML = '';
+    sitter._dodging = false;
     sitter.style.cssText = '';
     if (bubble) sitter.appendChild(bubble);
 
@@ -1227,7 +1136,11 @@ function dismissClaude() {
 function claudeDodge() {
   var sitter = document.getElementById('claude-sitter');
   var bubble = document.getElementById('npc-bubble');
-  if (!sitter || !SCENE_ACTIVE || sitter.classList.contains('dodging')) return;
+  if (!sitter || !SCENE_ACTIVE || sitter._dodging) return;
+  var head = sitter.querySelector('.sitter-head');
+  var cv   = head && head.querySelector('canvas');
+  if (!head) return;
+  sitter._dodging = true;
 
   if (bubble) bubble.classList.remove('show');
 
@@ -1237,28 +1150,39 @@ function claudeDodge() {
   var choices = SPOTS.filter(function(p){ return Math.abs(p - cur) > 12; });
   if (!choices.length) choices = SPOTS;
   var newRight = choices[Math.floor(Math.random() * choices.length)];
+  var dx = cur - newRight; // translate offset until we commit the new right
 
   sitter.classList.remove('idling');
-  sitter.classList.add('dodging');
 
-  // Slide to new spot at the peak of the jump (frame ~50%)
-  setTimeout(function() {
-    sitter.style.transition = 'right 0.38s cubic-bezier(.22,1,.36,1)';
-    sitter.style.right = newRight + 'px';
-    setTimeout(function(){ sitter.style.transition = ''; }, 420);
-  }, 140);
-
-  // Land, resume idle
-  setTimeout(function() {
-    sitter.classList.remove('dodging');
-    // Brief settle bounce filter
-    sitter.style.filter = 'drop-shadow(0 6px 12px rgba(0,0,0,.55)) brightness(1.15)';
-    setTimeout(function(){
-      sitter.style.filter = '';
-      sitter.classList.add('idling');
-      showNpcMessage();
-    }, 220);
-  }, 650);
+  // ① anticipation crouch
+  _tween(90, _easeOutQuart, function(e) {
+    head.style.transform = 'scale('+(1+0.10*e).toFixed(3)+','+(1-0.16*e).toFixed(3)+')';
+  }, function() {
+    // ② airborne hop — legs tucked, stretching through the arc
+    if (cv) cv._mode = 'tuck';
+    _tween(400, null, function(e, p) {
+      var y  = -34 * Math.sin(Math.PI * p);
+      var x  = dx * (p < 0.5 ? 2*p*p : 1 - Math.pow(-2*p+2, 2)/2); // easeInOutQuad
+      var st = 1 + 0.12 * Math.sin(Math.PI * p);
+      head.style.transform = 'translate('+x.toFixed(1)+'px,'+y.toFixed(1)+'px) scale('+(2-st).toFixed(3)+','+st.toFixed(3)+')';
+    }, function() {
+      // commit position in the same frame the translate is dropped — no visual jump
+      sitter.style.right = newRight + 'px';
+      head.style.transform = 'scale(1.14,0.84)';
+      if (cv) cv._mode = 'idle';
+      var r = head.getBoundingClientRect();
+      _fxSpawn(r.left + r.width/2, r.bottom - 4, {n:10, up:true, speed:90, gravity:300, life:.5, size:4, spreadX:30, colors:['#d82020','#8a5a30','#999','#c8a060']});
+      // ③ landing squash → settle back to idle
+      _tween(200, _easeOutQuart, function(e) {
+        head.style.transform = 'scale('+(1.14-0.14*e).toFixed(3)+','+(0.84+0.16*e).toFixed(3)+')';
+      }, function() {
+        head.style.transform = '';
+        sitter._dodging = false;
+        sitter.classList.add('idling');
+        showNpcMessage();
+      });
+    });
+  });
 }
 
 function initNPC() {
