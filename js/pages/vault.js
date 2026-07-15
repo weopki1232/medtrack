@@ -59,7 +59,7 @@ function renderVault() {
 
   if (!vaultQuizMode) {
     html += '<div style="display:flex;gap:10px"><input class="input" placeholder="'+t('search_formulas')+'" value="'+vaultSearch+'" oninput="vaultSearch=this.value;renderVault()" style="max-width:320px">';
-    html += '<select class="input" style="max-width:200px;width:auto" onchange="vaultSearch=this.value;renderVault()"><option value="">'+t('vault_all_subjects')+'</option>'+getSubjects().map(function(s){return '<option value="'+s.shortName+'"'+(vaultSearch===s.shortName?' selected':'')+'>'+s.icon+' '+s.shortName+'</option>';}).join('')+'</select></div>';
+    html += '<select class="input" style="max-width:200px;width:auto" onchange="vaultSearch=this.value;renderVault()"><option value="">'+t('vault_all_subjects')+'</option>'+getSubjects().map(function(s){return '<option value="'+s.shortName+'"'+(vaultSearch===s.shortName?' selected':'')+'>'+subjIconTxt(s)+' '+s.shortName+'</option>';}).join('')+'</select></div>';
   }
 
   if (filtered.length === 0) {
@@ -113,7 +113,7 @@ function cardBackHtml(f) {
 // Badge for a card: real subject if it has one, else the imported deck tag (e.g. "⚗️ Chem · atoms").
 function cardBadge(f) {
   var sub = f.subjectId ? getSubject(f.subjectId) : null;
-  if (sub) return '<span class="badge" style="background:'+sub.color+'22;color:'+sub.color+';margin-bottom:6px;display:inline-flex">'+sub.icon+' '+sub.shortName+'</span>';
+  if (sub) return '<span class="badge" style="background:'+sub.color+'22;color:'+sub.color+';margin-bottom:6px;display:inline-flex">'+subjIcon(sub)+' '+sub.shortName+'</span>';
   if (f.badge) return '<span class="badge" style="background:'+(f.color||'#8b5cf6')+'22;color:'+(f.color||'#8b5cf6')+';margin-bottom:6px;display:inline-flex">'+escHtml(f.badge)+'</span>';
   return '';
 }
@@ -138,7 +138,7 @@ function openAddFormulaModal() {
     '<div class="form-group"><label class="label">'+t('formula_name')+' *</label><input class="input" id="fm-name" placeholder="e.g. Kinematic velocity"></div>'+
     '<div class="form-group"><label class="label">'+t('formula_latex')+' *</label><input class="input" id="fm-latex" placeholder="e.g. v = v_0 + at"></div>'+
     '<div style="padding:8px 12px;background:var(--bg3);border-radius:8px;margin-bottom:14px;min-height:40px;font-size:13px;color:var(--muted)" id="fm-preview">Preview will appear here</div>'+
-    '<div class="form-group"><label class="label">'+t('fm_subj_lbl')+'</label><select class="input" id="fm-subj"><option value="">'+t('fm_none')+'</option>'+getSubjects().map(function(s){return '<option value="'+s.id+'">'+s.icon+' '+s.shortName+'</option>';}).join('')+'</select></div>'+
+    '<div class="form-group"><label class="label">'+t('fm_subj_lbl')+'</label><select class="input" id="fm-subj"><option value="">'+t('fm_none')+'</option>'+getSubjects().map(function(s){return '<option value="'+s.id+'">'+subjIconTxt(s)+' '+s.shortName+'</option>';}).join('')+'</select></div>'+
     '<div class="form-group"><label class="label">'+t('formula_notes')+'</label><textarea class="input" id="fm-notes" rows="2"></textarea></div>'+
     '<div class="modal-footer"><button class="btn btn-outline" onclick="closeModal(\'add-formula-modal\')">'+t('btn_cancel')+'</button><button class="btn btn-primary" onclick="submitAddFormula()">'+t('btn_save_formula')+'</button></div></div>';
   o.addEventListener('click', function(e){ if(e.target===o) closeModal('add-formula-modal'); });

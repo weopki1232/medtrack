@@ -1266,3 +1266,13 @@ body.theme-aurora .nav-item.active { background:linear-gradient(100deg, rgba(167
 /* empty states — quiet glyph in a hairline ring */
 .empty-state .empty-icon { font-size:22px; width:56px; height:56px; margin:0 auto 12px; display:grid; place-items:center;
   border:1px solid var(--border); border-radius:50%; color:var(--muted); opacity:.85; }
+
+/* ── Dual icon system: glyph (.ic2-g) default, emoji (.ic2-e) when body.icons-emoji ── */
+.ic2 { display:inline-flex; align-items:center; justify-content:center; }
+.ic2 .ic2-e { display:none; }
+.ic2 .ic2-g { font-style:normal; line-height:1; }
+body.icons-emoji .ic2 .ic2-e { display:inline; }
+body.icons-emoji .ic2 .ic2-g { display:none; }
+.subj-icon .ic2-g, .subj-icon.ic2 .ic2-g { color:var(--sc, var(--primary)); }
+.journey-ev-icon .ic2-g { color:var(--muted); }
+.subj-icon.ic2 { display:grid; }

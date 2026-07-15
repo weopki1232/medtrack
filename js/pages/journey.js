@@ -55,26 +55,26 @@ function renderJourney() {
     Object.keys(firstPerSubject).forEach(function(sid) {
       if (firstPerSubject[sid] === ym) {
         var sub = getSubject(sid);
-        if (sub) events.push({ icon: sub.icon, text: t('jour_started')+' '+sub.shortName });
+        if (sub) events.push({ icon: subjIcon(sub), text: t('jour_started')+' '+sub.shortName });
       }
     });
     // Top subject this month
     var topSid = Object.keys(m.subjectMins).reduce(function(a,b){ return m.subjectMins[a]>m.subjectMins[b]?a:b; }, null);
     var topSub = topSid ? getSubject(topSid) : null;
-    if (topSub) events.push({ icon:'🏅', text: topSub.shortName+' '+t('jour_most_studied_lbl')+' ('+fmtMins(m.subjectMins[topSid])+')' });
+    if (topSub) events.push({ icon:icon2('★','🏅'), text: topSub.shortName+' '+t('jour_most_studied_lbl')+' ('+fmtMins(m.subjectMins[topSid])+')' });
     // Streak days this month
     var ymDays = history.filter(function(d){ return d.substring(0,7)===ym; }).length;
-    if (ymDays > 0) events.push({ icon:'🔥', text: ymDays+' '+t('jour_study_days') });
+    if (ymDays > 0) events.push({ icon:icon2('✦','🔥'), text: ymDays+' '+t('jour_study_days') });
     // Phase transitions
     getStudyPhases().forEach(function(p) {
-      if (p.start.substring(0,7)===ym) events.push({ icon:'🚀', text:t('jour_entered')+' '+p.name });
+      if (p.start.substring(0,7)===ym) events.push({ icon:icon2('↗','🚀'), text:t('jour_entered')+' '+p.name });
     });
     // Daily reviews this month
     var monthReviews = reviewsByMonth[ym]||[];
     if(monthReviews.length>0){
       var latest=monthReviews.slice().sort(function(a,b){return b.date.localeCompare(a.date);})[0];
       var excerpt=latest.text.length>80?latest.text.substring(0,80)+'…':latest.text;
-      events.push({icon:'📝',text:t('review_journey_lbl')+' ('+monthReviews.length+'): "'+excerpt+'"'});
+      events.push({icon:icon2('✎','📝'),text:t('review_journey_lbl')+' ('+monthReviews.length+'): "'+excerpt+'"'});
     }
 
     html += '<div class="journey-month">';

@@ -35,10 +35,10 @@ function renderSettings(){
     return '<div class="card"><div class="section-title" style="margin-bottom:6px">'+t('subj_picker_title')+'</div>'+
     '<div style="font-size:12px;color:var(--muted);margin-bottom:10px">'+t('subj_picker_desc')+'</div>'+
     '<div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px">'+
-      TRACK_PRESETS.map(function(p){return '<button class="btn btn-outline btn-sm" onclick="applyTrackPresetUI(\''+p.id+'\')">'+p.icon+' '+t('preset_'+p.id)+'</button>';}).join('')+
+      TRACK_PRESETS.map(function(p){return '<button class="btn btn-outline btn-sm" onclick="applyTrackPresetUI(\''+p.id+'\')">'+subjIcon(p)+' '+t('preset_'+p.id)+'</button>';}).join('')+
     '</div>'+
     '<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:6px">'+
-      getAllSubjects().map(function(su){var on=enabled.indexOf(su.id)!==-1;return '<label style="display:flex;align-items:center;gap:8px;font-size:12px;padding:6px 8px;border:1px solid var(--border);border-radius:8px;cursor:pointer;background:'+(on?'var(--bg2)':'transparent')+';opacity:'+(on?'1':'.55')+'"><input type="checkbox" '+(on?'checked':'')+' onchange="toggleSubjectEnabledUI(\''+su.id+'\',this.checked)">'+su.icon+' <span>'+su.shortName+'</span></label>';}).join('')+
+      getAllSubjects().map(function(su){var on=enabled.indexOf(su.id)!==-1;return '<label style="display:flex;align-items:center;gap:8px;font-size:12px;padding:6px 8px;border:1px solid var(--border);border-radius:8px;cursor:pointer;background:'+(on?'var(--bg2)':'transparent')+';opacity:'+(on?'1':'.55')+'"><input type="checkbox" '+(on?'checked':'')+' onchange="toggleSubjectEnabledUI(\''+su.id+'\',this.checked)">'+subjIcon(su)+' <span>'+su.shortName+'</span></label>';}).join('')+
     '</div></div>';
   })()+
 
@@ -112,6 +112,9 @@ function renderSettings(){
     var active = (s.theme||'default')===th.id;
     return '<div class="theme-swatch'+(active?' active':'')+'" style="background:'+th.bg+';color:'+th.accent+'" onclick="applyTheme(\''+th.id+'\')">'+th.label+'</div>';
   }).join('')+
+  '</div>'+
+  '<div style="display:flex;align-items:center;gap:8px;margin-top:16px;flex-wrap:wrap"><span style="font-size:12px;color:var(--muted);margin-right:2px">'+t('set_icons')+'</span>'+
+  ['auto','glyph','emoji'].map(function(m){var cur=(s.iconStyle||'auto')===m;return '<button class="btn '+(cur?'btn-primary':'btn-outline')+' btn-sm" onclick="setIconStyle(\''+m+'\')">'+t('set_icons_'+m)+'</button>';}).join('')+
   '</div></div>'+
   '<div class="card"><div class="section-title" style="margin-bottom:10px">'+t('set_lang')+'</div><div style="display:flex;gap:10px;align-items:center">'+
   '<button class="btn '+(s.lang==='en'||!s.lang?'btn-primary':'btn-outline')+' btn-sm" onclick="setLang(\'en\')">🇬🇧 English</button>'+
@@ -145,7 +148,7 @@ function openOnboardingModal(){
   o.innerHTML='<div class="modal-box" style="max-width:440px"><div class="modal-title">'+t('onboard_title')+'</div>'+
     '<div style="font-size:13px;color:var(--muted);margin:10px 0 16px">'+t('onboard_sub')+'</div>'+
     '<div style="display:flex;flex-direction:column;gap:8px">'+
-    TRACK_PRESETS.map(function(p){return '<button class="btn btn-outline" style="text-align:left" onclick="applyTrackPresetUI(\''+p.id+'\')">'+p.icon+' '+t('preset_'+p.id)+'</button>';}).join('')+
+    TRACK_PRESETS.map(function(p){return '<button class="btn btn-outline" style="text-align:left" onclick="applyTrackPresetUI(\''+p.id+'\')">'+subjIcon(p)+' '+t('preset_'+p.id)+'</button>';}).join('')+
     '<button class="btn btn-ghost" onclick="closeModal(\'onboard-modal\');navigate(\'settings\')">'+t('onboard_custom')+'</button>'+
     '</div></div>';
   document.body.appendChild(o);
@@ -189,6 +192,7 @@ function setDarkMode(mode){
   renderSettings();
 }
 function toggleDarkMode(){var s=getSettings();setDarkMode(s.darkMode?'light':'dark');}
+function setIconStyle(v){Storage.saveSettings({iconStyle:v});applyIconMode();renderPage(currentPage);toast(t('toast_settings_saved'),'success');}
 function toggleSound(){const s=getSettings();Storage.saveSettings({soundEnabled:!s.soundEnabled});renderSettings();}
 function exportData(){const data={};for(let i=0;i<localStorage.length;i++){const k=localStorage.key(i);if(k&&k.startsWith('mt_'))data[k]=localStorage.getItem(k);}const b=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='medtrack-backup-'+today()+'.json';a.click();toast(t('toast_exported'),'success');}
 function importData(){const i=document.createElement('input');i.type='file';i.accept='.json';i.onchange=function(e){const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=function(ev){try{const d=JSON.parse(ev.target.result);Object.entries(d).forEach(function(kv){if(kv[0].startsWith('mt_'))localStorage.setItem(kv[0],kv[1]);});toast(t('toast_imported'),'success');setTimeout(function(){location.reload();},1200);}catch(ex){toast('Invalid file','error');}};r.readAsText(f);};i.click();}
@@ -201,6 +205,7 @@ function applyTheme(name) {
   document.body.classList.remove.apply(document.body.classList, themes);
   if (name && name !== 'default') document.body.classList.add('theme-'+name);
   Storage.saveSettings({theme: name});
+  applyIconMode();
   renderSettings();
   if (name === 'parchment') setTimeout(function(){ showNpcMessage("Ah, a cosy theme. Good choice. Now study. 📚"); }, 800);
 }

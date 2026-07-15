@@ -34,6 +34,24 @@ function fmtMins(m)   { const h=Math.floor(m/60),mn=m%60; return h===0?mn+'m':mn
 function fmtDate(str) { return new Date(str+'T00:00:00').toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'}); }
 function daysUntil(d) { const n=new Date(); n.setHours(0,0,0,0); return Math.ceil((new Date(d+'T00:00:00')-n)/86400000); }
 function getCurrentPhase() { const t=today(); return getStudyPhases().find(p=>t>=p.start&&t<=p.end)||null; }
+// ── Icon style: monochrome glyphs vs emoji ────────────────────────────────────
+// Markup carries BOTH (icon2); body.icons-emoji decides which shows. 'auto'
+// follows the theme: Meridian/Aurora = glyphs, legacy themes keep their emoji.
+function iconGlyphMode() {
+  var s=getSettings(), st=s.iconStyle||'auto';
+  if (st==='glyph') return true;
+  if (st==='emoji') return false;
+  var th=s.theme||'default';
+  return th==='default'||th==='aurora';
+}
+function applyIconMode() { document.body.classList.toggle('icons-emoji', !iconGlyphMode()); }
+function icon2(g,e,cls) { return '<span class="ic2'+(cls?' '+cls:'')+'"><span class="ic2-g">'+g+'</span><span class="ic2-e">'+e+'</span></span>'; }
+function subjIcon(s,cls) { return icon2(s.glyph||'◆', s.icon, cls); }
+// Plain-text contexts (<option>, textContent) can't carry the dual markup
+function subjIconTxt(s) { return iconGlyphMode() ? (s.glyph||'◆') : s.icon; }
+// Theme tokens live on body.theme-* classes, NOT :root — always read from body
+function themeTok(n,fb) { var v=getComputedStyle(document.body).getPropertyValue(n).trim(); return v||fb||''; }
+
 function priorityBadge(p) { var m={critical:['badge-red','prio_critical'],high:['badge-amber','prio_high'],medium:['badge-green','prio_medium'],low:['badge-cyan','prio_low']}; var pair=m[p]||m.medium; return '<span class="badge '+pair[0]+'">'+t(pair[1])+'</span>'; }
 
 function toast(msg, type='info') {

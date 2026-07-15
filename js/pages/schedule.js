@@ -35,7 +35,7 @@ function renderWeeklySummary() {
       '<div style="display:flex;gap:5px;align-items:flex-end">'+barsHtml+'</div>'+
       '<div>'+
         '<div style="font-size:24px;font-weight:700">'+fmtMins(thisW)+'</div>'+
-        (bestSub?'<div style="font-size:12px;color:var(--muted);margin-top:4px">'+t('dash_weekly_best')+': <span style="color:'+bestSub.color+';font-weight:600">'+bestSub.icon+' '+bestSub.shortName+'</span></div>':'')+
+        (bestSub?'<div style="font-size:12px;color:var(--muted);margin-top:4px">'+t('dash_weekly_best')+': <span style="color:'+bestSub.color+';font-weight:600">'+subjIcon(bestSub)+' '+bestSub.shortName+'</span></div>':'')+
       '</div>'+
     '</div>'+
   '</div>';
@@ -105,7 +105,7 @@ function renderScheduleCard() {
       if(!sub) return;
       var slotTasks = pendingTasks.filter(function(tk){return tk.subjectId===sl.subjectId;});
       html += '<div style="display:flex;align-items:center;gap:10px;padding:10px 12px;background:var(--bg2);border-radius:10px;border:1px solid '+(sl.done?'var(--green,#22c55e)':sub.color)+'2e">';
-      html += '<span style="font-size:22px">'+sub.icon+'</span>';
+      html += '<span style="font-size:22px">'+subjIcon(sub)+'</span>';
       html += '<div style="flex:1">';
       html += '<div style="font-weight:600;font-size:14px">'+(sl.done?'<s>':'')+sub.shortName+(sl.done?'</s>':'')+'</div>';
       html += '<div style="font-size:11px;color:var(--muted)">'+sl.durationMins+' '+t('sched_mins');
@@ -190,7 +190,7 @@ function openCustomizeScheduleModal() {
     var sub = getSubject(sl.subjectId);
     return '<div style="display:flex;align-items:center;gap:8px;margin-bottom:8px" id="sched-slot-'+i+'">' +
       '<select class="input" id="sched-sub-'+i+'" style="flex:1">' +
-      getSubjects().map(function(s){return '<option value="'+s.id+'"'+(s.id===sl.subjectId?' selected':'')+'>'+s.icon+' '+s.shortName+'</option>';}).join('') +
+      getSubjects().map(function(s){return '<option value="'+s.id+'"'+(s.id===sl.subjectId?' selected':'')+'>'+subjIconTxt(s)+' '+s.shortName+'</option>';}).join('') +
       '</select>' +
       '<input type="number" class="input" id="sched-dur-'+i+'" value="'+sl.durationMins+'" min="10" max="300" style="width:70px" title="'+t('sched_duration')+'">' +
       '<span style="color:var(--muted);font-size:11px">'+t('sched_mins')+'</span>' +
@@ -216,7 +216,7 @@ function addSchedSlot() {
   div.id = 'sched-slot-'+i;
   div.style.cssText = 'display:flex;align-items:center;gap:8px;margin-bottom:8px';
   div.innerHTML = '<select class="input" id="sched-sub-'+i+'" style="flex:1">' +
-    getSubjects().map(function(s){return '<option value="'+s.id+'">'+s.icon+' '+s.shortName+'</option>';}).join('') +
+    getSubjects().map(function(s){return '<option value="'+s.id+'">'+subjIconTxt(s)+' '+s.shortName+'</option>';}).join('') +
     '</select><input type="number" class="input" id="sched-dur-'+i+'" value="30" min="10" max="300" style="width:70px">' +
     '<span style="color:var(--muted);font-size:11px">'+t('sched_mins')+'</span>' +
     '<button class="btn btn-ghost btn-xs" onclick="this.parentElement.remove()">✕</button>';
@@ -307,7 +307,7 @@ function renderSchedulePage() {
       var sub = getSubject(sl.subjectId);
       if (!sub) return;
       html += '<div style="display:flex;align-items:center;gap:3px;padding:3px 5px;border-radius:5px;background:' + sub.color + '1a;border:1px solid ' + sub.color + '30;cursor:pointer;position:relative" title="' + sub.shortName + ' — ' + sl.durationMins + 'min" onclick="startScheduledSession(\'' + sl.subjectId + '\',' + sl.durationMins + ')">';
-      html += '<span style="font-size:13px;flex-shrink:0">' + sub.icon + '</span>';
+      html += '<span style="font-size:13px;flex-shrink:0">' + subjIcon(sub) + '</span>';
       html += '<div style="flex:1;min-width:0"><div style="font-size:10px;font-weight:600;color:' + sub.color + ';white-space:nowrap;overflow:hidden;text-overflow:ellipsis">' + sub.shortName + '</div>';
       html += '<div style="font-size:9px;color:var(--muted)">' + sl.durationMins + 'm' + (sl.done ? ' ✓' : '') + '</div></div>';
       html += '<button onclick="event.stopPropagation();removeCalSlot(\'' + dateStr + '\',' + idx + ')" style="background:none;border:none;color:var(--muted);font-size:10px;padding:0 2px;line-height:1;opacity:.6;cursor:pointer" title="Remove">✕</button>';
@@ -321,7 +321,7 @@ function renderSchedulePage() {
       html += '<div style="padding:3px 5px;border-radius:5px;background:' + col + '18;border:1px solid ' + col + '30;cursor:pointer;display:flex;align-items:flex-start;gap:4px" title="Click to mark done" onclick="calToggleTask(\'' + tk.id + '\')">';
       html += '<span style="font-size:11px;margin-top:1px;flex-shrink:0">▦</span>';
       html += '<div style="flex:1;min-width:0"><div style="font-size:10px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:var(--text)">' + escHtml(tk.title) + '</div>';
-      if (sub2) html += '<div style="font-size:9px;color:var(--muted)">' + sub2.icon + ' ' + sub2.shortName + '</div>';
+      if (sub2) html += '<div style="font-size:9px;color:var(--muted)">' + subjIcon(sub2) + ' ' + sub2.shortName + '</div>';
       html += '</div>';
       html += '<span style="font-size:10px;color:var(--muted);flex-shrink:0;margin-top:1px">○</span>';
       html += '</div>';
@@ -360,7 +360,7 @@ function openCalAddSlotModal(dateStr) {
     '<div class="modal-title">📅 ' + t('cal_slot_title') + ' ' + fmtDate(dateStr) + '</div>' +
     '<div class="form-group"><label class="label">' + t('cal_slot_subj') + '</label>' +
     '<select class="input" id="cal-slot-subj">' +
-    getSubjects().map(function(s) { return '<option value="' + s.id + '">' + s.icon + ' ' + s.shortName + '</option>'; }).join('') +
+    getSubjects().map(function(s) { return '<option value="' + s.id + '">' + subjIconTxt(s) + ' ' + s.shortName + '</option>'; }).join('') +
     '</select></div>' +
     '<div class="form-group"><label class="label">' + t('cal_slot_dur') + '</label>' +
     '<input type="number" class="input" id="cal-slot-dur" value="60" min="10" max="360"></div>' +

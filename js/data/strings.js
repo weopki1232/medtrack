@@ -120,6 +120,7 @@ const STRINGS = {
     set_save:'Save Settings', set_data:'Data Management',
     set_export:'⇧ Export', set_import:'⇩ Import', set_clear:'Clear All',
     set_theme:'Theme', set_theme_sub:'Choose your color scheme', set_lang:'Language',
+    set_icons:'Icons', set_icons_auto:'Auto (match theme)', set_icons_glyph:'Glyphs', set_icons_emoji:'Emoji',
     // Diagrams
     diag_title:'Diagram Builder', diag_save:'Save', diag_new:'✚ New',
     diag_saved:'Saved Diagrams', diag_no_saved:'No saved diagrams', diag_nodes:'nodes',
@@ -336,6 +337,7 @@ const STRINGS = {
     set_save:'บันทึกการตั้งค่า', set_data:'จัดการข้อมูล',
     set_export:'⇧ ส่งออก', set_import:'⇩ นำเข้า', set_clear:'ลบทั้งหมด',
     set_theme:'ธีม', set_theme_sub:'เลือกรูปแบบสี', set_lang:'ภาษา',
+    set_icons:'ไอคอน', set_icons_auto:'อัตโนมัติ (ตามธีม)', set_icons_glyph:'สัญลักษณ์', set_icons_emoji:'อีโมจิ',
     // Diagrams
     diag_title:'สร้างไดอะแกรม', diag_save:'บันทึก', diag_new:'✚ ใหม่',
     diag_saved:'ไดอะแกรมที่บันทึก', diag_no_saved:'ยังไม่มีไดอะแกรม', diag_nodes:'โหนด',

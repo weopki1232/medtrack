@@ -16,6 +16,7 @@ function init() {
   }
   // Apply saved theme
   if (s.theme && s.theme !== 'default') document.body.classList.add('theme-'+s.theme);
+  applyIconMode();
   // Restore lights state
   if (localStorage.getItem('mt_lights_off') === '1') {
     document.body.classList.add('lights-off');
