@@ -1189,7 +1189,7 @@ body.theme-enchant, body.theme-parchment, .light-mode, .light-mode body { --on-p
 .dash-hero-name { font-family:var(--font-display); font-size:22px; font-weight:600; color:var(--text); }
 .dash-hero-date { font-family:var(--font-mono); font-size:12px; color:var(--muted); }
 .dash-hero-prog { margin-top:22px; height:5px; border-radius:99px; background:rgba(255,255,255,.07); overflow:hidden; position:relative; }
-.dash-hero-prog i { display:block; height:100%; width:100%; transform-origin:left; border-radius:99px; background:linear-gradient(90deg, var(--primary), color-mix(in srgb, var(--primary) 60%, #7ad600)); }
+.dash-hero-prog i { display:block; height:100%; width:100%; transform-origin:left; border-radius:99px; background:linear-gradient(90deg, var(--primary), var(--primary-l)); }
 
 /* ── One-time entrance (only first dashboard paint per load; never on re-render) ── */
 .dash-entering > * { opacity:0; animation:dashRise .6s var(--ease) forwards; }
@@ -1241,6 +1241,23 @@ body.theme-enchant, body.theme-parchment, .light-mode, .light-mode body { --on-p
 .subj-name { font-family:var(--font-display); letter-spacing:-.01em; }
 .subj-pct { font-family:var(--font-display); font-size:22px; font-weight:700; letter-spacing:-.02em; }
 .subj-behind { box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--red) 55%, transparent); }
+
+/* ── Aurora theme (9th) — deep glass, violet→cyan, from redesign/mockups/mockup-aurora.html ── */
+body.theme-aurora {
+  --bg:#0a0b14; --bg2:#12131f; --bg3:#1a1c2c; --border:rgba(255,255,255,.09);
+  --text:#eef0f9; --muted:#9096b5;
+  --primary:#a78bfa; --primary-l:#c4b5fd; --on-primary:#14102a;
+  --cyan:#5ad4e6; --green:#5fe0a0; --amber:#ffc55c; --red:#ff6b8a;
+  --motion:1;
+}
+body.theme-aurora::before { content:""; position:fixed; inset:0; z-index:0; pointer-events:none;
+  background:
+    radial-gradient(560px 560px at -4% -8%, rgba(109,75,255,.30), transparent 68%),
+    radial-gradient(500px 500px at 104% 16%, rgba(18,168,200,.22), transparent 68%),
+    radial-gradient(460px 460px at 34% 108%, rgba(217,79,176,.16), transparent 68%); }
+body.theme-aurora #sidebar, body.theme-aurora #header, body.theme-aurora #main-content { position:relative; z-index:1; }
+body.theme-aurora .card { background:rgba(255,255,255,.045); -webkit-backdrop-filter:blur(14px); backdrop-filter:blur(14px); }
+body.theme-aurora .nav-item.active { background:linear-gradient(100deg, rgba(167,139,250,.22), rgba(90,212,230,.12)); }
 
 /* Journey — editorial month headings, mono stats */
 .journey-hd { font-family:var(--font-display); font-size:19px; font-weight:600; letter-spacing:-.01em; }

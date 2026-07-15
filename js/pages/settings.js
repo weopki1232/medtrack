@@ -99,7 +99,8 @@ function renderSettings(){
   '<div class="card"><div class="section-title" style="margin-bottom:12px">'+t('set_data')+'</div><div style="display:flex;gap:10px;flex-wrap:wrap"><button class="btn btn-outline btn-sm" onclick="exportData()">'+t('set_export')+'</button><button class="btn btn-outline btn-sm" onclick="importData()">'+t('set_import')+'</button><button class="btn btn-danger btn-sm" onclick="clearAllData()">'+t('set_clear')+'</button></div></div>'+
   '<div class="card"><div class="section-title" style="margin-bottom:4px">'+t('set_theme')+'</div><div style="font-size:12px;color:var(--muted);margin-bottom:2px">'+t('set_theme_sub')+'</div><div class="theme-grid">'+
   [
-    {id:'default',  label:'Default',  bg:'#0f1117', accent:'#a78bfa'},
+    {id:'default',  label:'Meridian', bg:'#08090c', accent:'#c9f24d'},
+    {id:'aurora',   label:'Aurora',   bg:'#0a0b14', accent:'#a78bfa'},
     {id:'oled',     label:'OLED',     bg:'#000000', accent:'#a78bfa'},
     {id:'neon',     label:'Neon',     bg:'#07071a', accent:'#d966ff'},
     {id:'cyber',    label:'Cyber',    bg:'#010b16', accent:'#38bdf8'},
@@ -196,7 +197,7 @@ function clearAllData(){if(!confirm(t('confirm_clear_data')))return;Object.keys(
 // ── Theme ─────────────────────────────────────────────────────────────────────
 function applyTheme(name) {
   _diagBgCache = null;
-  var themes = ['theme-oled','theme-neon','theme-cyber','theme-minimal','theme-academia','theme-enchant','theme-parchment'];
+  var themes = ['theme-oled','theme-neon','theme-cyber','theme-minimal','theme-academia','theme-enchant','theme-parchment','theme-aurora'];
   document.body.classList.remove.apply(document.body.classList, themes);
   if (name && name !== 'default') document.body.classList.add('theme-'+name);
   Storage.saveSettings({theme: name});
