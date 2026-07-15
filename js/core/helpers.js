@@ -38,7 +38,7 @@ function priorityBadge(p) { var m={critical:['badge-red','prio_critical'],high:[
 
 function toast(msg, type='info') {
   const el=document.getElementById('toast');
-  const icons={info:'ℹ️',success:'✅',warning:'⚠️',error:'❌'};
+  const icons={info:'ℹ︎',success:'✓',warning:'⚠︎',error:'✕'};
   el.innerHTML=(icons[type]||'ℹ️')+' '+msg;
   el.classList.add('show');
   clearTimeout(window._tt);

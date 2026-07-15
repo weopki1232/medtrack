@@ -308,7 +308,7 @@ function showBehindSchedulePopup(event, sid) {
   var o=document.createElement('div'); o.className='modal-overlay fade-in'; o.id='behind-popup-modal';
   o.innerHTML='<div class="modal-box" style="max-width:400px">'+
     '<div style="display:flex;align-items:center;gap:10px;margin-bottom:16px">'+
-      '<span style="font-size:22px">⚠️</span>'+
+      '<span style="font-size:22px;color:var(--red,#ef4444)">⚠&#xfe0e;</span>'+
       '<div><div style="font-size:16px;font-weight:700;color:var(--red,#ef4444)">'+t('behind_popup_title')+'</div>'+
       '<div style="font-size:11px;color:var(--muted)">'+s.icon+' '+s.name+'</div></div>'+
     '</div>'+
