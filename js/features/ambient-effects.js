@@ -600,7 +600,7 @@ var _CC = {
   bd:'#d97757', hi:'#e5967a', sh:'#b25f42', dk:'#2a1206',
   ht:'#1a1008', wh:'#f0ede6', cr:'#e8d8b8', nv:'#1e2848',
   yw:'#e0b830', br:'#7a4a18', gr:'#6a7080', rd:'#c02020',
-  sk:'#6ab0d8', wg:'#e8e4d8', lb:'#3a3060'
+  sk:'#6ab0d8', wg:'#e8e4d8', lb:'#3a3060', ac:'#c9f24d'
 };
 
 function _drawClaude(ctx, t, outfit, walkPhase) {
@@ -622,8 +622,8 @@ function _drawClaude(ctx, t, outfit, walkPhase) {
       px(4,0,8,1,C.ht);         // crown top (8px)
       px(4,1,8,1,C.ht);         // shaft
       px(4,2,8,1,C.ht);         // shaft
-      px(4,3,8,1,C.ht);         // shaft + overwrite with white band below
-      px(5,3,6,1,C.wh);         // white hat band (narrower, on top of shaft row)
+      px(4,3,8,1,C.ht);         // shaft + overwrite with volt band below
+      px(5,3,6,1,C.ac);         // volt-lime hat band (Meridian accent)
       px(1,4,14,1,C.ht); break;  // wide brim (14px = near-full width)
     case 'english':
       // British top hat in light gray, dark band
@@ -633,7 +633,12 @@ function _drawClaude(ctx, t, outfit, walkPhase) {
       px(4,3,8,1,C.gr);          // darker gray hat band
       px(1,4,14,1,C.wg); break;  // wide brim
     case 'doctor':
-      break;                       // no hat
+      // white medic cap with red cross
+      px(4,1,8,1,C.wh);
+      px(3,2,10,1,C.wh);
+      px(2,3,12,1,C.wh);
+      px(1,4,14,1,'#d8d4cc');      // cap rim, slightly shaded
+      px(7,2,2,2,C.rd); break;     // red medic mark, centered
     case 'engineer':
       px(4,2,8,1,C.yw);           // hard hat dome top
       px(2,3,12,1,C.yw);          // hat body
@@ -672,7 +677,9 @@ function _drawClaude(ctx, t, outfit, walkPhase) {
     case 'english':
       px(1,10,4,5,C.nv);              // left navy jacket panel over cream base
       px(11,10,4,5,C.nv);             // right navy jacket panel
-      px(7,11,2,4,C.rd); break;       // red tie in cream centre
+      px(2,11,1,1,C.yw);              // gold button, left lapel
+      px(13,11,1,1,C.yw);             // gold button, right lapel
+      px(7,11,2,4,'#e02828'); break;  // red tie in cream centre, brighter
 
     case 'doctor':
       px(3,10,1,5,'#c8c4be');         // left coat seam
@@ -690,6 +697,8 @@ function _drawClaude(ctx, t, outfit, walkPhase) {
     case 'pilot':
       px(1,10,2,5,C.br);              // left jacket side over cream
       px(13,10,2,5,C.br);             // right jacket side
+      px(3,10,10,1,C.wh);             // white aviator scarf around the neck
+      px(10,11,2,1,C.wh);             // scarf tail flicked to the right
       px(1,12,14,1,C.yw);             // rank stripe
       px(7,13,2,1,C.yw);              // badge
       px(4,14,8,1,C.yw); break;       // wings
@@ -813,10 +822,53 @@ var NEWS_SVG =
   '<rect x="0" y="9" width="11" height="1" fill="#c0bca8"/>'+
   '</svg>';
 
+// Magician: magic wand (dark shaft, white tip, volt-lime sparkles)
+var WAND_SVG =
+  '<svg xmlns="http://www.w3.org/2000/svg" class="claude-sprite" width="22" height="24" viewBox="0 0 11 12" shape-rendering="crispEdges">'+
+  '<rect x="5" y="4" width="1" height="8" fill="#2a2018"/>'+
+  '<rect x="5" y="2" width="1" height="2" fill="#f0ede6"/>'+
+  '<rect x="5" y="0" width="1" height="1" fill="#c9f24d"/>'+
+  '<rect x="3" y="1" width="1" height="1" fill="#c9f24d"/>'+
+  '<rect x="7" y="1" width="1" height="1" fill="#c9f24d"/>'+
+  '<rect x="2" y="4" width="1" height="1" fill="#c9f24d"/>'+
+  '<rect x="8" y="3" width="1" height="1" fill="#c9f24d"/>'+
+  '</svg>';
+
+// English: proper teacup on a saucer (gold trim, milky tea, steam)
+var TEA_SVG =
+  '<svg xmlns="http://www.w3.org/2000/svg" class="claude-sprite" width="22" height="24" viewBox="0 0 11 12" shape-rendering="crispEdges">'+
+  '<rect x="3" y="0" width="1" height="2" fill="rgba(210,220,240,.6)"/>'+
+  '<rect x="5" y="1" width="1" height="2" fill="rgba(210,220,240,.5)"/>'+
+  '<rect x="1" y="4" width="7" height="1" fill="#f0ede6"/>'+
+  '<rect x="2" y="4" width="5" height="1" fill="#b06a20"/>'+
+  '<rect x="1" y="5" width="7" height="2" fill="#f0ede6"/>'+
+  '<rect x="1" y="7" width="7" height="1" fill="#d4a020"/>'+
+  '<rect x="8" y="5" width="1" height="1" fill="#f0ede6"/>'+
+  '<rect x="9" y="5" width="1" height="2" fill="#f0ede6"/>'+
+  '<rect x="8" y="7" width="1" height="1" fill="#f0ede6"/>'+
+  '<rect x="0" y="8" width="10" height="1" fill="#e8e4d8"/>'+
+  '<rect x="1" y="9" width="8" height="1" fill="#c8c4b0"/>'+
+  '</svg>';
+
+// Pilot: paper plane banking right
+var PLANE_SVG =
+  '<svg xmlns="http://www.w3.org/2000/svg" class="claude-sprite" width="22" height="24" viewBox="0 0 11 12" shape-rendering="crispEdges">'+
+  '<rect x="1" y="2" width="9" height="1" fill="#f0ede6"/>'+
+  '<rect x="10" y="2" width="1" height="1" fill="#ffffff"/>'+
+  '<rect x="2" y="3" width="7" height="1" fill="#e8e4d8"/>'+
+  '<rect x="3" y="4" width="5" height="1" fill="#d8d4c8"/>'+
+  '<rect x="4" y="5" width="3" height="1" fill="#c8c4b8"/>'+
+  '<rect x="5" y="6" width="2" height="1" fill="#b8b4a8"/>'+
+  '<rect x="2" y="3" width="1" height="3" fill="#a8a498"/>'+
+  '</svg>';
+
 function _itemSvg(outfit) {
   if (outfit==='doctor')   return APPLE_SVG;
   if (outfit==='lawyer')   return BOOK_SVG;
   if (outfit==='engineer') return NEWS_SVG;
+  if (outfit==='original') return WAND_SVG;
+  if (outfit==='english')  return TEA_SVG;
+  if (outfit==='pilot')    return PLANE_SVG;
   return CUP_SVG;
 }
 
