@@ -597,7 +597,7 @@ var _claudeOutfitIdx = 0;
 var _activeSitterStop = null;
 var _OUTFITS = ['original','english','doctor','engineer','pilot','lawyer'];
 var _CC = {
-  bd:'#c4654a', hi:'#e07a5f', sh:'#923d2a', dk:'#2a1206',
+  bd:'#d97757', hi:'#e5967a', sh:'#b25f42', dk:'#2a1206',
   ht:'#1a1008', wh:'#f0ede6', cr:'#e8d8b8', nv:'#1e2848',
   yw:'#e0b830', br:'#7a4a18', gr:'#6a7080', rd:'#c02020',
   sk:'#6ab0d8', wg:'#e8e4d8', lb:'#3a3060'
@@ -667,7 +667,7 @@ function _drawClaude(ctx, t, outfit, walkPhase) {
   // ── SHIRT DETAILS ────────────────────────────────────────────────────
   switch(outfit) {
     case 'original':
-      px(7,12,2,2,C.yw); break;       // gold chest LED on dark plate
+      break;                          // plain coral blob — like the real Claude
 
     case 'english':
       px(1,10,4,5,C.nv);              // left navy jacket panel over cream base
@@ -701,13 +701,19 @@ function _drawClaude(ctx, t, outfit, walkPhase) {
       px(6,14,4,1,'#d8d4cc'); break;  // pleat decoration
   }
 
-  // ── EYES — tall standing rectangle (2 wide × 4 tall, drawn last) ────
+  // ── ROUNDED SILHOUETTE — clip body corners so the blob reads like the real Claude
+  function cl(x,y,w,h){ctx.clearRect(x,y,w,h);}
+  cl(1,5,2,1);  cl(13,5,2,1);   // top corners: 2px chamfer for a dome
+  cl(1,6,1,1);  cl(14,6,1,1);
+  cl(1,14,1,1); cl(14,14,1,1);  // bottom corners: 1px clip
+
+  // ── EYES — tall standing rectangle (2 wide × 3 tall, drawn last) ────
   if (!blink) {
     if (outfit==='pilot') {
       px(3,7,4,4,C.dk);  px(4,8,2,2,C.wh);   // left glasses: dark frame + white lens
       px(9,7,4,4,C.dk);  px(10,8,2,2,C.wh);  // right glasses: dark frame + white lens
     } else {
-      px(4,7,2,4,C.dk); px(10,7,2,4,C.dk);
+      px(4,7,2,3,C.dk); px(10,7,2,3,C.dk);
     }
   }
 
@@ -834,7 +840,7 @@ function _fxSpawn(x, y, o) {
   if (_REDUCED) return;
   o = o || {};
   var n    = Math.round((o.n || 12) * (_powerMode === 'min' ? 0.6 : 1));
-  var cols = o.colors || ['#c9f24d','#e07a5f','#f2b04d','#e8e4d8'];
+  var cols = o.colors || ['#c9f24d','#d97757','#f2b04d','#e8e4d8'];
   for (var i = 0; i < n; i++) {
     var ang = o.up ? (-Math.PI/2 + (Math.random()-0.5)*1.6) : Math.random()*Math.PI*2;
     var spd = (o.speed || 90) * (0.35 + Math.random()*0.8);
@@ -1003,7 +1009,7 @@ function summomClaude() {
     flyer.style.cssText = 'left:'+(rect.left+rect.width/2-40)+'px;top:'+(rect.top+rect.height/2-50)+'px;';
     document.body.appendChild(flyer);
 
-    var TRAIL_COLORS = ['#c9f24d','#e07a5f','#2cb4e8','#f2b04d','#e8e4d8','#c06aff'];
+    var TRAIL_COLORS = ['#c9f24d','#d97757','#2cb4e8','#f2b04d','#e8e4d8','#c06aff'];
     var trailTimer = setInterval(function() {
       if (!document.body.contains(flyer)) { clearInterval(trailTimer); return; }
       var fr = flyer.getBoundingClientRect();
