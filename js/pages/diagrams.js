@@ -20,11 +20,11 @@ function renderDiagrams() {
   '<button class="tool-btn '+(diagramState.nodeTexture==='dots'?'active':'')+'" onclick="setDiagramTexture(\'dots\')" title="Dots">∷</button>'+
   '<button class="tool-btn '+(diagramState.nodeTexture==='grid'?'active':'')+'" onclick="setDiagramTexture(\'grid\')" title="Grid">⊞</button>'+
   '<button class="tool-btn '+(diagramState.nodeTexture==='gradient'?'active':'')+'" onclick="setDiagramTexture(\'gradient\')" title="Gradient">◑</button>'+
-  '<button class="tool-btn '+(diagramState.nodeTexture==='wood'?'active':'')+'" onclick="setDiagramTexture(\'wood\')" title="Wood">🪵</button>'+
-  '<button class="tool-btn '+(diagramState.nodeTexture==='glass'?'active':'')+'" onclick="setDiagramTexture(\'glass\')" title="Glass">💎</button>'+
+  '<button class="tool-btn '+(diagramState.nodeTexture==='wood'?'active':'')+'" onclick="setDiagramTexture(\'wood\')" title="Wood">▥</button>'+
+  '<button class="tool-btn '+(diagramState.nodeTexture==='glass'?'active':'')+'" onclick="setDiagramTexture(\'glass\')" title="Glass">◇</button>'+
   '<button class="tool-btn '+(diagramState.nodeTexture==='marble'?'active':'')+'" onclick="setDiagramTexture(\'marble\')" title="Marble">◈</button>'+
   '<button class="tool-btn '+(diagramState.nodeTexture==='neon'?'active':'')+'" onclick="setDiagramTexture(\'neon\')" title="Neon glow">✦</button>'+
-  '<button class="tool-btn '+(diagramState.nodeTexture==='paper'?'active':'')+'" onclick="setDiagramTexture(\'paper\')" title="Parchment paper">📜</button>'+
+  '<button class="tool-btn '+(diagramState.nodeTexture==='paper'?'active':'')+'" onclick="setDiagramTexture(\'paper\')" title="Parchment paper">▱</button>'+
   '</div>'+
   '<div style="width:1px;background:var(--border);margin:0 4px"></div>'+
   '<div style="display:flex;align-items:center;gap:4px;font-size:12px;color:var(--muted)">'+t('diag_arrow_lbl')+
@@ -34,15 +34,15 @@ function renderDiagrams() {
   '<button class="tool-btn '+(diagramState.connStyle==='dotted'?'active':'')+'" onclick="setDiagramConnStyle(\'dotted\')" title="Dotted">⋯</button>'+
   '<button class="tool-btn '+(diagramState.connStyle==='double'?'active':'')+'" onclick="setDiagramConnStyle(\'double\')" title="Double line">⇒</button>'+
   '<button class="tool-btn '+(diagramState.connStyle==='wave'?'active':'')+'" onclick="setDiagramConnStyle(\'wave\')" title="Wave">〰</button>'+
-  '<button class="tool-btn '+(diagramState.connStyle==='thunder'?'active':'')+'" onclick="setDiagramConnStyle(\'thunder\')" title="Lightning">⚡</button>'+
+  '<button class="tool-btn '+(diagramState.connStyle==='thunder'?'active':'')+'" onclick="setDiagramConnStyle(\'thunder\')" title="Lightning">⚡&#xfe0e;</button>'+
   '</div>'+
   '<div style="width:1px;background:var(--border);margin:0 4px"></div>'+
-  '<button class="tool-btn '+(diagramState.floating?'active':'')+'" onclick="toggleDiagramFloat()" title="Toggle floating animation" style="gap:4px">🌊 '+(diagramState.floating?t('diag_float_on'):t('diag_float_off'))+'</button>'+
+  '<button class="tool-btn '+(diagramState.floating?'active':'')+'" onclick="toggleDiagramFloat()" title="Toggle floating animation" style="gap:4px">∿ '+(diagramState.floating?t('diag_float_on'):t('diag_float_off'))+'</button>'+
   '<div style="margin-left:auto"><button class="tool-btn" onclick="clearDiagram()">'+t('diag_clear')+'</button></div>'+
   '</div>'+
-  '<div style="display:flex;gap:14px;flex:1;min-height:0">'+
-  '<div style="flex:1;border:1px solid var(--border);border-radius:10px;overflow:hidden;background:var(--bg2);position:relative"><canvas id="diagram-canvas" style="display:block;width:100%;height:100%"></canvas><div style="position:absolute;bottom:10px;left:10px;font-size:11px;color:var(--muted);pointer-events:none">'+(diagramState.tool==='node'?t('diag_hint_node'):diagramState.tool==='connect'?t('diag_hint_connect'):diagramState.tool==='select'?t('diag_hint_select'):diagramState.tool==='delete'?t('diag_hint_delete'):t('diag_hint_text'))+'</div></div>'+
-  '<div style="width:200px;display:flex;flex-direction:column;gap:8px"><div style="font-size:13px;font-weight:600;color:var(--muted)">'+t('diag_saved')+'</div>'+
+  '<div class="diag-work" style="display:flex;gap:14px;flex:1;min-height:0">'+
+  '<div class="diag-canvas-box" style="flex:1;border:1px solid var(--border);border-radius:10px;overflow:hidden;background:var(--bg2);position:relative"><canvas id="diagram-canvas" style="display:block;width:100%;height:100%;touch-action:none"></canvas><div style="position:absolute;bottom:10px;left:10px;font-size:11px;color:var(--muted);pointer-events:none">'+(diagramState.tool==='node'?t('diag_hint_node'):diagramState.tool==='connect'?t('diag_hint_connect'):diagramState.tool==='select'?t('diag_hint_select'):diagramState.tool==='delete'?t('diag_hint_delete'):t('diag_hint_text'))+'</div></div>'+
+  '<div class="diag-saved" style="width:200px;display:flex;flex-direction:column;gap:8px"><div style="font-size:13px;font-weight:600;color:var(--muted)">'+t('diag_saved')+'</div>'+
   (diagrams.length===0?'<div style="font-size:12px;color:var(--muted);text-align:center;padding:20px 0">'+t('diag_no_saved')+'</div>':diagrams.map(function(d){return '<div style="padding:10px;background:var(--bg2);border:1px solid var(--border);border-radius:8px;font-size:13px;cursor:pointer" onclick="loadDiagram(\''+d.id+'\')"><div style="font-weight:500;margin-bottom:2px">'+d.name+'</div><div style="font-size:11px;color:var(--muted)">'+(d.nodes?d.nodes.length:0)+' '+t('diag_nodes')+'</div><button class="btn btn-danger btn-xs" style="margin-top:6px" onclick="event.stopPropagation();deleteDiagramUI(\''+d.id+'\')">'+t('diag_del_btn')+'</button></div>';}).join(''))+
   '</div></div></div>';
 
@@ -50,14 +50,26 @@ function renderDiagrams() {
 }
 function initDiagramCanvas() {
   dCanvas=document.getElementById('diagram-canvas'); if(!dCanvas)return;
-  const ct=dCanvas.parentElement; dCanvas.width=ct.clientWidth; dCanvas.height=ct.clientHeight;
+  sizeDiagramCanvas();
   dCtx=dCanvas.getContext('2d');
   dCanvas.addEventListener('click',onDiagramClick);
-  dCanvas.addEventListener('mousedown',onDiagramDown);
-  dCanvas.addEventListener('mousemove',onDiagramMove);
-  dCanvas.addEventListener('mouseup',function(){diagramState.dragging=null;});
+  dCanvas.addEventListener('pointerdown',onDiagramDown);
+  dCanvas.addEventListener('pointermove',onDiagramMove);
+  dCanvas.addEventListener('pointerup',onDiagramUp);
+  dCanvas.addEventListener('pointercancel',onDiagramUp);
   dCanvas.addEventListener('dblclick',onDiagramDbl);
+  if(!window._diagResizeBound){
+    window._diagResizeBound=true;
+    window.addEventListener('resize',function(){
+      if(dCanvas&&dCanvas.offsetParent&&sizeDiagramCanvas())drawDiagram();
+    });
+  }
   if(diagramState.floating){startDiagramFloat();}else{drawDiagram();}
+}
+function sizeDiagramCanvas(){
+  var ct=dCanvas.parentElement,w=ct.clientWidth,h=ct.clientHeight;
+  if(w===dCanvas.width&&h===dCanvas.height)return false;
+  dCanvas.width=w; dCanvas.height=h; return true;
 }
 function dXY(e){const r=dCanvas.getBoundingClientRect();return{x:(e.clientX-r.left)*(dCanvas.width/r.width),y:(e.clientY-r.top)*(dCanvas.height/r.height)};}
 function findNodeAt(x,y){for(let i=diagramState.nodes.length-1;i>=0;i--){const n=diagramState.nodes[i];if(x>=n.x-n.w/2&&x<=n.x+n.w/2&&y>=n.y-n.h/2&&y<=n.y+n.h/2)return i;}return -1;}
@@ -69,9 +81,30 @@ function onDiagramClick(e){
   else if(diagramState.tool==='connect'){const ni=findNodeAt(x,y);if(ni>=0){const nid=diagramState.nodes[ni].id;if(!diagramState.connecting){diagramState.connecting=nid;diagramState.nodes[ni]._h=true;drawDiagram();}else if(diagramState.connecting!==nid){diagramState.connections.push({id:uid(),from:diagramState.connecting,to:nid,color:diagramState.connColor,style:diagramState.connStyle});diagramState.nodes.forEach(n=>delete n._h);diagramState.connecting=null;drawDiagram();}}}
   else if(diagramState.tool==='select'){const ni=findNodeAt(x,y);diagramState.nodes.forEach(n=>n._s=false);if(ni>=0)diagramState.nodes[ni]._s=true;drawDiagram();}
 }
-function onDiagramDown(e){if(diagramState.tool!=='select')return;const{x,y}=dXY(e);const ni=findNodeAt(x,y);if(ni>=0){diagramState.dragging=ni;diagramState.dragOffset={x:x-diagramState.nodes[ni].x,y:y-diagramState.nodes[ni].y};}}
-function onDiagramMove(e){var pos=dXY(e);diagramState._mousePos=pos;if(diagramState.dragging!==null){diagramState.nodes[diagramState.dragging].x=pos.x-diagramState.dragOffset.x;diagramState.nodes[diagramState.dragging].y=pos.y-diagramState.dragOffset.y;}if(!diagramState.floating)drawDiagram();}
-function onDiagramDbl(e){if(diagramState.tool!=='select'&&diagramState.tool!=='text')return;const{x,y}=dXY(e);const ni=findNodeAt(x,y);if(ni<0)return;var val=prompt(t('diag_edit_node'),diagramState.nodes[ni].text);if(val!==null){diagramState.nodes[ni].text=val;drawDiagram();}}
+var _diagLpTimer=null,_diagLpPos=null;
+function _diagLpCancel(){if(_diagLpTimer){clearTimeout(_diagLpTimer);_diagLpTimer=null;}}
+function onDiagramDown(e){
+  var pos=dXY(e);
+  // touch/pen: long-press = edit node text (no dblclick on touch)
+  if(e.pointerType!=='mouse'&&(diagramState.tool==='select'||diagramState.tool==='text')){
+    _diagLpCancel();_diagLpPos=pos;
+    _diagLpTimer=setTimeout(function(){_diagLpTimer=null;editDiagramNodeAt(_diagLpPos);},550);
+  }
+  if(diagramState.tool!=='select')return;
+  var ni=findNodeAt(pos.x,pos.y);
+  if(ni>=0){
+    diagramState.dragging=ni;
+    diagramState.dragOffset={x:pos.x-diagramState.nodes[ni].x,y:pos.y-diagramState.nodes[ni].y};
+    if(e.pointerId!==undefined&&dCanvas.setPointerCapture){try{dCanvas.setPointerCapture(e.pointerId);}catch(_e){}}
+  }
+}
+function onDiagramUp(){diagramState.dragging=null;_diagLpCancel();}
+function onDiagramMove(e){var pos=dXY(e);diagramState._mousePos=pos;
+  if(_diagLpTimer&&_diagLpPos&&(Math.abs(pos.x-_diagLpPos.x)>8||Math.abs(pos.y-_diagLpPos.y)>8))_diagLpCancel();
+  if(diagramState.dragging!==null){diagramState.nodes[diagramState.dragging].x=pos.x-diagramState.dragOffset.x;diagramState.nodes[diagramState.dragging].y=pos.y-diagramState.dragOffset.y;}
+  if(!diagramState.floating)drawDiagram();}
+function editDiagramNodeAt(pos){var ni=findNodeAt(pos.x,pos.y);if(ni<0)return;var val=prompt(t('diag_edit_node'),diagramState.nodes[ni].text);if(val!==null){diagramState.nodes[ni].text=val;drawDiagram();}}
+function onDiagramDbl(e){if(diagramState.tool!=='select'&&diagramState.tool!=='text')return;editDiagramNodeAt(dXY(e));}
 function getDiagramTheme(){var cl=document.body.classList;if(cl.contains('theme-parchment'))return'parchment';if(cl.contains('theme-neon'))return'neon';if(cl.contains('theme-cyber'))return'cyber';if(cl.contains('theme-academia'))return'academia';if(cl.contains('theme-enchant'))return'enchant';if(cl.contains('theme-minimal'))return'minimal';if(cl.contains('theme-oled'))return'oled';return'default';}
 function getFloatY(idx){if(!diagramState.floating||!diagramState.floatTime)return 0;return Math.sin(diagramState.floatTime*0.001*1.15+idx*0.97)*4.5;}
 function getCachedDiagramBg(w,h,theme){
@@ -132,6 +165,7 @@ function renderDiagramBg(bx,w,h,theme){
 function drawDiagram(){
   if(!dCtx||!dCanvas)return;
   var w=dCanvas.width,h=dCanvas.height;
+  if(!w||!h)return;
   var theme=getDiagramTheme();
   dCtx.drawImage(getCachedDiagramBg(w,h,theme),0,0);
   // Connections
@@ -177,7 +211,7 @@ function startDiagramFloat(){
   if(diagramState.floatAnimId)return;
   var _diagLastTs=0;
   function tick(ts){
-    if(diagramState.floating&&dCanvas&&document.contains(dCanvas)){
+    if(diagramState.floating&&dCanvas&&dCanvas.offsetParent){
       diagramState.floatAnimId=requestAnimationFrame(tick);
       if(!document.hidden&&(_powerMode==='max'||ts-_diagLastTs>=33)){_diagLastTs=ts;diagramState.floatTime=ts;drawDiagram();}
     }else{diagramState.floatAnimId=null;}

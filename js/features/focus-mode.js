@@ -8,7 +8,7 @@ function openFocusMode() {
   var sid = timerState.selectedSubjectId;
   var sub = sid ? getSubject(sid) : null;
   var lbl = document.getElementById('focus-subject-lbl');
-  if (lbl) lbl.textContent = sub ? sub.icon+' '+sub.shortName : '';
+  if (lbl) lbl.textContent = sub ? subjIconTxt(sub)+' '+sub.shortName : '';
   overlay.classList.add('active');
   focusState.active = true;
   var soundBtn = document.getElementById('focus-sound-btn');

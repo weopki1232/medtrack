@@ -16,6 +16,7 @@ function init() {
   }
   // Apply saved theme
   if (s.theme && s.theme !== 'default') document.body.classList.add('theme-'+s.theme);
+  applyIconMode();
   // Restore lights state
   if (localStorage.getItem('mt_lights_off') === '1') {
     document.body.classList.add('lights-off');
@@ -71,14 +72,18 @@ function init() {
     }
   }
 
+  var _dateMq = matchMedia('(max-width:900px)');
   function updateDate() {
     var now = new Date();
     var el = document.getElementById('header-date');
-    if (el) el.textContent = now.toLocaleDateString('en-GB', {weekday:'long',day:'numeric',month:'long',year:'numeric'});
+    if (el) el.textContent = _dateMq.matches
+      ? now.toLocaleDateString('en-GB', {weekday:'short',day:'numeric',month:'short'})
+      : now.toLocaleDateString('en-GB', {weekday:'long',day:'numeric',month:'long',year:'numeric'});
     updateCountdownSidebar();
   }
   updateDate();
   setInterval(updateDate, 60000);
+  if (_dateMq.addEventListener) _dateMq.addEventListener('change', updateDate);
 
   document.querySelectorAll('.nav-item').forEach(function(el) {
     el.addEventListener('click', function() {
@@ -94,7 +99,7 @@ function init() {
   if (s.ambientUrl) { _ambientType = s.ambientUrl; }
   setTimeout(checkAchievements, 600); // claim any already-earned achievements on load
   var _pmBtn = document.getElementById('power-mode-btn');
-  if (_pmBtn) _pmBtn.textContent = _powerMode === 'min' ? '⚡ Min' : '🔥 Max';
+  if (_pmBtn) _pmBtn.textContent = _powerMode === 'min' ? '⚡︎ Min' : '⚡︎ Max';
   navigate('dashboard');
   initAuth();
   renderAccountBadge();

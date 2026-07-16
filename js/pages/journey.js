@@ -5,7 +5,7 @@ function renderJourney() {
   var sessions = Storage.getSessions().slice().reverse(); // oldest first
 
   if (sessions.length === 0) {
-    el.innerHTML = '<div class="empty-state"><div class="empty-icon">🗓</div><p>'+t('journey_empty')+'</p></div>';
+    el.innerHTML = '<div class="empty-state"><div class="empty-icon">◷</div><p>'+t('journey_empty')+'</p></div>';
     return;
   }
 
@@ -55,35 +55,35 @@ function renderJourney() {
     Object.keys(firstPerSubject).forEach(function(sid) {
       if (firstPerSubject[sid] === ym) {
         var sub = getSubject(sid);
-        if (sub) events.push({ icon: sub.icon, text: t('jour_started')+' '+sub.shortName });
+        if (sub) events.push({ icon: subjIcon(sub), text: t('jour_started')+' '+sub.shortName });
       }
     });
     // Top subject this month
     var topSid = Object.keys(m.subjectMins).reduce(function(a,b){ return m.subjectMins[a]>m.subjectMins[b]?a:b; }, null);
     var topSub = topSid ? getSubject(topSid) : null;
-    if (topSub) events.push({ icon:'🏅', text: topSub.shortName+' '+t('jour_most_studied_lbl')+' ('+fmtMins(m.subjectMins[topSid])+')' });
+    if (topSub) events.push({ icon:icon2('★','🏅'), text: topSub.shortName+' '+t('jour_most_studied_lbl')+' ('+fmtMins(m.subjectMins[topSid])+')' });
     // Streak days this month
     var ymDays = history.filter(function(d){ return d.substring(0,7)===ym; }).length;
-    if (ymDays > 0) events.push({ icon:'🔥', text: ymDays+' '+t('jour_study_days') });
+    if (ymDays > 0) events.push({ icon:icon2('✦','🔥'), text: ymDays+' '+t('jour_study_days') });
     // Phase transitions
     getStudyPhases().forEach(function(p) {
-      if (p.start.substring(0,7)===ym) events.push({ icon:'🚀', text:t('jour_entered')+' '+p.name });
+      if (p.start.substring(0,7)===ym) events.push({ icon:icon2('↗','🚀'), text:t('jour_entered')+' '+p.name });
     });
     // Daily reviews this month
     var monthReviews = reviewsByMonth[ym]||[];
     if(monthReviews.length>0){
       var latest=monthReviews.slice().sort(function(a,b){return b.date.localeCompare(a.date);})[0];
       var excerpt=latest.text.length>80?latest.text.substring(0,80)+'…':latest.text;
-      events.push({icon:'📝',text:t('review_journey_lbl')+' ('+monthReviews.length+'): "'+excerpt+'"'});
+      events.push({icon:icon2('✎','📝'),text:t('review_journey_lbl')+' ('+monthReviews.length+'): "'+excerpt+'"'});
     }
 
     html += '<div class="journey-month">';
     html += '<div class="journey-dot" style="background:'+dotColor+'"></div>';
     html += '<div class="journey-hd">'+monthName+(isCurrentMonth?' <span class="badge badge-purple" style="font-size:10px">'+t('jour_now')+'</span>':'')+'</div>';
     html += '<div class="journey-stats">';
-    html += '<span>⏱ '+fmtMins(m.mins)+'</span>';
-    html += '<span>📋 '+m.count+' '+t('jour_sessions')+'</span>';
-    html += '<span>📚 '+m.subjects.size+' '+t('jour_subjects_count')+'</span>';
+    html += '<span>⏱&#xfe0e; '+fmtMins(m.mins)+'</span>';
+    html += '<span>▦ '+m.count+' '+t('jour_sessions')+'</span>';
+    html += '<span>▤ '+m.subjects.size+' '+t('jour_subjects_count')+'</span>';
     html += '</div>';
     if (events.length > 0) {
       html += '<div class="card" style="padding:12px 16px"><div style="display:flex;flex-direction:column;gap:4px">';

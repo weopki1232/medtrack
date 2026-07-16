@@ -6,10 +6,10 @@ function renderSettings(){
   '<div class="card"><div class="section-title" style="margin-bottom:16px">'+t('set_general')+'</div>'+
   '<div class="form-group"><label class="label">'+t('set_name')+'</label><input class="input" id="set-name" value="'+s.userName+'"></div>'+
   '<div class="form-group"><label class="label">'+t('set_goal')+'</label><input type="number" class="input" id="set-goal" value="'+s.dailyGoalMinutes+'" min="15" max="720"></div>'+
-  '<div class="form-group" style="display:flex;align-items:center;justify-content:space-between"><label class="label" style="margin:0">'+t('set_dark')+'</label><div class="pill-tabs" style="gap:2px"><button class="pill-tab '+(s.darkModeAuto?'active':'')+'" onclick="setDarkMode(\'auto\')" style="padding:5px 10px;font-size:12px">'+t('set_dark_auto')+'</button><button class="pill-tab '+((!s.darkModeAuto&&s.darkMode)?'active':'')+'" onclick="setDarkMode(\'dark\')" style="padding:5px 10px;font-size:12px">🌙 '+t('set_dark_dark')+'</button><button class="pill-tab '+((!s.darkModeAuto&&!s.darkMode)?'active':'')+'" onclick="setDarkMode(\'light\')" style="padding:5px 10px;font-size:12px">☀️ '+t('set_dark_light')+'</button></div></div>'+
-  '<div class="form-group" style="display:flex;align-items:center;justify-content:space-between;margin:0"><label class="label" style="margin:0">'+t('set_sound')+'</label><button class="btn '+(s.soundEnabled?'btn-primary':'btn-outline')+' btn-sm" onclick="toggleSound()">'+(s.soundEnabled?'🔔 '+t('set_on'):'🔕 '+t('set_off'))+'</button></div>'+
-  '<div class="form-group" style="display:flex;align-items:center;justify-content:space-between;margin:0"><div><label class="label" style="margin:0">Animation Quality</label><div style="font-size:11px;color:var(--muted)">Min = lower CPU · Max = full quality</div></div><div class="pill-tabs" style="gap:2px"><button class="pill-tab '+(_powerMode==='min'?'active':'')+'" onclick="togglePowerMode()" style="padding:5px 12px;font-size:12px">⚡ Min</button><button class="pill-tab '+(_powerMode==='max'?'active':'')+'" onclick="togglePowerMode()" style="padding:5px 12px;font-size:12px">🔥 Max</button></div></div>'+
-  '<div class="form-group" style="display:flex;align-items:center;justify-content:space-between"><div><label class="label" style="margin:0">'+t('set_auto_sched')+'</label><div style="font-size:11px;color:var(--muted)">'+t('set_auto_sched_desc')+'</div></div><button class="btn '+(s.autoSchedule!==false?'btn-primary':'btn-outline')+' btn-sm" onclick="toggleAutoSchedule()">'+(s.autoSchedule!==false?'✅ '+t('set_auto_sched_on'):'⬜ '+t('set_auto_sched_off'))+'</button></div>'+
+  '<div class="form-group" style="display:flex;align-items:center;justify-content:space-between"><label class="label" style="margin:0">'+t('set_dark')+'</label><div class="pill-tabs" style="gap:2px"><button class="pill-tab '+(s.darkModeAuto?'active':'')+'" onclick="setDarkMode(\'auto\')" style="padding:5px 10px;font-size:12px">'+t('set_dark_auto')+'</button><button class="pill-tab '+((!s.darkModeAuto&&s.darkMode)?'active':'')+'" onclick="setDarkMode(\'dark\')" style="padding:5px 10px;font-size:12px">☾ '+t('set_dark_dark')+'</button><button class="pill-tab '+((!s.darkModeAuto&&!s.darkMode)?'active':'')+'" onclick="setDarkMode(\'light\')" style="padding:5px 10px;font-size:12px">☀&#xfe0e; '+t('set_dark_light')+'</button></div></div>'+
+  '<div class="form-group" style="display:flex;align-items:center;justify-content:space-between;margin:0"><label class="label" style="margin:0">'+t('set_sound')+'</label><button class="btn '+(s.soundEnabled?'btn-primary':'btn-outline')+' btn-sm" onclick="toggleSound()">'+(s.soundEnabled?'◉ '+t('set_on'):'○ '+t('set_off'))+'</button></div>'+
+  '<div class="form-group" style="display:flex;align-items:center;justify-content:space-between;margin:0"><div><label class="label" style="margin:0">Animation Quality</label><div style="font-size:11px;color:var(--muted)">Min = lower CPU · Max = full quality</div></div><div class="pill-tabs" style="gap:2px"><button class="pill-tab '+(_powerMode==='min'?'active':'')+'" onclick="togglePowerMode()" style="padding:5px 12px;font-size:12px">⚡&#xfe0e; Min</button><button class="pill-tab '+(_powerMode==='max'?'active':'')+'" onclick="togglePowerMode()" style="padding:5px 12px;font-size:12px">⚡&#xfe0e; Max</button></div></div>'+
+  '<div class="form-group" style="display:flex;align-items:center;justify-content:space-between"><div><label class="label" style="margin:0">'+t('set_auto_sched')+'</label><div style="font-size:11px;color:var(--muted)">'+t('set_auto_sched_desc')+'</div></div><button class="btn '+(s.autoSchedule!==false?'btn-primary':'btn-outline')+' btn-sm" onclick="toggleAutoSchedule()">'+(s.autoSchedule!==false?'◉ '+t('set_auto_sched_on'):'○ '+t('set_auto_sched_off'))+'</button></div>'+
   '</div>'+
   // ── Generation & exam dates card ──────────────────────────────────────────
   (function(){
@@ -35,10 +35,10 @@ function renderSettings(){
     return '<div class="card"><div class="section-title" style="margin-bottom:6px">'+t('subj_picker_title')+'</div>'+
     '<div style="font-size:12px;color:var(--muted);margin-bottom:10px">'+t('subj_picker_desc')+'</div>'+
     '<div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px">'+
-      TRACK_PRESETS.map(function(p){return '<button class="btn btn-outline btn-sm" onclick="applyTrackPresetUI(\''+p.id+'\')">'+p.icon+' '+t('preset_'+p.id)+'</button>';}).join('')+
+      TRACK_PRESETS.map(function(p){return '<button class="btn btn-outline btn-sm" onclick="applyTrackPresetUI(\''+p.id+'\')">'+subjIcon(p)+' '+t('preset_'+p.id)+'</button>';}).join('')+
     '</div>'+
     '<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:6px">'+
-      getAllSubjects().map(function(su){var on=enabled.indexOf(su.id)!==-1;return '<label style="display:flex;align-items:center;gap:8px;font-size:12px;padding:6px 8px;border:1px solid var(--border);border-radius:8px;cursor:pointer;background:'+(on?'var(--bg2)':'transparent')+';opacity:'+(on?'1':'.55')+'"><input type="checkbox" '+(on?'checked':'')+' onchange="toggleSubjectEnabledUI(\''+su.id+'\',this.checked)">'+su.icon+' <span>'+su.shortName+'</span></label>';}).join('')+
+      getAllSubjects().map(function(su){var on=enabled.indexOf(su.id)!==-1;return '<label style="display:flex;align-items:center;gap:8px;font-size:12px;padding:6px 8px;border:1px solid var(--border);border-radius:8px;cursor:pointer;background:'+(on?'var(--bg2)':'transparent')+';opacity:'+(on?'1':'.55')+'"><input type="checkbox" '+(on?'checked':'')+' onchange="toggleSubjectEnabledUI(\''+su.id+'\',this.checked)">'+subjIcon(su)+' <span>'+su.shortName+'</span></label>';}).join('')+
     '</div></div>';
   })()+
 
@@ -52,7 +52,7 @@ function renderSettings(){
   '<button class="btn btn-primary" onclick="saveSettings()">'+t('set_save')+'</button>'+
 
   // ── Notifications card ───────────────────────────────────────────────────
-  '<div class="card"><div class="section-title" style="margin-bottom:12px">🔔 '+t('notif_title')+'</div>'+
+  '<div class="card"><div class="section-title" style="margin-bottom:12px">'+t('notif_title')+'</div>'+
   '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">'+
     '<span style="font-size:13px;color:var(--muted)">'+t('notif_enable')+'</span>'+
     '<button class="btn '+(s.notifEnabled?'btn-primary':'btn-outline')+' btn-sm" onclick="toggleNotif()">'+
@@ -62,7 +62,7 @@ function renderSettings(){
   (s.notifEnabled?'<div style="display:flex;align-items:center;gap:10px"><label class="label" style="margin:0;white-space:nowrap">'+t('notif_time')+'</label><input type="time" class="input" style="max-width:140px" id="set-notif-time" value="'+(s.notifTime||'20:00')+'" onchange="saveNotifTime(this.value)"></div>':'')+'</div>'+
 
   // ── Ambient sound card (YouTube) ──────────────────────────────────────────
-  '<div class="card"><div class="section-title" style="margin-bottom:12px">🎵 '+t('sound_title')+'</div>'+
+  '<div class="card"><div class="section-title" style="margin-bottom:12px">'+t('sound_title')+'</div>'+
   '<div style="font-size:12px;color:var(--muted);margin-bottom:10px">Paste any YouTube lofi / study music URL</div>'+
   '<div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">'+
     '<input class="input" id="yt-url-input" placeholder="https://youtube.com/watch?v=..." style="flex:1;min-width:200px" value="'+escHtml(s.ambientUrl||'')+'" onkeydown="if(event.key===\'Enter\')playAmbientFromInput()">'+
@@ -73,7 +73,7 @@ function renderSettings(){
   '</div>'+
 
   // ── Print report button ──────────────────────────────────────────────────
-  '<div class="card"><div class="section-title" style="margin-bottom:12px">📊 Report</div>'+
+  '<div class="card"><div class="section-title" style="margin-bottom:12px">Report</div>'+
   '<div style="display:flex;gap:10px;flex-wrap:wrap">'+
     '<button class="btn btn-outline btn-sm" onclick="printWeeklyReport()">'+t('print_report')+'</button>'+
   '</div></div>'+
@@ -87,11 +87,11 @@ function renderSettings(){
     } else if (_syncUser) {
       h += '<div style="font-size:13px;margin-bottom:8px">'+t('sync_signed_in_as')+' <b>'+escHtml(_syncUser.email||'')+'</b></div>'+
         (SyncEngine.lastSyncedAt?'<div style="font-size:11px;color:var(--muted);margin-bottom:10px">'+t('sync_last')+': '+SyncEngine.lastSyncedAt.toLocaleTimeString()+'</div>':'')+
-        '<div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn btn-outline btn-sm" onclick="SyncEngine.manualSync()">🔄 '+t('sync_now')+'</button>'+
+        '<div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn btn-outline btn-sm" onclick="SyncEngine.manualSync()">↺ '+t('sync_now')+'</button>'+
         '<button class="btn btn-ghost btn-sm" onclick="signOutUI()">'+t('sync_sign_out')+'</button></div>';
     } else {
       h += '<div style="font-size:12px;color:var(--muted);margin-bottom:10px">'+t('sync_desc')+'</div>'+
-        '<button class="btn btn-primary btn-sm" onclick="signInWithGoogle()">🔑 '+t('sync_sign_in')+'</button>';
+        '<button class="btn btn-primary btn-sm" onclick="signInWithGoogle()">'+t('sync_sign_in')+'</button>';
     }
     return h+'</div>';
   })()+
@@ -99,7 +99,8 @@ function renderSettings(){
   '<div class="card"><div class="section-title" style="margin-bottom:12px">'+t('set_data')+'</div><div style="display:flex;gap:10px;flex-wrap:wrap"><button class="btn btn-outline btn-sm" onclick="exportData()">'+t('set_export')+'</button><button class="btn btn-outline btn-sm" onclick="importData()">'+t('set_import')+'</button><button class="btn btn-danger btn-sm" onclick="clearAllData()">'+t('set_clear')+'</button></div></div>'+
   '<div class="card"><div class="section-title" style="margin-bottom:4px">'+t('set_theme')+'</div><div style="font-size:12px;color:var(--muted);margin-bottom:2px">'+t('set_theme_sub')+'</div><div class="theme-grid">'+
   [
-    {id:'default',  label:'Default',  bg:'#0f1117', accent:'#a78bfa'},
+    {id:'default',  label:'Meridian', bg:'#08090c', accent:'#c9f24d'},
+    {id:'aurora',   label:'Aurora',   bg:'#0a0b14', accent:'#a78bfa'},
     {id:'oled',     label:'OLED',     bg:'#000000', accent:'#a78bfa'},
     {id:'neon',     label:'Neon',     bg:'#07071a', accent:'#d966ff'},
     {id:'cyber',    label:'Cyber',    bg:'#010b16', accent:'#38bdf8'},
@@ -111,6 +112,9 @@ function renderSettings(){
     var active = (s.theme||'default')===th.id;
     return '<div class="theme-swatch'+(active?' active':'')+'" style="background:'+th.bg+';color:'+th.accent+'" onclick="applyTheme(\''+th.id+'\')">'+th.label+'</div>';
   }).join('')+
+  '</div>'+
+  '<div style="display:flex;align-items:center;gap:8px;margin-top:16px;flex-wrap:wrap"><span style="font-size:12px;color:var(--muted);margin-right:2px">'+t('set_icons')+'</span>'+
+  ['auto','glyph','emoji'].map(function(m){var cur=(s.iconStyle||'auto')===m;return '<button class="btn '+(cur?'btn-primary':'btn-outline')+' btn-sm" onclick="setIconStyle(\''+m+'\')">'+t('set_icons_'+m)+'</button>';}).join('')+
   '</div></div>'+
   '<div class="card"><div class="section-title" style="margin-bottom:10px">'+t('set_lang')+'</div><div style="display:flex;gap:10px;align-items:center">'+
   '<button class="btn '+(s.lang==='en'||!s.lang?'btn-primary':'btn-outline')+' btn-sm" onclick="setLang(\'en\')">🇬🇧 English</button>'+
@@ -144,7 +148,7 @@ function openOnboardingModal(){
   o.innerHTML='<div class="modal-box" style="max-width:440px"><div class="modal-title">'+t('onboard_title')+'</div>'+
     '<div style="font-size:13px;color:var(--muted);margin:10px 0 16px">'+t('onboard_sub')+'</div>'+
     '<div style="display:flex;flex-direction:column;gap:8px">'+
-    TRACK_PRESETS.map(function(p){return '<button class="btn btn-outline" style="text-align:left" onclick="applyTrackPresetUI(\''+p.id+'\')">'+p.icon+' '+t('preset_'+p.id)+'</button>';}).join('')+
+    TRACK_PRESETS.map(function(p){return '<button class="btn btn-outline" style="text-align:left" onclick="applyTrackPresetUI(\''+p.id+'\')">'+subjIcon(p)+' '+t('preset_'+p.id)+'</button>';}).join('')+
     '<button class="btn btn-ghost" onclick="closeModal(\'onboard-modal\');navigate(\'settings\')">'+t('onboard_custom')+'</button>'+
     '</div></div>';
   document.body.appendChild(o);
@@ -188,6 +192,7 @@ function setDarkMode(mode){
   renderSettings();
 }
 function toggleDarkMode(){var s=getSettings();setDarkMode(s.darkMode?'light':'dark');}
+function setIconStyle(v){Storage.saveSettings({iconStyle:v});applyIconMode();renderPage(currentPage);toast(t('toast_settings_saved'),'success');}
 function toggleSound(){const s=getSettings();Storage.saveSettings({soundEnabled:!s.soundEnabled});renderSettings();}
 function exportData(){const data={};for(let i=0;i<localStorage.length;i++){const k=localStorage.key(i);if(k&&k.startsWith('mt_'))data[k]=localStorage.getItem(k);}const b=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='medtrack-backup-'+today()+'.json';a.click();toast(t('toast_exported'),'success');}
 function importData(){const i=document.createElement('input');i.type='file';i.accept='.json';i.onchange=function(e){const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=function(ev){try{const d=JSON.parse(ev.target.result);Object.entries(d).forEach(function(kv){if(kv[0].startsWith('mt_'))localStorage.setItem(kv[0],kv[1]);});toast(t('toast_imported'),'success');setTimeout(function(){location.reload();},1200);}catch(ex){toast('Invalid file','error');}};r.readAsText(f);};i.click();}
@@ -196,10 +201,11 @@ function clearAllData(){if(!confirm(t('confirm_clear_data')))return;Object.keys(
 // ── Theme ─────────────────────────────────────────────────────────────────────
 function applyTheme(name) {
   _diagBgCache = null;
-  var themes = ['theme-oled','theme-neon','theme-cyber','theme-minimal','theme-academia','theme-enchant','theme-parchment'];
+  var themes = ['theme-oled','theme-neon','theme-cyber','theme-minimal','theme-academia','theme-enchant','theme-parchment','theme-aurora'];
   document.body.classList.remove.apply(document.body.classList, themes);
   if (name && name !== 'default') document.body.classList.add('theme-'+name);
   Storage.saveSettings({theme: name});
+  applyIconMode();
   renderSettings();
   if (name === 'parchment') setTimeout(function(){ showNpcMessage("Ah, a cosy theme. Good choice. Now study. 📚"); }, 800);
 }

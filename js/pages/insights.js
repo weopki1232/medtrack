@@ -82,13 +82,13 @@ function renderInsights() {
   if (!el) return;
 
   if (I.sessions.length === 0) {
-    el.innerHTML = '<div class="empty-state"><div class="empty-icon">🧠</div><p>'+t('no_data')+'</p></div>';
+    el.innerHTML = '<div class="empty-state"><div class="empty-icon">✦</div><p>'+t('no_data')+'</p></div>';
     return;
   }
 
   var hLabel = I.bestHourMins > 0 ? (I.bestHour+':00–'+(I.bestHour+1)+':00') : '—';
   var burnoutClass = I.dropPct >= 50 ? 'insight-alert' : I.dropPct >= 25 ? 'insight-warn' : 'insight-good';
-  var burnoutIcon  = I.dropPct >= 50 ? '🚨' : I.dropPct >= 25 ? '⚠️' : '✅';
+  var burnoutIcon  = I.dropPct >= 50 ? icon2('⚠︎','🚨') : I.dropPct >= 25 ? icon2('⚠︎','⚠️') : icon2('✓','✅');
   var onTrack = (Storage.getSettings().lang==='th') ? 'ตามแผน' : 'On Track';
   var burnoutVal   = I.dropPct >= 25 ? 'Down '+I.dropPct+'%' : onTrack;
   var burnoutSub   = I.dropPct >= 50 ? t('ins_drop_sharp') :
@@ -100,10 +100,10 @@ function renderInsights() {
   // ── Pattern cards
   html += '<div><div class="section-header"><span class="section-title">'+t('sec_patterns')+'</span></div>';
   html += '<div class="grid-4">';
-  html += '<div class="insight-card"><div class="insight-icon">⏱</div><div class="insight-lbl">'+t('avg_session')+'</div><div class="insight-val">'+fmtMins(I.avgLen)+'</div><div class="insight-sub">'+t('ins_per_block')+'</div></div>';
-  html += '<div class="insight-card"><div class="insight-icon">🕐</div><div class="insight-lbl">'+t('peak_hour')+'</div><div class="insight-val">'+(I.bestHourMins>0?hLabel:'—')+'</div><div class="insight-sub">'+t('ins_productive')+'</div></div>';
-  html += '<div class="insight-card"><div class="insight-icon">📅</div><div class="insight-lbl">'+t('best_day')+'</div><div class="insight-val">'+(I.sessions.length?I.DAYS[I.bestDayIdx]:'—')+'</div><div class="insight-sub">'+t('ins_high_vol')+'</div></div>';
-  html += '<div class="insight-card '+(I.longestSession>=90?'insight-good':'')+'"><div class="insight-icon">🏆</div><div class="insight-lbl">'+t('ins_longest')+'</div><div class="insight-val">'+fmtMins(I.longestSession)+'</div><div class="insight-sub">'+t('ins_personal_best')+'</div></div>';
+  html += '<div class="insight-card"><div class="insight-icon">⏱&#xfe0e;</div><div class="insight-lbl">'+t('avg_session')+'</div><div class="insight-val">'+fmtMins(I.avgLen)+'</div><div class="insight-sub">'+t('ins_per_block')+'</div></div>';
+  html += '<div class="insight-card"><div class="insight-icon">◷</div><div class="insight-lbl">'+t('peak_hour')+'</div><div class="insight-val">'+(I.bestHourMins>0?hLabel:'—')+'</div><div class="insight-sub">'+t('ins_productive')+'</div></div>';
+  html += '<div class="insight-card"><div class="insight-icon">▦</div><div class="insight-lbl">'+t('best_day')+'</div><div class="insight-val">'+(I.sessions.length?I.DAYS[I.bestDayIdx]:'—')+'</div><div class="insight-sub">'+t('ins_high_vol')+'</div></div>';
+  html += '<div class="insight-card '+(I.longestSession>=90?'insight-good':'')+'"><div class="insight-icon">★</div><div class="insight-lbl">'+t('ins_longest')+'</div><div class="insight-val">'+fmtMins(I.longestSession)+'</div><div class="insight-sub">'+t('ins_personal_best')+'</div></div>';
   html += '</div></div>';
 
   // ── Burnout + Consistency
@@ -113,14 +113,14 @@ function renderInsights() {
   html += '<div class="insight-card '+burnoutClass+'"><div class="insight-icon">'+burnoutIcon+'</div><div class="insight-lbl">'+t('ins_wow')+'</div><div class="insight-val">'+burnoutVal+'</div><div class="insight-sub">'+burnoutSub+'</div></div>';
   html += '<div class="insight-card"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px"><span class="insight-lbl">'+t('this_week')+'</span><span class="insight-lbl">'+t('last_week')+'</span></div>';
   html += '<div style="display:flex;justify-content:space-between;align-items:center"><span style="font-size:18px;font-weight:700;color:var(--primary-l)">'+fmtMins(I.thisW)+'</span><span style="font-size:13px;color:var(--muted)">vs '+fmtMins(I.lastW)+'</span></div>';
-  if (I.streak.current >= 14) { html += '<div class="insight-sub" style="color:var(--amber);margin-top:6px">⚡ '+I.streak.current+'-day streak — make sure to rest!</div>'; }
+  if (I.streak.current >= 14) { html += '<div class="insight-sub" style="color:var(--amber);margin-top:6px">'+icon2('⚡︎','⚡')+' '+I.streak.current+'-day streak — make sure to rest!</div>'; }
   html += '</div></div></div>';
   html += '<div><div class="section-header"><span class="section-title">'+t('sec_stats')+'</span></div>';
   html += '<div style="display:flex;flex-direction:column;gap:8px">';
-  html += '<div class="insight-card '+(I.consistency>=70?'insight-good':I.consistency>=40?'insight-warn':'insight-alert')+'"><div class="insight-icon">'+(I.consistency>=70?'💪':I.consistency>=40?'📊':'😴')+'</div><div class="insight-lbl">'+t('consistency')+' (last 30 days)</div><div class="insight-val">'+I.consistency+'%</div><div class="insight-sub">'+t('ins_studied_of',{n:Math.round(I.consistency*30/100)})+'</div></div>';
-  html += '<div class="insight-card"><div class="insight-icon">🚫</div><div class="insight-lbl">'+t('most_skipped')+'</div><div class="insight-val">'+(I.mostSkipped?I.mostSkipped.icon+' '+I.mostSkipped.shortName:'—')+'</div><div class="insight-sub">'+(I.mostSkipped?(I.sessionCounts[I.mostSkipped.id]||0)+' '+t('sessions_logged'):'')+'</div></div>';
+  html += '<div class="insight-card '+(I.consistency>=70?'insight-good':I.consistency>=40?'insight-warn':'insight-alert')+'"><div class="insight-icon">'+(I.consistency>=70?icon2('▲','💪'):I.consistency>=40?icon2('▚','📊'):icon2('◌','😴'))+'</div><div class="insight-lbl">'+t('consistency')+' (last 30 days)</div><div class="insight-val">'+I.consistency+'%</div><div class="insight-sub">'+t('ins_studied_of',{n:Math.round(I.consistency*30/100)})+'</div></div>';
+  html += '<div class="insight-card"><div class="insight-icon">⊘</div><div class="insight-lbl">'+t('most_skipped')+'</div><div class="insight-val">'+(I.mostSkipped?subjIcon(I.mostSkipped)+' '+I.mostSkipped.shortName:'—')+'</div><div class="insight-sub">'+(I.mostSkipped?(I.sessionCounts[I.mostSkipped.id]||0)+' '+t('sessions_logged'):'')+'</div></div>';
   var recovClass = I.recovery ? (I.recovery.avg<=2?'insight-good':I.recovery.avg<=5?'insight-warn':'insight-alert') : '';
-  var recovIcon  = I.recovery ? (I.recovery.avg<=2?'⚡':I.recovery.avg<=5?'🔄':'😓') : '✅';
+  var recovIcon  = I.recovery ? (I.recovery.avg<=2?icon2('⚡︎','⚡'):I.recovery.avg<=5?icon2('↺','🔄'):icon2('◔','😓')) : icon2('✓','✅');
   var recovVal   = I.recovery ? t('ins_bounce_days',{n:I.recovery.avg}) : t('ins_bounce_none');
   var recovSub   = I.recovery ? t(I.recovery.count>1?'recovery_gaps':'recovery_gap',{n:I.recovery.count}) : t('ins_bounce_none');
   html += '<div class="insight-card '+recovClass+'"><div class="insight-icon">'+recovIcon+'</div><div class="insight-lbl">'+t('ins_recovery')+'</div><div class="insight-val">'+recovVal+'</div><div class="insight-sub">'+recovSub+'</div></div>';
@@ -129,14 +129,14 @@ function renderInsights() {
 
   // ── Weakness analysis
   html += '<div><div class="section-header"><span class="section-title">'+t('sec_weakness')+'</span><span style="font-size:13px;color:var(--muted)">'+t('ins_ranked')+'</span></div>';
-  var ranks = ['🥇','🥈','🥉'];
+  var ranks = [icon2('①','🥇'),icon2('②','🥈'),icon2('③','🥉')];
   var rankColors = ['var(--red)','var(--amber)','var(--cyan)'];
   I.weaknesses.slice(0,5).forEach(function(w, i) {
     var rankIcon = i < 3 ? ranks[i] : (i+1)+'';
     var scoreColor = w.score < 0.2 ? 'var(--red)' : w.score < 0.5 ? 'var(--amber)' : 'var(--green)';
     html += '<div class="weakness-row">';
     html += '<div class="weakness-rank" style="color:'+rankColors[Math.min(i,2)]+'">'+rankIcon+'</div>';
-    html += '<span style="font-size:20px">'+w.s.icon+'</span>';
+    html += '<span style="font-size:20px">'+subjIcon(w.s)+'</span>';
     html += '<div style="flex:1"><div style="font-weight:600;font-size:14px">'+w.s.shortName+'</div>';
     html += '<div style="display:flex;gap:12px;margin-top:4px"><div style="flex:1"><div style="font-size:11px;color:var(--muted);margin-bottom:2px">'+t('ins_hours_lbl')+' '+w.hPct+'%</div><div class="progress-bar"><div class="progress-fill" style="width:'+w.hPct+'%;background:'+w.s.color+'"></div></div></div>';
     html += '<div style="flex:1"><div style="font-size:11px;color:var(--muted);margin-bottom:2px">'+t('ins_topics_lbl')+' '+w.tPct+'%</div><div class="progress-bar"><div class="progress-fill" style="width:'+w.tPct+'%;background:var(--green)"></div></div></div></div></div>';
@@ -152,7 +152,7 @@ function renderInsights() {
   I.projections.forEach(function(p) {
     var etaStr = p.eta ? fmtDate(p.eta) : (p.remaining<=0 ? t('proj_done') : t('proj_no_data'));
     var etaColor = p.remaining<=0 ? 'var(--green)' : p.eta ? 'var(--text)' : 'var(--muted)';
-    html += '<tr style="border-bottom:1px solid var(--border)"><td style="padding:8px 10px"><span style="display:flex;align-items:center;gap:6px">'+p.s.icon+' '+p.s.shortName+'</span></td>';
+    html += '<tr style="border-bottom:1px solid var(--border)"><td style="padding:8px 10px"><span style="display:flex;align-items:center;gap:6px">'+subjIcon(p.s)+' '+p.s.shortName+'</span></td>';
     html += '<td style="padding:8px 10px;min-width:100px"><div class="progress-bar"><div class="progress-fill" style="width:'+p.pct+'%;background:'+p.s.color+'"></div></div><div style="font-size:11px;color:var(--muted);margin-top:2px">'+p.pct+'%</div></td>';
     html += '<td style="padding:8px 10px;text-align:right;color:var(--cyan);font-weight:600">'+p.logged+'h</td>';
     html += '<td style="padding:8px 10px;text-align:right;color:var(--muted)">'+p.remaining+'h</td>';

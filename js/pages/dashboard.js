@@ -1,15 +1,15 @@
 // ── Dashboard section visibility ──────────────────────────────────────────────
 var DASH_SEC_LABELS = {
-  stats:        '📊 Stats',
-  exams:        '⏳ Countdowns',
-  sub_exams:    '📅 Subjects',
-  weekly:       '📈 Weekly',
-  schedule:     '📅 Schedule',
-  sr_due:       '⏰ Due',
-  quick_log:    '⚡ Log',
-  recent:       '🕐 Recent',
-  progress:     '📊 Progress',
-  achievements: '🏆 Badges',
+  stats:        '◆ Stats',
+  exams:        '◷ Countdowns',
+  sub_exams:    '▤ Subjects',
+  weekly:       '▚ Weekly',
+  schedule:     '▦ Schedule',
+  sr_due:       '◔ Due',
+  quick_log:    '▸ Log',
+  recent:       '↺ Recent',
+  progress:     '▰ Progress',
+  achievements: '★ Badges',
 };
 
 function getDashHidden() { return Storage.get('mt_dash_hidden', {}); }
@@ -17,8 +17,6 @@ function getDashHidden() { return Storage.get('mt_dash_hidden', {}); }
 function toggleDashSection(id) {
   var h = getDashHidden();
   var el = document.getElementById('ds-' + id);
-  var isDetective = document.body.classList.contains('detective-active');
-  var stringSections = { exams:1, sub_exams:1 }; // sections with string connections
   if (h[id]) {
     // SHOW: slide in from right
     delete h[id];
@@ -31,12 +29,10 @@ function toggleDashSection(id) {
       el.style.transition = '';
       requestAnimationFrame(function() { el.classList.remove('dash-shelving'); });
     }
-    if (isDetective && stringSections[id]) _animateStringReconnect();
   } else {
     // HIDE: slide out to right
     h[id] = true;
     Storage.set('mt_dash_hidden', h);
-    if (isDetective && stringSections[id]) _animateStringTear(id);
     if (el) {
       el.classList.add('dash-shelving');
       setTimeout(function() {
@@ -97,7 +93,7 @@ function renderDashboard() {
 
   // Wrap a section with its stable ID and injected 👁 hide button
   function sec(id, html) {
-    var hideBtn = '<button class="dash-hide-btn" onclick="event.stopPropagation();toggleDashSection(\''+id+'\')" title="Hide section">👁</button>';
+    var hideBtn = '<button class="dash-hide-btn" onclick="event.stopPropagation();toggleDashSection(\''+id+'\')" title="Hide section">⊖</button>';
     // Inject after first section-title span
     var injected = html.replace(/(<span class="section-title">)([\s\S]*?)(<\/span>)/, '$1$2$3'+hideBtn);
     if (injected === html) {
@@ -114,9 +110,9 @@ function renderDashboard() {
   var statsHtml =
     '<div class="grid-4">'+
       '<div class="card card-sm"><div class="card-title">'+t('dash_todays_study')+'</div><div class="stat-row"><span class="stat-main">'+fmtMins(todayMins)+'</span><span class="stat-unit"> / '+fmtMins(goalMins)+'</span></div><div style="margin-top:8px"><div class="progress-bar"><div class="progress-fill" style="width:'+goalPct+'%;background:var(--primary-l)"></div></div></div><div style="font-size:11px;color:var(--muted);margin-top:4px">'+goalPct+t('dash_pct_goal')+'</div></div>'+
-      '<div class="card card-sm"><div class="card-title">🔥 '+t('dash_streak')+'</div><div class="stat-row"><span class="stat-main">'+streak.current+'</span><span class="stat-unit">'+t('dash_days')+'</span></div><div class="card-sub">'+t('dash_best')+streak.longest+t('dash_days')+'</div></div>'+
-      '<div class="card card-sm"><div class="card-title">📚 '+t('dash_total_hours')+'</div><div class="stat-row"><span class="stat-main">'+totalH+'</span><span class="stat-unit">'+t('dash_h_logged')+'</span></div><div class="card-sub">'+Storage.getSessions().length+t('dash_sessions_lbl')+'</div></div>'+
-      '<div class="card card-sm"><div class="card-title">📅 '+t('dash_phase')+'</div><div style="font-size:14px;font-weight:600;margin-top:4px">'+(phase?phase.name:'—')+'</div><div class="card-sub">'+(phase?phase.description:'')+'</div></div>'+
+      '<div class="card card-sm"><div class="card-title">'+t('dash_streak')+'</div><div class="stat-row"><span class="stat-main">'+streak.current+'</span><span class="stat-unit">'+t('dash_days')+'</span></div><div class="card-sub">'+t('dash_best')+streak.longest+t('dash_days')+'</div></div>'+
+      '<div class="card card-sm"><div class="card-title">'+t('dash_total_hours')+'</div><div class="stat-row"><span class="stat-main">'+totalH+'</span><span class="stat-unit">'+t('dash_h_logged')+'</span></div><div class="card-sub">'+Storage.getSessions().length+t('dash_sessions_lbl')+'</div></div>'+
+      '<div class="card card-sm"><div class="card-title">'+t('dash_phase')+'</div><div style="font-size:14px;font-weight:600;margin-top:4px">'+(phase?phase.name:'—')+'</div><div class="card-sub">'+(phase?phase.description:'')+'</div></div>'+
     '</div>';
 
   var examsHtml =
@@ -129,7 +125,7 @@ function renderDashboard() {
   var subExamsHtml =
     '<div><div class="section-header"><span class="section-title">'+t('dash_sub_exams')+'</span></div>'+
       '<div style="display:flex;gap:8px;flex-wrap:wrap">'+
-        getSubjects().filter(function(s){return s.examDate;}).sort(function(a,b){return daysUntil(a.examDate)-daysUntil(b.examDate);}).map(function(s){var dl=daysUntil(s.examDate);var col=dl<=7?'var(--red,#ef4444)':dl<=21?'var(--yellow,#f59e0b)':'var(--green,#22c55e)';return '<div class="sub-exam-badge" style="display:flex;align-items:center;gap:8px;padding:7px 12px;background:var(--bg2);border:1px solid var(--border);border-left:3px solid '+col+';border-radius:8px;font-size:12px"><span>'+s.icon+'</span><span style="font-weight:500">'+s.shortName+'</span><span style="color:'+col+';font-weight:700">'+dl+'d</span></div>';}).join('')+
+        getSubjects().filter(function(s){return s.examDate;}).sort(function(a,b){return daysUntil(a.examDate)-daysUntil(b.examDate);}).map(function(s){var dl=daysUntil(s.examDate);var col=dl<=7?'var(--red,#ef4444)':dl<=21?'var(--yellow,#f59e0b)':'var(--green,#22c55e)';return '<div class="sub-exam-badge" style="display:flex;align-items:center;gap:8px;padding:7px 12px;background:var(--bg2);border:1px solid var(--border);border-left:3px solid '+col+';border-radius:8px;font-size:12px"><span>'+subjIcon(s)+'</span><span style="font-weight:500">'+s.shortName+'</span><span style="color:'+col+';font-weight:700">'+dl+'d</span></div>';}).join('')+
       '</div>'+
     '</div>';
 
@@ -142,7 +138,7 @@ function renderDashboard() {
     '<div class="card"><div class="section-header"><span class="section-title">'+t('dash_recent')+'</span><button class="btn btn-ghost btn-sm" onclick="navigate(\'analytics\')">'+t('dash_view_all')+'</button></div>'+
       '<div style="display:flex;flex-direction:column;gap:6px">'+
         (sessions.length===0
-          ? '<div class="empty-state"><div class="empty-icon">📝</div><p>'+t('dash_no_sessions')+'</p></div>'
+          ? '<div class="empty-state"><div class="empty-icon">✎</div><p>'+t('dash_no_sessions')+'</p></div>'
           : sessions.map(function(s){var sub=getSubject(s.subjectId);return '<div class="session-item"><div class="session-dot" style="background:'+(sub?sub.color:'#666')+'"></div><div class="session-info"><div style="font-weight:500">'+(sub?sub.shortName:s.subjectId)+'</div><div style="color:var(--muted);font-size:11px">'+(s.topic?s.topic+' · ':'')+fmtDate(s.date)+'</div></div><div class="session-dur">'+fmtMins(s.duration)+'</div><button class="btn btn-ghost btn-xs" onclick="deleteSessionUI(\''+s.id+'\')">✕</button></div>';}).join(''))+
       '</div>'+
     '</div>';
@@ -166,9 +162,27 @@ function renderDashboard() {
       '<div class="casefile-stamp">CONFIDENTIAL</div>'+
     '</div>';
 
+  // ── Hero: the single most urgent upcoming exam ──
+  var _up = getExamDates().filter(function(e){return daysUntil(e.date)>=0;}).sort(function(a,b){return daysUntil(a.date)-daysUntil(b.date);});
+  var heroHtml = '';
+  if (_up.length) {
+    var _he=_up[0], _hd=daysUntil(_he.date), _hz=daysUntil(_up[_up.length-1].date)||_hd;
+    var _pr=_hz>0?Math.max(0,Math.min(1,1-_hd/_hz)):0;
+    heroHtml =
+      '<div class="dash-hero" id="dash-hero">'+
+        '<div class="dash-hero-glare"></div>'+
+        '<div class="dash-hero-eyebrow">▸ '+t('dash_exam_countdown')+'</div>'+
+        '<div class="dash-hero-count"><b>'+_hd+'</b> <span class="dash-hero-unit">'+t('dash_days_left')+'</span></div>'+
+        '<div class="dash-hero-sub"><span class="dash-hero-name">'+_he.label+'</span><span class="dash-hero-date">'+fmtDate(_he.date)+'</span></div>'+
+        '<div class="dash-hero-prog"><i style="transform:scaleX('+_pr.toFixed(3)+')"></i></div>'+
+        '<div class="dash-hero-eyebrow" style="margin-top:12px">'+Math.round(_pr*100)+'%</div>'+
+      '</div>';
+  }
+
   document.getElementById('page-dashboard').innerHTML =
-    '<div style="display:flex;flex-direction:column;gap:20px;overflow-x:hidden">'+
+    '<div id="dash-stack" style="display:flex;flex-direction:column;gap:22px;overflow-x:hidden">'+
       caseFileHtml+
+      heroHtml+
       sec('stats',        statsHtml)+
       sec('exams',        examsHtml)+
       sec('sub_exams',    subExamsHtml)+
@@ -184,10 +198,36 @@ function renderDashboard() {
     '</div>';
 
   applyDashShelfState();
+
+  // one-time entrance (never replays on data re-render) + pointer life
+  var _stack = document.getElementById('dash-stack');
+  if (_stack && !window.__dashEntered) {
+    window.__dashEntered = true;
+    _stack.classList.add('dash-entering');
+    setTimeout(function(){ _stack.classList.remove('dash-entering'); }, 1200);
+  }
+  _dashMotion();
+}
+
+// Hero pointer life (tilt + glare), gated on theme --motion and reduced-motion
+function _dashMotion() {
+  var reduce = matchMedia('(prefers-reduced-motion:reduce)').matches;
+  var motionOn = parseFloat(getComputedStyle(document.body).getPropertyValue('--motion')||'1') > 0;
+  if (reduce || !motionOn || !matchMedia('(hover:hover)').matches) return;
+  var hero = document.getElementById('dash-hero');
+  if (!hero) return;
+  hero.addEventListener('pointermove', function(e){
+    var r = hero.getBoundingClientRect();
+    var px = (e.clientX-r.left)/r.width, py = (e.clientY-r.top)/r.height;
+    hero.style.transform = 'perspective(1000px) rotateY('+((px-.5)*5)+'deg) rotateX('+((.5-py)*5)+'deg)';
+    hero.style.setProperty('--gx', px*100+'%');
+    hero.style.setProperty('--gy', py*100+'%');
+  });
+  hero.addEventListener('pointerleave', function(){ hero.style.transform=''; });
 }
 
 function renderQuickLogForm() {
-  return '<div style="display:flex;flex-direction:column;gap:10px"><div class="form-group" style="margin:0"><label class="label">'+t('dash_subject')+'</label><select class="input" id="ql-subject" onchange="updateQLTopics()"><option value="">'+t('dash_choose')+'</option>'+getSubjects().map(s=>'<option value="'+s.id+'">'+s.icon+' '+s.shortName+'</option>').join('')+'</select></div><div class="form-group" style="margin:0"><label class="label">'+t('dash_topic_opt')+'</label><select class="input" id="ql-topic"><option value="">'+t('dash_any')+'</option></select></div><div class="grid-2" style="gap:8px"><div><label class="label">'+t('dash_duration_min')+'</label><input type="number" class="input" id="ql-duration" value="60" min="1" max="480"></div><div><label class="label">'+t('dash_date_lbl')+'</label><input type="date" class="input" id="ql-date" value="'+today()+'"></div></div><input type="text" class="input" id="ql-notes" placeholder="'+t('dash_notes_opt')+'"><button class="btn btn-primary" onclick="logQuickSession()">'+t('dash_log_btn')+'</button></div>';
+  return '<div style="display:flex;flex-direction:column;gap:10px"><div class="form-group" style="margin:0"><label class="label">'+t('dash_subject')+'</label><select class="input" id="ql-subject" onchange="updateQLTopics()"><option value="">'+t('dash_choose')+'</option>'+getSubjects().map(s=>'<option value="'+s.id+'">'+subjIconTxt(s)+' '+s.shortName+'</option>').join('')+'</select></div><div class="form-group" style="margin:0"><label class="label">'+t('dash_topic_opt')+'</label><select class="input" id="ql-topic"><option value="">'+t('dash_any')+'</option></select></div><div class="grid-2" style="gap:8px"><div><label class="label">'+t('dash_duration_min')+'</label><input type="number" class="input" id="ql-duration" value="60" min="1" max="480"></div><div><label class="label">'+t('dash_date_lbl')+'</label><input type="date" class="input" id="ql-date" value="'+today()+'"></div></div><input type="text" class="input" id="ql-notes" placeholder="'+t('dash_notes_opt')+'"><button class="btn btn-primary" onclick="logQuickSession()">'+t('dash_log_btn')+'</button></div>';
 }
 function updateQLTopics() {
   const sid=document.getElementById('ql-subject').value;
@@ -264,7 +304,7 @@ function showBehindSchedulePopup(event, sid) {
   var o=document.createElement('div'); o.className='modal-overlay fade-in'; o.id='behind-popup-modal';
   o.innerHTML='<div class="modal-box" style="max-width:400px">'+
     '<div style="display:flex;align-items:center;gap:10px;margin-bottom:16px">'+
-      '<span style="font-size:22px">⚠️</span>'+
+      '<span style="font-size:22px;color:var(--red,#ef4444)">⚠&#xfe0e;</span>'+
       '<div><div style="font-size:16px;font-weight:700;color:var(--red,#ef4444)">'+t('behind_popup_title')+'</div>'+
       '<div style="font-size:11px;color:var(--muted)">'+s.icon+' '+s.name+'</div></div>'+
     '</div>'+
@@ -288,6 +328,6 @@ function renderSubjectMiniCard(s, loggedMins) {
   const pct=Math.min(100,Math.round(loggedMins/(s.targetHours*60)*100));
   const td=s.topics.filter(tp=>Storage.isTopicDone(tp.id)).length;
   const behind=isSubjectBehind(s.id,loggedMins);
-  return '<div class="subject-card" onclick="navigate(\'subjects\');openSubjectId=\''+s.id+'\';renderSubjectsPage();" style="cursor:pointer'+(behind?';border-color:var(--red,#ef4444)':'')+'">'+(behind?'<div style="font-size:10px;color:var(--red,#ef4444);font-weight:600;margin-bottom:4px;cursor:pointer;user-select:none" onclick="event.stopPropagation();showBehindSchedulePopup(event,\''+s.id+'\')">⚠ '+t('subj_behind')+'</div>':'')+'<div style="display:flex;align-items:center;gap:10px;margin-bottom:8px"><span style="font-size:22px">'+s.icon+'</span><div><div class="subject-name">'+s.shortName+'</div><div class="subject-meta">'+fmtMins(loggedMins)+' / '+s.targetHours+t('subj_h_target')+'</div></div>'+priorityBadge(s.priority)+'</div><div class="progress-bar" style="margin-bottom:4px"><div class="progress-fill" style="width:'+pct+'%;background:'+s.color+'"></div></div><div style="display:flex;justify-content:space-between;font-size:11px;color:var(--muted)"><span>'+pct+t('subj_pct_hours')+'</span><span>'+td+'/'+s.topics.length+' '+t('subj_topics_lbl')+'</span></div></div>';
+  return '<div class="subject-card" onclick="navigate(\'subjects\');openSubjectId=\''+s.id+'\';renderSubjectsPage();" style="cursor:pointer'+(behind?';border-color:var(--red,#ef4444)':'')+'">'+(behind?'<div style="font-size:10px;color:var(--red,#ef4444);font-weight:600;margin-bottom:4px;cursor:pointer;user-select:none" onclick="event.stopPropagation();showBehindSchedulePopup(event,\''+s.id+'\')">⚠ '+t('subj_behind')+'</div>':'')+'<div style="display:flex;align-items:center;gap:10px;margin-bottom:8px"><span style="font-size:22px">'+subjIcon(s)+'</span><div><div class="subject-name">'+s.shortName+'</div><div class="subject-meta">'+fmtMins(loggedMins)+' / '+s.targetHours+t('subj_h_target')+'</div></div>'+priorityBadge(s.priority)+'</div><div class="progress-bar" style="margin-bottom:4px"><div class="progress-fill" style="width:'+pct+'%;background:'+s.color+'"></div></div><div style="display:flex;justify-content:space-between;font-size:11px;color:var(--muted)"><span>'+pct+t('subj_pct_hours')+'</span><span>'+td+'/'+s.topics.length+' '+t('subj_topics_lbl')+'</span></div></div>';
 }
 
