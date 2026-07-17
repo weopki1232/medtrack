@@ -45,8 +45,13 @@ function iconGlyphMode() {
   return th==='default'||th==='aurora';
 }
 function applyIconMode() { document.body.classList.toggle('icons-emoji', !iconGlyphMode()); }
-function icon2(g,e,cls) { return '<span class="ic2'+(cls?' '+cls:'')+'"><span class="ic2-g">'+g+'</span><span class="ic2-e">'+e+'</span></span>'; }
+// Custom SVG emoji (data/emoji-svg.js) replace OS emoji in HTML contexts.
+// Keys are stored without U+FE0F, so strip it before lookup; unmapped chars
+// (user-picked icons, moods, ranks) fall through to the native emoji.
+function emo(e) { var k=String(e).split(String.fromCharCode(0xFE0F)).join(''); var s=window.EMOJI_SVG&&EMOJI_SVG[k]; return s?'<span class="emo" aria-hidden="true">'+s+'</span>':e; }
+function icon2(g,e,cls) { return '<span class="ic2'+(cls?' '+cls:'')+'"><span class="ic2-g">'+g+'</span><span class="ic2-e">'+emo(e)+'</span></span>'; }
 function subjIcon(s,cls) { return icon2(s.glyph||'◆', s.icon, cls); }
+function achIcon(a,cls) { return icon2(a.glyph||'✦', a.icon, cls); }
 // Plain-text contexts (<option>, textContent) can't carry the dual markup
 function subjIconTxt(s) { return iconGlyphMode() ? (s.glyph||'◆') : s.icon; }
 // Theme tokens live on body.theme-* classes, NOT :root — always read from body

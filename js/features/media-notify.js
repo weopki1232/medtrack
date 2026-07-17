@@ -105,7 +105,7 @@ function printWeeklyReport() {
   var streak = Storage.getStreak();
 
   var rowsHtml = getSubjects().filter(function(s){return totals[s.id];}).map(function(s){
-    return '<tr><td>'+s.icon+' '+s.name+'</td><td style="text-align:right">'+fmtMins(totals[s.id]||0)+'</td></tr>';
+    return '<tr><td>'+emo(s.icon)+' '+s.name+'</td><td style="text-align:right">'+fmtMins(totals[s.id]||0)+'</td></tr>';
   }).join('');
 
   var html = '<!DOCTYPE html><html><head><meta charset="UTF-8"><title>MedTrack Weekly Report</title><style>'+
@@ -113,16 +113,17 @@ function printWeeklyReport() {
     'h1{font-size:26px;font-weight:700;margin-bottom:4px}h2{font-size:16px;font-weight:600;margin:24px 0 8px;border-bottom:2px solid #c05818;padding-bottom:4px;color:#c05818}'+
     'table{width:100%;border-collapse:collapse;margin-bottom:16px}td{padding:7px 0;border-bottom:1px solid #e0d0b8;font-size:14px}'+
     '.total{font-weight:700;font-size:15px}.ach{display:inline-block;padding:4px 10px;background:#fef3c7;border-radius:6px;margin:3px;font-size:13px}'+
+    '.emo{display:inline-block;width:1em;height:1em;vertical-align:-0.12em}.emo svg{width:100%;height:100%;display:block}'+
     '@media print{body{margin:0}}'+
   '</style></head><body>'+
-  '<h1>📚 MedTrack Weekly Report</h1>'+
+  '<h1>'+emo('📚')+' MedTrack Weekly Report</h1>'+
   '<p style="color:#7a6050;font-size:13px">Week of '+sow.toLocaleDateString('en-GB',{day:'numeric',month:'long',year:'numeric'})+' &mdash; Generated '+now.toLocaleDateString('en-GB')+'</p>'+
   '<h2>Study Time This Week</h2>'+
   '<table>'+rowsHtml+
   '<tr class="total"><td>Total</td><td style="text-align:right">'+fmtMins(totalMins)+'</td></tr>'+
   '</table>'+
   '<h2>Streak</h2><p>Current: <strong>'+streak.current+' days</strong> &nbsp;|&nbsp; Best: <strong>'+streak.best+' days</strong></p>'+
-  (unlocked.length?'<h2>Achievements</h2><div>'+unlocked.map(function(a){return '<span class="ach">'+a.icon+' '+a.name+'</span>';}).join('')+'</div>':'')+
+  (unlocked.length?'<h2>Achievements</h2><div>'+unlocked.map(function(a){return '<span class="ach">'+emo(a.icon)+' '+a.name+'</span>';}).join('')+'</div>':'')+
   '<p style="font-size:11px;color:#9a8070;margin-top:32px">MedTrack — TCAS Study Tracker</p>'+
   '</body></html>';
 

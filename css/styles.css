@@ -1197,6 +1197,11 @@ body.icons-emoji .ic2 .ic2-g { display:none; }
 .subj-icon .ic2-g, .subj-icon.ic2 .ic2-g { color:var(--sc, var(--primary)); }
 .journey-ev-icon .ic2-g { color:var(--muted); }
 .subj-icon.ic2 { display:grid; }
+/* Custom SVG emoji (data/emoji-svg.js via emo()) - sized like the char they replace */
+.emo { display:inline-block; width:1em; height:1em; vertical-align:-0.12em; }
+.emo svg { width:100%; height:100%; display:block; }
+.ic2 .ic2-e .emo { vertical-align:baseline; }
+body.icons-emoji .ic2 .ic2-e:has(.emo) { display:inline-flex; align-items:center; }
 
 
 /* ==========================================================================

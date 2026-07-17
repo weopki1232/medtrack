@@ -46,12 +46,12 @@ function openAchievementModal(id) {
   var o = document.createElement('div'); o.className='modal-overlay fade-in'; o.id='ach-detail-modal';
   o.innerHTML =
     '<div class="modal-box" style="max-width:360px;text-align:center">'+
-      '<div style="font-size:52px;margin-bottom:10px;'+(done?'':'filter:grayscale(1);opacity:.35')+';transition:all .3s">'+a.icon+'</div>'+
+      '<div style="font-size:52px;margin-bottom:10px;'+(done?'':'filter:grayscale(1);opacity:.35')+';transition:all .3s">'+achIcon(a)+'</div>'+
       '<div style="font-size:19px;font-weight:700;margin-bottom:4px">'+a.name+'</div>'+
       '<div style="font-size:13px;color:var(--muted);margin-bottom:20px;line-height:1.5">'+a.desc+'</div>'+
       (done
         ? '<div style="background:color-mix(in srgb,var(--green) 12%,transparent);border:1px solid color-mix(in srgb,var(--green) 30%,transparent);border-radius:10px;padding:12px 16px;margin-bottom:20px">'+
-            '<div style="font-size:20px;margin-bottom:4px">✅</div>'+
+            '<div style="font-size:20px;margin-bottom:4px">'+icon2('✓','✅')+'</div>'+
             '<div style="font-weight:600;color:var(--green)">'+t('ach_unlocked_at')+'</div>'+
             '<div style="font-size:13px;color:var(--muted);margin-top:2px">'+ts+'</div>'+
           '</div>'
@@ -81,7 +81,7 @@ function renderAchievementsStrip() {
   var ach = Storage.getAchievements();
   var total = ACHIEVEMENTS.length;
   var unlockedCount = Object.keys(ach).length;
-  var html = '<div class="card"><div class="section-header" style="margin-bottom:12px"><span class="section-title">🏆 '+t('ach_title')+'</span><span style="font-size:12px;color:var(--muted)">'+unlockedCount+' / '+total+'</span></div>';
+  var html = '<div class="card"><div class="section-header" style="margin-bottom:12px"><span class="section-title">'+icon2('♛','🏆')+' '+t('ach_title')+'</span><span style="font-size:12px;color:var(--muted)">'+unlockedCount+' / '+total+'</span></div>';
   html += '<div style="display:flex;flex-wrap:wrap;gap:8px">';
   ACHIEVEMENTS.forEach(function(a) {
     var done = !!ach[a.id];
@@ -95,7 +95,7 @@ function renderAchievementsStrip() {
         'border:1px solid '+(done?'color-mix(in srgb,var(--primary) 30%,transparent)':'var(--border)')+';'+
         'min-width:100px">';
     html += '<div style="display:flex;align-items:center;gap:6px">'+
-      '<span class="ach-icon'+(done?' ach-done':'')+'" style="font-size:18px;'+(done?'':'filter:grayscale(1);opacity:.35')+'">'+a.icon+'</span>'+
+      '<span class="ach-icon'+(done?' ach-done':'')+'" style="font-size:18px;'+(done?'':'filter:grayscale(1);opacity:.35')+'">'+achIcon(a)+'</span>'+
       '<span class="ach-text'+(done?' ach-done':'')+'" style="font-size:12px">'+a.name+'</span>'+
     '</div>';
     if (!done) {
@@ -152,7 +152,7 @@ function checkAchievements() {
     if (c.pass && Storage.unlockAch(c.id)) {
       newIds.push(c.id);
       var a = ACHIEVEMENTS.find(function(x){return x.id===c.id;});
-      if (a) toast(a.icon + ' ' + t('ach_new') + ' ' + a.name, 'success');
+      if (a) toast(achIcon(a) + ' ' + t('ach_new') + ' ' + a.name, 'success');
     }
   });
 

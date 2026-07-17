@@ -105,7 +105,7 @@ function renderScoreTrackerCard() {
     scores.slice().reverse().forEach(function(s){
       var sub=s.subjectId?getSubject(s.subjectId):null;
       var col=s.score>=70?'var(--green,#22c55e)':s.score>=50?'var(--yellow,#eab308)':'var(--red,#ef4444)';
-      html+='<tr style="border-bottom:1px solid var(--border)"><td style="padding:8px 10px">'+fmtDate(s.date)+'</td><td style="padding:8px 10px;font-weight:500">'+escHtml(s.testName)+'</td><td style="padding:8px 10px">'+(sub?'<span style="color:'+sub.color+'">'+sub.icon+' '+sub.shortName+'</span>':'—')+'</td><td style="padding:8px 10px;text-align:right;font-weight:700;color:'+col+'">'+s.score+'%</td><td style="padding:8px 10px"><button class="btn btn-ghost btn-xs" onclick="deleteScoreUI(\''+s.id+'\')">✕</button></td></tr>';
+      html+='<tr style="border-bottom:1px solid var(--border)"><td style="padding:8px 10px">'+fmtDate(s.date)+'</td><td style="padding:8px 10px;font-weight:500">'+escHtml(s.testName)+'</td><td style="padding:8px 10px">'+(sub?'<span style="color:'+sub.color+'">'+subjIcon(sub)+' '+sub.shortName+'</span>':'—')+'</td><td style="padding:8px 10px;text-align:right;font-weight:700;color:'+col+'">'+s.score+'%</td><td style="padding:8px 10px"><button class="btn btn-ghost btn-xs" onclick="deleteScoreUI(\''+s.id+'\')">✕</button></td></tr>';
     });
     html += '</tbody></table></div>';
   }

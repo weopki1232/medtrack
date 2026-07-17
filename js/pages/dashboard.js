@@ -306,7 +306,7 @@ function showBehindSchedulePopup(event, sid) {
     '<div style="display:flex;align-items:center;gap:10px;margin-bottom:16px">'+
       '<span style="font-size:22px;color:var(--red,#ef4444)">⚠&#xfe0e;</span>'+
       '<div><div style="font-size:16px;font-weight:700;color:var(--red,#ef4444)">'+t('behind_popup_title')+'</div>'+
-      '<div style="font-size:11px;color:var(--muted)">'+s.icon+' '+s.name+'</div></div>'+
+      '<div style="font-size:11px;color:var(--muted)">'+subjIcon(s)+' '+s.name+'</div></div>'+
     '</div>'+
     '<p style="font-size:13px;color:var(--muted);margin:0 0 16px;line-height:1.6">'+t('behind_popup_exp')+'</p>'+
     '<div style="margin-bottom:20px">'+
