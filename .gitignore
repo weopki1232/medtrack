@@ -3,3 +3,7 @@ dist/
 *.backup
 medtrack.backup-*.html
 *.log
+
+# Local tool caches - machine-specific, not part of the app
+.impeccable/
+.claude/
