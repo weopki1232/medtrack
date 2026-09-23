@@ -1,6 +1,6 @@
 // MedTrack service worker — app-shell caching for offline use.
 // Bump CACHE_VERSION on every deploy that changes app files.
-const CACHE_VERSION = 'medtrack-v5';
+const CACHE_VERSION = 'medtrack-v6';
 
 const APP_SHELL = [
   './',
